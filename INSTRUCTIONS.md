@@ -68,6 +68,7 @@ LUCK	5		EVADE	53
 - Talk
 * BUG! "p" re-open dialogue fast. 
 * WORK! Dialogue show.
+* BUG-ONETIME! NPC outside Shop and stay. Game breaking.
 
 - - Shops 
 
@@ -104,6 +105,8 @@ CursorController.Update () (at Assets/Scripts/Battling/CursorController.cs:154)
 * Click open Equip Party.
 * Equip close Menu and show stats.
 * !BUG Don't change stats after adding.
+* !WORK Weapon equipped. Save. Reload Game. Show up in Menu?
+##
 
 - Inn
 * BUG! UI - Show names to LEFT SCREEN.
@@ -115,6 +118,8 @@ CursorController.Update () (at Assets/Scripts/Battling/CursorController.cs:154)
 
 - Finish First Boss
 - Trigger Story Start- City. Save 100%
+
+
 
 ## Bugs
 
@@ -167,4 +172,32 @@ public class SerializatorBinary
 ## ESC Menu.
 - Work fine. Impressed.
 
+
+OK... 
+## Tests
+
+* Added Test Folder
+* Add EditMode(def/file)
+* Add Def to Scripts
+* Get warning 
+""
+Assets\Scripts\Overworld\BridgeTrigger.cs(9,12): error CS0246: 
+The type or namespace name 'ScreenTransition' could not be found
+(are you missing a using directive or an assembly reference?)
+""
+
+* Solve error with: 
+- Create Utils Def
+- Link Script to Utils
+- Link EditTests to Script
+- Test run game work? work fine. :)
+
+(( Add lots of .csproj files in root folder. Handle somehow. ))
+
+-- Test work fine. Onto PlayTest
+
+* PlayTest work fine.
+* Changed to Title Screen and Title
+* BUG! Need Cursor movement 
+* CHECK! if WindowInput work for key input simulation.
 
