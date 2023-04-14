@@ -1,36 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
-public class MagicSprite : MonoBehaviour
-{
+namespace Battling {
+	public class MagicSprite : MonoBehaviour {
 
-    public Sprite magic_sprite;
-    public SpriteRenderer sr;
-    public bool display;
+		[FormerlySerializedAs("magic_sprite")] public Sprite magicSprite;
+		public SpriteRenderer sr;
+		public bool display;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        sr.enabled = false;
-        display = false;
-    }
+		// Start is called before the first frame update
+		void Start() {
+			sr.enabled = false;
+			display = false;
+		}
 
-    public void set_sprite(Sprite n)
-    {
-        magic_sprite = n;
-        sr.sprite = n;
-    }
+		public void set_sprite(Sprite n) {
+			magicSprite = n;
+			sr.sprite = n;
+		}
 
-    public void show()
-    {
-        display = true;
-        sr.enabled = true;
-    }
+		public void Show() {
+			display = true;
+			sr.enabled = true;
+		}
 
-    public void hide()
-    {
-        display = false;
-        sr.enabled = false;
-    }
+		public void Hide() {
+			display = false;
+			sr.enabled = false;
+		}
+	}
 }

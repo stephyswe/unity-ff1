@@ -1,97 +1,87 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utils.SaveGame.Scripts.SaveSystem;
 
-public class Chest : Interactable
-{
+namespace Overworld {
+	public class Chest : Interactable {
 
-    public string ID;
-    bool obtained;
+		[FormerlySerializedAs("ID")] public string id;
 
-    public bool gold;
-    public int gold_val;
+		public bool gold;
+		[FormerlySerializedAs("gold_val")] public int goldVal;
 
-    public bool item;
-    public string item_val;
+		public bool item;
+		[FormerlySerializedAs("item_val")] public string itemVal;
 
-    public bool weapon;
-    public string weapon_val;
+		public bool weapon;
+		[FormerlySerializedAs("weapon_val")] public string weaponVal;
 
-    public bool armor;
-    public string armor_val;
+		public bool armor;
+		[FormerlySerializedAs("armor_val")] public string armorVal;
+		bool obtained;
 
-    public IEnumerator interact(PlayerController p)
-    {
-        p.can_move = false;
-        p.pause_menu_container.SetActive(false);
+		// Update is called once per frame
+		void Update() {}
 
-        Vector3 p_pos = Vector3.zero;
-        Vector3 location = Vector3.zero;
+		// Start is called before the first frame update
+		void OnEnable() {
+			obtained = SaveSystem.GetBool("chest_" + id);
+		}
 
-        if (!obtained)
-        {
-            p_pos = p.gameObject.transform.position;
+		public IEnumerator Interact(PlayerController p) {
+			p.canMove = false;
+			p.pauseMenuContainer.SetActive(false);
 
-            location = new Vector3(p_pos.x, p_pos.y - 7.5f, p_pos.z);
+			Vector3 pPos = Vector3.zero;
+			Vector3 location = Vector3.zero;
 
-            if (gold)
-            {
-                dialogue = "Obtained " + gold_val + " G";
-                SaveSystem.SetInt("gil", SaveSystem.GetInt("gil") + gold_val);
-            }
-            else if (item || weapon || armor)
-            {
-                dialogue = "Obtained " + item_val;
+			if (!obtained) {
+				pPos = p.gameObject.transform.position;
 
-                Dictionary<string, int> items = SaveSystem.GetStringIntDict("items");
-                if (items.ContainsKey(item_val))
-                {
-                    items[item_val] = items[item_val] + 1;
-                }
-                else
-                    items.Add(item_val, 1);
+				location = new Vector3(pPos.x, pPos.y - 7.5f, pPos.z);
 
-                SaveSystem.SetStringIntDict("items", items);
-            }
+				if (gold) {
+					dialogue = "Obtained " + goldVal + " G";
+					SaveSystem.SetInt("gil", SaveSystem.GetInt("gil") + goldVal);
+				}
+				else if (item || weapon || armor) {
+					dialogue = "Obtained " + itemVal;
 
-            SaveSystem.SetBool("chest_" + ID, true);
-            obtained = true;
-        }
-        else
-        {
+					Dictionary<string, int> items = SaveSystem.GetStringIntDict("items");
+					if (items.ContainsKey(itemVal))
+						items[itemVal] = items[itemVal] + 1;
+					else
+						items.Add(itemVal, 1);
 
-            p_pos = p.gameObject.transform.position;
+					SaveSystem.SetStringIntDict("items", items);
+				}
 
-            location = new Vector3(p_pos.x, p_pos.y - 7.5f, p_pos.z);
+				SaveSystem.SetBool("chest_" + id, true);
+				obtained = true;
+			}
+			else {
 
-            dialogue = "Nothing";
-        }
+				pPos = p.gameObject.transform.position;
 
-        display_textbox(location);
+				location = new Vector3(pPos.x, pPos.y - 7.5f, pPos.z);
 
-        yield return new WaitForSeconds(.8f);
-        while (!Input.GetKey(CustomInputManager.cim.select))
-        {
-            yield return null;
-        }
+				dialogue = "Nothing";
+			}
 
-        hide_textbox();
+			display_textbox(location);
 
-        p.can_move = true;
-        p.pause_menu_container.SetActive(true);
+			yield return new WaitForSeconds(.8f);
+			while (!Input.GetKey(CustomInputManager.Cim.Select))
+				yield return null;
 
-        p.frames_since_last_interact = 0;
-    }
+			hide_textbox();
 
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        obtained = SaveSystem.GetBool("chest_" + ID);
-    }
+			p.canMove = true;
+			p.pauseMenuContainer.SetActive(true);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+			p.framesSinceLastInteract = 0;
+		}
+	}
 }

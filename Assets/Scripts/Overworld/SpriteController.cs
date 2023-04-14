@@ -1,188 +1,176 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utils.SaveGame.Scripts.SaveSystem;
 
-public class SpriteController : MonoBehaviour
-{
+namespace Overworld {
+	public class SpriteController : MonoBehaviour {
 
-    [Serializable]
-    public class SpriteGroup{
-    
-        public string name;
-    
-        public Sprite up1;
-        public Sprite up2;
-        public Sprite down1;
-        public Sprite down2;
-        public Sprite step1;
-        public Sprite step2;
-    }
-    
-    public SpriteGroup[] characters;
-    
-    public int character_index;
-    public SpriteGroup active_character;
-    
-    private string direction;
-    
-    public SpriteRenderer sr;
-    
-    public bool title_screen_mode;
+		public SpriteGroup[] characters;
 
-    public bool display;
+		[FormerlySerializedAs("character_index")]
+		public int characterIndex;
+		[FormerlySerializedAs("active_character")]
+		public SpriteGroup activeCharacter;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        if(!title_screen_mode){
-            character_index = SaveSystem.GetInt("character_index");
-        }
-    
-        active_character = characters[character_index];
-        
-        direction = "down";
-    
-        sr = GetComponent<SpriteRenderer>();
-        sr.sprite = active_character.down1;
-        
-        frames_since_last_increment = 15;
+		public SpriteRenderer sr;
 
-        display = true;
-    }
+		[FormerlySerializedAs("title_screen_mode")]
+		public bool titleScreenMode;
 
-    public void set_character(int index)
-    {
-        character_index = index;
-        active_character = characters[character_index];
-        sr.sprite = active_character.down1;
-    }
-    
-    private int frames_since_last_increment;
-    
-    public void increment_character(){
-        if(frames_since_last_increment < 15){
-            return;
-        }
-        
-        character_index += 1;
-        if(character_index >= characters.Length){
-            character_index = 0;
-        }
-        
-        frames_since_last_increment = 0;
-        
-        if(!title_screen_mode){
-            SaveSystem.SetInt("character_index", character_index);
-        }
+		public bool display;
 
-        sr.sprite = characters[character_index].down1;
-    }
-    
-    public void decrement_character(){
-        if(frames_since_last_increment < 15){
-            return;
-        }
-        
-        character_index -= 1;
-        if(character_index < 0){
-            character_index = characters.Length - 1;
-        }
-        
-        frames_since_last_increment = 0;
-        
-        if(!title_screen_mode){
-            SaveSystem.SetInt("character_index", character_index);
-        }
+		[FormerlySerializedAs("walk_animation")]
+		public bool walkAnimation;
 
-        sr.sprite = characters[character_index].down1;
-    }
-    
-    public void change_direction(string dir){
-        direction = dir;
-        switch (direction)
-        {
-            case "up":
-                sr.sprite = active_character.up1;
-                break;
-            case "down":
-                sr.sprite = active_character.down1;
-                break;
-            case "left":
-                sr.flipX = false;
-                sr.sprite = active_character.step1;
-                break;
-            case "right":
-                sr.flipX = true;
-                sr.sprite = active_character.step1;
-                break;
-        }
-    }
-    
-    public string get_direction(){
-        return direction;
-    }
-    
-    public string get_class(){
-        return active_character.name;
-    }
+		string direction;
 
-    public bool walk_animation;
+		int frames_since_last_increment;
 
-    public IEnumerator walk()
-    {
-        float wait = 0.13189315f;
-        walk_animation = true;
-        switch (direction)
-        {
-            case "up":
-                sr.sprite = active_character.up1;
-                yield return new WaitForSeconds(wait);
-                sr.sprite = active_character.up2;
-                yield return new WaitForSeconds(wait);
-                break;
-            case "down":
-                sr.sprite = active_character.down1;
-                yield return new WaitForSeconds(wait);
-                sr.sprite = active_character.down2;
-                yield return new WaitForSeconds(wait);
-                break;
-            case "left":
-                sr.flipX = false;
-                sr.sprite = active_character.step1;
-                yield return new WaitForSeconds(wait);
-                sr.flipX = false;
-                sr.sprite = active_character.step2;
-                yield return new WaitForSeconds(wait);
-                break;
-            case "right":
-                sr.flipX = true;
-                sr.sprite = active_character.step1;
-                yield return new WaitForSeconds(wait);
-                sr.sprite = active_character.step2;
-                yield return new WaitForSeconds(wait);
-                break;
-        }
-        walk_animation = false;
-    }
+		// Start is called before the first frame update
+		void Start() {
+			if (!titleScreenMode)
+				characterIndex = SaveSystem.GetInt("character_index");
 
-    // Update is called once per frame
-    void Update()
-    {
+			activeCharacter = characters[characterIndex];
 
-        if(display && sr.enabled == false)
-        {
-            sr.enabled = true;
-        }
-        else if(!display)
-        {
-            sr.enabled = false;
-        }
+			direction = "down";
 
-        frames_since_last_increment += 1;
-        
-        if(active_character != characters[character_index]){
-            active_character = characters[character_index];
-        }
-    }
+			sr = GetComponent<SpriteRenderer>();
+			sr.sprite = activeCharacter.down1;
+
+			frames_since_last_increment = 15;
+
+			display = true;
+		}
+
+		// Update is called once per frame
+		void Update() {
+
+			if (display && sr.enabled == false)
+				sr.enabled = true;
+			else if (!display)
+				sr.enabled = false;
+
+			frames_since_last_increment += 1;
+
+			if (activeCharacter != characters[characterIndex])
+				activeCharacter = characters[characterIndex];
+		}
+
+		public void set_character(int index) {
+			characterIndex = index;
+			activeCharacter = characters[characterIndex];
+			sr.sprite = activeCharacter.down1;
+		}
+
+		public void increment_character() {
+			if (frames_since_last_increment < 15)
+				return;
+
+			characterIndex += 1;
+			if (characterIndex >= characters.Length)
+				characterIndex = 0;
+
+			frames_since_last_increment = 0;
+
+			if (!titleScreenMode)
+				SaveSystem.SetInt("character_index", characterIndex);
+
+			sr.sprite = characters[characterIndex].down1;
+		}
+
+		public void decrement_character() {
+			if (frames_since_last_increment < 15)
+				return;
+
+			characterIndex -= 1;
+			if (characterIndex < 0)
+				characterIndex = characters.Length - 1;
+
+			frames_since_last_increment = 0;
+
+			if (!titleScreenMode)
+				SaveSystem.SetInt("character_index", characterIndex);
+
+			sr.sprite = characters[characterIndex].down1;
+		}
+
+		public void change_direction(string dir) {
+			direction = dir;
+			switch (direction) {
+				case "up":
+					sr.sprite = activeCharacter.up1;
+					break;
+				case "down":
+					sr.sprite = activeCharacter.down1;
+					break;
+				case "left":
+					sr.flipX = false;
+					sr.sprite = activeCharacter.step1;
+					break;
+				case "right":
+					sr.flipX = true;
+					sr.sprite = activeCharacter.step1;
+					break;
+			}
+		}
+
+		public string get_direction() {
+			return direction;
+		}
+
+		public string get_class() {
+			return activeCharacter.name;
+		}
+
+		public IEnumerator Walk() {
+			float wait = 0.13189315f;
+			walkAnimation = true;
+			switch (direction) {
+				case "up":
+					sr.sprite = activeCharacter.up1;
+					yield return new WaitForSeconds(wait);
+					sr.sprite = activeCharacter.up2;
+					yield return new WaitForSeconds(wait);
+					break;
+				case "down":
+					sr.sprite = activeCharacter.down1;
+					yield return new WaitForSeconds(wait);
+					sr.sprite = activeCharacter.down2;
+					yield return new WaitForSeconds(wait);
+					break;
+				case "left":
+					sr.flipX = false;
+					sr.sprite = activeCharacter.step1;
+					yield return new WaitForSeconds(wait);
+					sr.flipX = false;
+					sr.sprite = activeCharacter.step2;
+					yield return new WaitForSeconds(wait);
+					break;
+				case "right":
+					sr.flipX = true;
+					sr.sprite = activeCharacter.step1;
+					yield return new WaitForSeconds(wait);
+					sr.sprite = activeCharacter.step2;
+					yield return new WaitForSeconds(wait);
+					break;
+			}
+			walkAnimation = false;
+		}
+
+		[Serializable]
+		public class SpriteGroup {
+
+			public string name;
+
+			public Sprite up1;
+			public Sprite up2;
+			public Sprite down1;
+			public Sprite down2;
+			public Sprite step1;
+			public Sprite step2;
+		}
+	}
 }

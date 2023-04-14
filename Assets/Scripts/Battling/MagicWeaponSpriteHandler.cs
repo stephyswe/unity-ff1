@@ -1,62 +1,37 @@
-﻿using System.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class MagicWeaponSpriteHandler : MonoBehaviour
-{
+namespace Battling {
+	public class MagicWeaponSpriteHandler : MonoBehaviour {
 
-    [Serializable]
-    public class Weapon
-    {
-        public string name;
-        public Sprite sprite;
-    }
+		public Weapon[] weapons;
+		public Spell[] spells;
 
-    [Serializable]
-    public class Spell
-    {
-        public string name;
-        public Sprite sprite1;
-        public Sprite sprite2;
-    }
+		public Sprite get_weapon(string name) {
+			return (from w in weapons where w.name == name select w.sprite).FirstOrDefault();
+		}
 
-    public Weapon[] weapons;
-    public Spell[] spells;
+		public KeyValuePair<Sprite, Sprite> get_spell(string name) {
+			foreach (Spell s in spells) {
+				if (s.name == name)
+					return new KeyValuePair<Sprite, Sprite>(s.sprite1, s.sprite2);
+			}
+			return new KeyValuePair<Sprite, Sprite>(null, null);
+		}
 
-    public Sprite get_weapon(string name)
-    {
-        foreach(Weapon w in weapons)
-        {
-            if(w.name == name)
-            {
-                return w.sprite;
-            }
-        }
-        return null;
-    }
+		[Serializable]
+		public class Weapon {
+			public string name;
+			public Sprite sprite;
+		}
 
-    public KeyValuePair<Sprite, Sprite> get_spell(string name)
-    {
-        foreach(Spell s in spells)
-        {
-            if(s.name == name)
-            {
-                return new KeyValuePair<Sprite, Sprite>(s.sprite1, s.sprite2);
-            }
-        }
-        return new KeyValuePair<Sprite, Sprite>(null, null);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		[Serializable]
+		public class Spell {
+			public string name;
+			public Sprite sprite1;
+			public Sprite sprite2;
+		}
+	}
 }

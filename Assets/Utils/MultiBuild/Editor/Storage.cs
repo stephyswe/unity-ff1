@@ -2,18 +2,18 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace MultiBuild {
+namespace Utils.MultiBuild.Editor {
 
     public static class Storage {
 
-        static string SettingsFilePath = "Assets/MultiBuild/MultiBuildSettings.asset";
+        static string _settingsFilePath = "Assets/MultiBuild/MultiBuildSettings.asset";
 
         /// <summary>
         /// Try to load saved settings
         /// </summary>
         /// <returns>Settings instance if present, or null if not</returns>
         public static Settings LoadSettings() {
-            return AssetDatabase.LoadAssetAtPath(SettingsFilePath, typeof(Settings)) as Settings;
+            return AssetDatabase.LoadAssetAtPath(_settingsFilePath, typeof(Settings)) as Settings;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace MultiBuild {
 
 
         private static void CreateNewSettingsAsset(Settings s) {
-            string f = SettingsFilePath;
+            string f = _settingsFilePath;
             string dir = Path.GetDirectoryName(f);
             if(!Directory.Exists(dir)){
                 Directory.CreateDirectory(dir);

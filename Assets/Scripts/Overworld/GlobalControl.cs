@@ -1,59 +1,59 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utils.SaveGame.Scripts.SaveSystem;
 
-public class GlobalControl : MonoBehaviour
-{
+namespace Overworld {
+	public class GlobalControl : MonoBehaviour {
 
-    public static GlobalControl instance;
+		public static GlobalControl Instance;
 
-    public MapHandler mh;
+		public MapHandler mh;
 
-    public Boss boss;
-    public bool bossvictory;
+		public Boss boss;
+		public bool bossvictory;
 
-    public GameObject overworld_scene_container;
-    public GameObject monster_party;
+		[FormerlySerializedAs("overworld_scene_container")]
+		public GameObject overworldSceneContainer;
+		[FormerlySerializedAs("monster_party")]
+		public GameObject monsterParty;
 
-    public PlayerController player;
+		public PlayerController player;
 
-    public string shopmode;
-    public int inn_clinic_price;
-    public Dictionary<string, int> shop_products;
+		public string shopmode;
+		[FormerlySerializedAs("inn_clinic_price")]
+		public int innClinicPrice;
 
-    public bool bossmode;
+		public bool bossmode;
+		public Dictionary<string, int> ShopProducts;
 
-    // Start is called before the first frame update
-    void Awake()
-    {
-        if(instance == null){
-            instance = this;
-        }
-        else if(instance != this){
-            Destroy(gameObject);
-        }
-    }
+		// Start is called before the first frame update
+		void Awake() {
+			if (Instance == null)
+				Instance = this;
+			else if (Instance != this)
+				Destroy(gameObject);
+		}
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (bossvictory)
-        {
-            SaveSystem.SetBool(boss.flag, boss.flagval);
+		// Update is called once per frame
+		void Update() {
+			if (bossvictory) {
+				SaveSystem.SetBool(boss.flag, boss.flagval);
 
-            Destroy(boss.gameObject);
+				Destroy(boss.gameObject);
 
-            player.can_move = true;
-            player.multiplier = 2f;
+				player.canMove = true;
+				player.multiplier = 2f;
 
-            player.pause_menu_container.SetActive(true);
+				player.pauseMenuContainer.SetActive(true);
 
-            player.map_handler.save_position();
-            player.reh.battling = false;
-            bossmode = false;
-            bossvictory = false;
+				player.mapHandler.save_position();
+				player.reh.battling = false;
+				bossmode = false;
+				bossvictory = false;
 
-            overworld_scene_container.SetActive(true);
-        }
-    }
+				overworldSceneContainer.SetActive(true);
+			}
+		}
+	}
 }

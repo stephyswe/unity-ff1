@@ -1,210 +1,177 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-public class CursorController : MonoBehaviour
-{
-    public bool monster_mode;
-    public bool shop_mode;
-    public bool buy_cursor_mode;
+namespace Battling {
+	public class CursorController : MonoBehaviour {
+		[FormerlySerializedAs("monster_mode")] public bool monsterMode;
+		[FormerlySerializedAs("shop_mode")] public bool shopMode;
+		[FormerlySerializedAs("buy_cursor_mode")]
+		public bool buyCursorMode;
 
-    public EventSystem event_system;
-    
-    public GameObject[] buttons;
-    public GameObject[] monsters;
-    
-    private List<GameObject> active_list;
-    
-    private GameObject[] active_array;
-    
-    public int active;
-    
-    public int frame = 0;
-    
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        GetComponent<SpriteRenderer>().enabled = false;
+		[FormerlySerializedAs("event_system")] public EventSystem eventSystem;
 
-        active = 0;
-        if(monster_mode){
-            active_array = monsters;
-            buttons = monsters;
+		public GameObject[] buttons;
+		public GameObject[] monsters;
 
-            for(int i = buttons.Length - 1; i > -1; i--)
-            {
-                if(buttons[i].GetComponent<Monster>().HP > 0)
-                    active = i;
-            }
-        }
-        else{
-            active_array = buttons;
-        }
+		public int active;
 
-        active_list = active_array.OfType<GameObject>().ToList();
+		public int frame;
 
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            if (buttons[i].active == false)
-            {
-                remove_from_list(buttons[i]);
-            }
-        }
+		GameObject[] active_array;
 
-        active_list = active_array.OfType<GameObject>().ToList();
+		List<GameObject> active_list;
 
-        while ((monster_mode && get_monster().HP <= 0) || (!monster_mode && active_list[active].active == false))
-        {
-            active += 1;
+		int frames_since_select;
 
-            if (active >= active_list.Count)
-            {
-                active = 0;
-            }
-        }
+		// Update is called once per frame
+		void Update() {
 
-        move();
-        GetComponent<SpriteRenderer>().enabled = true;
-    }
+			frames_since_select += 1;
 
-    int frames_since_select = 0;
+			if (Input.GetKeyDown(CustomInputManager.Cim.Select) && frames_since_select > 20) {
+				if (!monsterMode)
+					buttons[active].GetComponent<Button>().onClick.Invoke();
+				frames_since_select = 0;
+			}
 
-    // Update is called once per frame
-    void Update()
-    {
+			if (active < active_list.Count && active >= 0)
+				eventSystem.SetSelectedGameObject(active_list[active]);
 
-        frames_since_select += 1;
+			frame = frame + 1;
+			if (frame >= 15) {
 
-        if (Input.GetKeyDown(CustomInputManager.cim.select) && frames_since_select > 20)
-        {
-            if (!monster_mode)
-            {
-                buttons[active].GetComponent<Button>().onClick.Invoke();
-            }
-            frames_since_select = 0;
-        }
+				bool up = Input.GetKey(CustomInputManager.Cim.Up);
+				bool down = Input.GetKey(CustomInputManager.Cim.Down);
 
-        if (active < active_list.Count && active >= 0)
-        {
-            event_system.SetSelectedGameObject(active_list[active]);
-        }
+				float ver = 0f;
 
-        frame = frame + 1;
-        if(frame >= 15){
+				if (up)
+					ver = 1f;
+				if (down)
+					ver = -1f;
 
-            bool up = Input.GetKey(CustomInputManager.cim.up);
-            bool down = Input.GetKey(CustomInputManager.cim.down);
+				if (ver == 1f) {
+					active = active - 1;
 
-            float ver = 0f;
+					if (active < 0)
+						active = active_list.Count - 1;
 
-            if (up)
-                ver = 1f;
-            if (down)
-                ver = -1f;
+					while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].active == false) {
+						active -= 1;
 
-            if (ver == 1f){
-                active = active - 1;
+						if (active < 0)
+							active = active_list.Count - 1;
+					}
 
-                if (active < 0)
-                {
-                    active = active_list.Count - 1;
-                }
+					frame = 0;
+				}
 
-                while ((monster_mode && get_monster().HP <= 0) || (!monster_mode && active_list[active].active == false))
-                {
-                    active -= 1;
+				else if (ver == -1f) {
+					active = active + 1;
 
-                    if (active < 0)
-                    {
-                        active = active_list.Count - 1;
-                    }
-                }
+					if (active >= active_list.Count)
+						active = 0;
 
-                frame = 0;
-            }
-            
-            else if(ver == -1f){
-                active = active + 1;
+					while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].active == false) {
+						active += 1;
 
-                if (active >= active_list.Count)
-                {
-                    active = 0;
-                }
+						if (active >= active_list.Count)
+							active = 0;
+					}
 
-                while ((monster_mode && get_monster().HP <= 0) || (!monster_mode && active_list[active].active == false))
-                {
-                    active += 1;
+					frame = 0;
+				}
 
-                    if (active >= active_list.Count)
-                    {
-                        active = 0;
-                    }
-                }
+				else
+					frame = 35;
 
-                frame = 0;
-            }
-            
-            else{
-                frame = 35;
-            }
+				Move();
+			}
+		}
 
-            move();
-        }
-    }
+		// Start is called before the first frame update
+		void OnEnable() {
+			GetComponent<SpriteRenderer>().enabled = false;
 
-    void move()
-    {
-        float xoffset = 0f;
-        float yoffset = 0f;
+			active = 0;
+			if (monsterMode) {
+				active_array = monsters;
+				buttons = monsters;
 
-        if (monster_mode)
-        {
-            xoffset = -3.5f;
-            yoffset = -0.4f;
-        }
-        else if (shop_mode && buy_cursor_mode)
-        {
-            xoffset = -.45f;
-            yoffset = 0f;
-        }
-        else if (shop_mode)
-        {
-            xoffset = -2.725f;
-            yoffset = -1.05f;
-        }
-        else
-        {
-            xoffset = -4.5f;
-            yoffset = -0.4f;
-        }
+				for (int i = buttons.Length - 1; i > -1; i--) {
+					if (buttons[i].GetComponent<Monster>().hp > 0)
+						active = i;
+				}
+			}
+			else
+				active_array = buttons;
 
-        transform.position = new Vector3(active_list[active].transform.position.x + xoffset, active_list[active].transform.position.y + yoffset, 1f);
-    }
-    
-    public void remove_from_list(GameObject obj){
-        if (monster_mode)
-        {
-            for (int i = buttons.Length - 1; i > -1; i--)
-            {
-                if (buttons[i].GetComponent<Monster>().HP > 0)
-                    active = i;
-            }
-        }
-        else
-        {
-            active = 0;
-        }
-        active_list.Remove(obj);
-    }
-    
-    public Monster get_monster(){
-        return active_list[active].GetComponent<Monster>();
-    }
-    
-    public Button get_button(){
-        return buttons[active].GetComponent<Button>();
-    }
+			active_list = active_array.OfType<GameObject>().ToList();
+
+			for (int i = 0; i < buttons.Length; i++) {
+				if (buttons[i].active == false)
+					remove_from_list(buttons[i]);
+			}
+
+			active_list = active_array.OfType<GameObject>().ToList();
+
+			while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].active == false) {
+				active += 1;
+
+				if (active >= active_list.Count)
+					active = 0;
+			}
+
+			Move();
+			GetComponent<SpriteRenderer>().enabled = true;
+		}
+
+		void Move() {
+			float xoffset = 0f;
+			float yoffset = 0f;
+
+			if (monsterMode) {
+				xoffset = -3.5f;
+				yoffset = -0.4f;
+			}
+			else if (shopMode && buyCursorMode) {
+				xoffset = -.45f;
+				yoffset = 0f;
+			}
+			else if (shopMode) {
+				xoffset = -2.725f;
+				yoffset = -1.05f;
+			}
+			else {
+				xoffset = -4.5f;
+				yoffset = -0.4f;
+			}
+
+			transform.position = new Vector3(active_list[active].transform.position.x + xoffset, active_list[active].transform.position.y + yoffset, 1f);
+		}
+
+		public void remove_from_list(GameObject obj) {
+			if (monsterMode) {
+				for (int i = buttons.Length - 1; i > -1; i--) {
+					if (buttons[i].GetComponent<Monster>().hp > 0)
+						active = i;
+				}
+			}
+			else
+				active = 0;
+			active_list.Remove(obj);
+		}
+
+		public Monster get_monster() {
+			return active_list[active].GetComponent<Monster>();
+		}
+
+		public Button get_button() {
+			return buttons[active].GetComponent<Button>();
+		}
+	}
 }

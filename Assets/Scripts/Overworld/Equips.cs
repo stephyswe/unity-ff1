@@ -1,375 +1,331 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils.SaveGame.Scripts.SaveSystem;
 
-public class Equips
-{
-    public class Armor
-    {
-        public string name;
-        public string category;
-        public int absorb;
-        public string spell;
-        public float evade_cost;
-        public List<string> resistances;
-        public string[] equip_by;
-        public int cost;
+namespace Overworld {
+	public class Equips {
 
-        public Armor(string n, string cat, int d, string s, float e, List<string> r, string[] eq, int c)
-        {
-            name = n;
-            category = cat;
-            absorb = d;
-            spell = s;
-            evade_cost = e;
-            resistances = r;
-            equip_by = eq;
-            cost = c;
-        }
-    }
+		static List<Armor> _armor;
+		static List<Weapon> _weapons;
+		static List<Item> _items;
+		static List<Spell> _spells;
 
-    public class Weapon
-    {
-        public string name;
-        public int damage;
-        public float hit;
-        public float crit;
-        public string spell;
-        public string element;
-        public string[] equip_by;
-        public int cost;
+		public Equips() {
+			_armor = new List<Armor>();
+			_weapons = new List<Weapon>();
+			_items = new List<Item>();
+			_spells = new List<Spell>();
 
-        public Weapon(string n, int d, float h, float cr, string s, string el, string[] eq, int c)
-        {
-            name = n;
-            damage = d;
-            hit = h;
-            crit = c;
-            spell = s;
-            element = el;
-            equip_by = eq;
-            cost = c;
-        }
-    }
+			setup_armor();
+			setup_weapons();
+			setup_items();
+			setup_spells();
+		}
 
-    public class Item
-    {
-        public string name;
-        public int cost;
-        public bool key_item;
-        public bool single_use;
-        public bool is_drink;
+		void setup_armor() {
+			_armor.Add(new Armor("Cloth", "armor", 1, "", .2f, new List<string>(), new[] {"fighter", "knight", "thief", "ninja", "black_belt", "master", "black_mage", "black_wizard", "red_mage", "red_wizard", "white_mage", "white_wizard"}, 10));
+			_armor.Add(new Armor("Cap", "helmet", 1, "", .1f, new List<string>(), new[] {"fighter", "knight", "thief", "ninja", "black_belt", "master", "black_mage", "black_wizard", "red_mage", "red_wizard", "white_mage", "white_wizard"}, 80));
+			_armor.Add(new Armor("Wooden Armor", "armor", 4, "", .8f, new List<string>(), new[] {"fighter", "knight", "thief", "ninja", "black_belt", "master", "red_mage", "red_wizard"}, 50));
+			_armor.Add(new Armor("Chain Armor", "armor", 15, "", .15f, new List<string>(), new[] {"fighter", "knight", "ninja", "red_mage", "red_wizard"}, 80));
+			_armor.Add(new Armor("Iron Armor", "armor", 24, "", .23f, new List<string>(), new[] {"fighter", "knight", "ninja"}, 800));
+		}
 
-        public Item(string n, int c, bool k, bool s, bool i)
-        {
-            name = n;
-            cost = c;
-            key_item = k;
-            single_use = s;
-            is_drink = i;
-        }
-    }
+		void setup_weapons() {
+			string[] equipNunchuck = {"black_belt", "ninja", "master"};
+			string[] equipDagger = {"fighter", "knight", "thief", "ninja", "black_mage", "black_wizard", "red_mage", "red_wizard"};
+			string[] equipStaff = {"fighter", "knight", "ninja", "black_belt", "master", "black_mage", "black_wizard", "red_mage", "red_wizard", "white_mage", "white_wizard"};
+			string[] equipSpecialSword = {"fighter", "knight", "thief", "ninja", "red_mage", "red_wizard"};
+			string[] equipHammer = {"fighter", "knight", "ninja", "white_mage", "white_wizard"};
 
-    public class Spell
-    {
-        public string name;
-        public string type;
-        public int level;
-        public int mp;
-        public int power;
-        public float hit;
-        public bool multi_target;
-        public bool hit_allies;
-        public bool self;
-        public string status;
-        public string element;
-        public int cost;
-        public string[] learn_by;
+			_weapons.Add(new Weapon("Wooden Nunchuck", 12, 0f, .01f, "", "", equipNunchuck, 10));
+			_weapons.Add(new Weapon("Small Dagger", 5, .1f, .015f, "", "", equipDagger, 5));
+			_weapons.Add(new Weapon("Wooden Staff", 6, 0f, .02f, "", "", equipStaff, 5));
+			_weapons.Add(new Weapon("Rapier", 9, .05f, .052f, "", "", equipSpecialSword, 10));
+			_weapons.Add(new Weapon("Iron Hammer", 9, 0f, .03f, "", "", equipHammer, 10));
+		}
 
-        public Spell(string n, string t, int m_p, int l, int p, float h, bool m, bool ha, bool sf, string s, string e, int cst, string[] lb)
-        {
-            name = n;
-            type = t;
-            level = l;
-            mp = m_p;
-            power = p;
-            hit = h;
-            multi_target = m;
-            hit_allies = ha;
-            self = sf;
-            status = s;
-            element = e;
-            cost = cst;
-            learn_by = lb;
-        }
-    }
+		void setup_items() {
+			_items.Add(new Item("Potion", 60, false, true, true));
+			_items.Add(new Item("Antidote", 75, false, true, true));
+			_items.Add(new Item("Tent", 75, false, false, false));
+			_items.Add(new Item("Lute", 0, true, false, false));
+		}
 
-    static List<Armor> armor;
-    static List<Weapon> weapons;
-    static List<Item> items;
-    static List<Spell> spells;
+		void setup_spells() {
+			string[] blackBroad = {"black_mage", "black_wizard", "ninja", "red_mage", "red_wizard"};
+			string[] whiteBroadSmall = {"white_mage", "white_wizard", "red_wizard", "knight"};
+			string[] whiteBroadLarge = {"white_mage", "white_wizard", "red_mage", "red_wizard", "knight"};
+			string[] whiteOnly = {"white_mage", "white_wizard"};
 
-    public Equips()
-    {
-        armor = new List<Armor>();
-        weapons = new List<Weapon>();
-        items = new List<Item>();
-        spells = new List<Spell>();
+			_spells.Add(new Spell("LIT", "black", 4, 1, 20, .96f, false, false, false, "", "lightning", 100, blackBroad));
+			_spells.Add(new Spell("FIRE", "black", 3, 1, 20, .96f, false, false, false, "", "fire", 100, blackBroad));
+			_spells.Add(new Spell("LOCK", "black", 8, 1, 0, 1.15f, false, false, false, "", "", 100, blackBroad));
+			_spells.Add(new Spell("SLEP", "black", 5, 1, 0, .96f, true, false, false, "Sleep", "status", 100, blackBroad));
 
-        setup_armor();
-        setup_weapons();
-        setup_items();
-        setup_spells();
-    }
+			_spells.Add(new Spell("RUSE", "white", 3, 1, 0, -1f, false, false, true, "", "", 100, whiteBroadSmall));
+			_spells.Add(new Spell("CURE", "white", 5, 1, 0, -1f, false, true, false, "", "", 100, whiteBroadLarge));
+			_spells.Add(new Spell("HARM", "white", 8, 1, 40, .96f, true, false, false, "", "", 100, whiteOnly));
+			_spells.Add(new Spell("FOG", "white", 5, 1, 0, -1f, false, false, true, "", "", 100, whiteBroadLarge));
+		}
 
-    void setup_armor()
-    {
-        armor.Add(new Armor("Cloth", "armor", 1, "", .2f, new List<string>(), new string[] { "fighter", "knight", "thief", "ninja", "black_belt", "master", "black_mage", "black_wizard", "red_mage", "red_wizard", "white_mage", "white_wizard" }, 10));
-        armor.Add(new Armor("Cap", "helmet", 1, "", .1f, new List<string>(), new string[] { "fighter", "knight", "thief", "ninja", "black_belt", "master", "black_mage", "black_wizard", "red_mage", "red_wizard", "white_mage", "white_wizard" }, 80));
-        armor.Add(new Armor("Wooden Armor", "armor", 4, "", .8f, new List<string>(), new string[] { "fighter", "knight", "thief", "ninja", "black_belt", "master", "red_mage", "red_wizard" }, 50));
-        armor.Add(new Armor("Chain Armor", "armor", 15, "", .15f, new List<string>(), new string[] { "fighter", "knight", "ninja", "red_mage", "red_wizard" }, 80));
-        armor.Add(new Armor("Iron Armor", "armor", 24, "", .23f, new List<string>(), new string[] { "fighter", "knight", "ninja" }, 800));
-    }
+		public void communal_to_personal(string type, string equipName, int pIndex) {
+			List<string> typeInventory = SaveSystem.GetStringList(type);
+			typeInventory.Remove(equipName);
+			SaveSystem.SetStringList(type, typeInventory);
 
-    void setup_weapons()
-    {
-        string[] equip_nunchuck = new string[] { "black_belt", "ninja", "master" };
-        string[] equip_dagger = new string[] { "fighter", "knight", "thief", "ninja", "black_mage", "black_wizard", "red_mage", "red_wizard" };
-        string[] equip_staff = new string[] { "fighter", "knight", "ninja", "black_belt", "master", "black_mage", "black_wizard", "red_mage", "red_wizard", "white_mage", "white_wizard" };
-        string[] equip_special_sword = new string[] { "fighter", "knight", "thief", "ninja", "red_mage", "red_wizard" };
-        string[] equip_hammer = new string[] { "fighter", "knight", "ninja", "white_mage", "white_wizard" };
+			List<string> pInventory = SaveSystem.GetStringList("player" + (pIndex + 1) + "_" + type + "_inventory");
+			pInventory.Add(equipName);
+			SaveSystem.SetStringList("player" + (pIndex + 1) + "_" + type + "_inventory", pInventory);
+		}
 
-        weapons.Add(new Weapon("Wooden Nunchuck", 12, 0f, .01f, "", "", equip_nunchuck, 10));
-        weapons.Add(new Weapon("Small Dagger", 5, .1f, .015f, "", "", equip_dagger, 5));
-        weapons.Add(new Weapon("Wooden Staff", 6, 0f, .02f, "", "", equip_staff, 5));
-        weapons.Add(new Weapon("Rapier", 9, .05f, .052f, "", "", equip_special_sword, 10));
-        weapons.Add(new Weapon("Iron Hammer", 9, 0f, .03f, "", "", equip_hammer, 10));
-    }
+		public Armor get_armor(string name) {
+			foreach (Armor a in _armor) {
+				if (a.Name == name)
+					return a;
+			}
+			return null;
+		}
 
-    void setup_items()
-    {
-        items.Add(new Item("Potion", 60, false, true, true));
-        items.Add(new Item("Antidote", 75, false, true, true));
-        items.Add(new Item("Tent", 75, false, false, false));
-        items.Add(new Item("Lute", 0, true, false, false));
-    }
+		public Weapon get_weapon(string name) {
+			foreach (Weapon w in _weapons) {
+				if (w.Name == name)
+					return w;
+			}
+			return null;
+		}
 
-    void setup_spells()
-    {
-        string[] black_broad = new string[] { "black_mage", "black_wizard", "ninja", "red_mage", "red_wizard" };
-        string[] white_broad_small = new string[] { "white_mage", "white_wizard", "red_wizard", "knight" };
-        string[] white_broad_large = new string[] { "white_mage", "white_wizard", "red_mage", "red_wizard", "knight" };
-        string[] white_only = new string[] { "white_mage", "white_wizard" };
+		public Item get_item(string name) {
+			foreach (Item i in _items) {
+				if (i.Name == name)
+					return i;
+			}
+			return null;
+		}
 
-        spells.Add(new Spell("LIT", "black", 4, 1, 20, .96f, false, false, false, "", "lightning", 100, black_broad));
-        spells.Add(new Spell("FIRE", "black", 3, 1, 20, .96f, false, false, false, "", "fire", 100, black_broad));
-        spells.Add(new Spell("LOCK", "black", 8, 1, 0, 1.15f, false, false, false, "", "", 100, black_broad));
-        spells.Add(new Spell("SLEP", "black", 5, 1, 0, .96f, true, false, false, "Sleep", "status", 100, black_broad));
+		public Spell get_spell(string name) {
+			foreach (Spell s in _spells) {
+				if (s.Name == name)
+					return s;
+			}
+			return null;
+		}
 
-        spells.Add(new Spell("RUSE", "white", 3, 1, 0, -1f, false, false, true, "", "", 100, white_broad_small));
-        spells.Add(new Spell("CURE", "white", 5, 1, 0, -1f, false, true, false, "", "", 100, white_broad_large));
-        spells.Add(new Spell("HARM", "white", 8, 1, 40, .96f, true, false, false, "", "", 100, white_only));
-        spells.Add(new Spell("FOG", "white", 5, 1, 0, -1f, false, false, true, "", "", 100, white_broad_large));
-    }
+		public KeyValuePair<string, int> name_price(string name) {
+			foreach (Weapon w in _weapons) {
+				if (w.Name == name)
+					return new KeyValuePair<string, int>(w.Name, w.Cost);
+			}
+			foreach (Armor a in _armor) {
+				if (a.Name == name)
+					return new KeyValuePair<string, int>(a.Name, a.Cost);
+			}
+			foreach (Item i in _items) {
+				if (i.Name == name)
+					return new KeyValuePair<string, int>(i.Name, i.Cost);
+			}
+			foreach (Spell s in _spells) {
+				if (s.Name == name)
+					return new KeyValuePair<string, int>(s.Name, s.Cost);
+			}
+			return new KeyValuePair<string, int>("", 0);
+		}
 
-    public void communal_to_personal(string type, string equip_name, int p_index)
-    {
-        List<string> type_inventory = SaveSystem.GetStringList(type);
-        type_inventory.Remove(equip_name);
-        SaveSystem.SetStringList(type, type_inventory);
+		public string item_category(string name) {
+			foreach (Weapon w in _weapons) {
+				if (w.Name == name)
+					return "weapon";
+			}
+			foreach (Armor a in _armor) {
+				if (a.Name == name)
+					return "armor";
+			}
+			foreach (Item i in _items) {
+				if (i.Name == name)
+					return "item";
+			}
+			foreach (Spell s in _spells) {
+				if (s.Name == name)
+					return "spell";
+			}
+			return "idk";
+		}
 
-        List<string> p_inventory = SaveSystem.GetStringList("player" + (p_index + 1) + "_" + type + "_inventory");
-        p_inventory.Add(equip_name);
-        SaveSystem.SetStringList("player" + (p_index + 1) + "_" + type + "_inventory", p_inventory);
-    }
+		public int sum_armor(int index) {
+			string playerN = "player" + (index + 1) + "_";
 
-    public Armor get_armor(string name)
-    {
-        foreach(Armor a in armor)
-        {
-            if (a.name == name)
-                return a;
-        }
-        return null;
-    }
+			Armor shield = get_armor(SaveSystem.GetString(playerN + "shield"));
+			Armor helmet = get_armor(SaveSystem.GetString(playerN + "helmet"));
+			Armor arm = get_armor(SaveSystem.GetString(playerN + "armor"));
+			Armor glove = get_armor(SaveSystem.GetString(playerN + "glove"));
 
-    public Weapon get_weapon(string name)
-    {
-        foreach (Weapon w in weapons)
-        {
-            if (w.name == name)
-                return w;
-        }
-        return null;
-    }
+			int total = 0;
 
-    public Item get_item(string name)
-    {
-        foreach (Item i in items)
-        {
-            if (i.name == name)
-                return i;
-        }
-        return null;
-    }
+			if (shield != null)
+				total += shield.Absorb;
+			if (helmet != null)
+				total += helmet.Absorb;
+			if (arm != null)
+				total += arm.Absorb;
+			if (glove != null)
+				total += glove.Absorb;
 
-    public Spell get_spell(string name)
-    {
-        foreach (Spell s in spells)
-        {
-            if (s.name == name)
-                return s;
-        }
-        return null;
-    }
+			return total;
+		}
 
-    public KeyValuePair<string, int> name_price(string name)
-    {
-        foreach (Weapon w in weapons)
-        {
-            if (w.name == name)
-                return new KeyValuePair<string, int>(w.name, w.cost);
-        }
-        foreach (Armor a in armor)
-        {
-            if (a.name == name)
-                return new KeyValuePair<string, int>(a.name, a.cost);
-        }
-        foreach(Item i in items)
-        {
-            if (i.name == name)
-                return new KeyValuePair<string, int>(i.name, i.cost);
-        }
-        foreach(Spell s in spells)
-        {
-            if (s.name == name)
-                return new KeyValuePair<string, int>(s.name, s.cost);
-        }
-        return new KeyValuePair<string, int>("", 0);
-    }
+		public bool can_equip_armor(Armor ar, string playerClass) {
+			foreach (string c in ar.EquipBy) {
+				if (c == playerClass)
+					return true;
+			}
 
-    public string item_category(string name)
-    {
-        foreach (Weapon w in weapons)
-        {
-            if (w.name == name)
-                return "weapon";
-        }
-        foreach (Armor a in armor)
-        {
-            if (a.name == name)
-                return "armor";
-        }
-        foreach (Item i in items)
-        {
-            if (i.name == name)
-                return "item";
-        }
-        foreach (Spell s in spells)
-        {
-            if (s.name == name)
-                return "spell";
-        }
-        return "idk";
-    }
+			return false;
+		}
 
-    public int sum_armor(int index)
-    {
-        string player_n = "player" + (index + 1) + "_";
+		public bool can_equip_weapon(Weapon w, string playerClass) {
+			foreach (string c in w.EquipBy) {
+				if (c == playerClass)
+					return true;
+			}
 
-        Armor shield = get_armor(SaveSystem.GetString(player_n + "shield"));
-        Armor helmet = get_armor(SaveSystem.GetString(player_n + "helmet"));
-        Armor arm = get_armor(SaveSystem.GetString(player_n + "armor"));
-        Armor glove = get_armor(SaveSystem.GetString(player_n + "glove"));
+			return false;
+		}
 
-        int total = 0;
+		public bool use_item(string name, int i) {
+			bool success = true;
 
-        if (shield != null)
-            total += shield.absorb;
-        if (helmet != null)
-            total += helmet.absorb;
-        if (arm != null)
-            total += arm.absorb;
-        if (glove != null)
-            total += glove.absorb;
+			switch (name) {
+				case "Potion":
+					SaveSystem.SetInt("player" + (i + 1) + "_HP", Mathf.Min(SaveSystem.GetInt("player" + (i + 1) + "_HP") + 30, SaveSystem.GetInt("player" + (i + 1) + "_maxHP")));
+					break;
+				case "Antidote":
+					if (SaveSystem.GetBool("player" + (i + 1) + "poison"))
+						SaveSystem.SetBool("player" + (i + 1) + "poison", false);
+					else
+						success = false;
+					break;
+				case "Tent":
 
-        return total;
-    }
+					if (GlobalControl.Instance.mh.activeMap.name != "Overworld") {
+						success = false;
+						break;
+					}
 
-    public bool can_equip_armor(Armor ar, string player_class)
-    {
-        foreach(string c in ar.equip_by)
-        {
-            if (c == player_class)
-                return true;
-        }
+					for (int n = 0; n < 4; n++)
+						SaveSystem.SetInt("player" + (n + 1) + "_HP", Mathf.Min(SaveSystem.GetInt("player" + (n + 1) + "_HP") + 30, SaveSystem.GetInt("player" + (n + 1) + "_maxHP")));
 
-        return false;
-    }
+					Dictionary<string, int> partyItems = SaveSystem.GetStringIntDict("items");
+					int count = partyItems["Tent"];
+					if (count == 1)
+						partyItems.Remove("Tent");
+					else
+						partyItems["Tent"] = partyItems["Tent"] - 1;
+					SaveSystem.SetStringIntDict("items", partyItems);
 
-    public bool can_equip_weapon(Weapon w, string player_class)
-    {
-        foreach (string c in w.equip_by)
-        {
-            if (c == player_class)
-                return true;
-        }
+					GlobalControl.Instance.mh.save_position();
 
-        return false;
-    }
+					SaveSystem.SaveToDisk();
+					SceneManager.LoadScene("Title Screen");
 
-    public bool use_item(string name, int i)
-    {
-        bool success = true;
+					break;
+				case "Lute":
+					success = false;
+					break;
+			}
 
-        switch (name)
-        {
-            case "Potion":
-                SaveSystem.SetInt("player" + (i + 1) + "_HP", Mathf.Min(SaveSystem.GetInt("player" + (i + 1) + "_HP") + 30, SaveSystem.GetInt("player" + (i + 1) + "_maxHP")));
-                break;
-            case "Antidote":
-                if(SaveSystem.GetBool("player" + (i + 1) + "poison"))
-                {
-                    SaveSystem.SetBool("player" + (i + 1) + "poison", false);
-                }
-                else
-                {
-                    success = false;
-                }
-                break;
-            case "Tent":
+			return success;
+		}
 
-                if(GlobalControl.instance.mh.active_map.name != "Overworld")
-                {
-                    success = false;
-                    break;
-                }
+		public class Armor {
+			public int Absorb;
+			public string Category;
+			public int Cost;
+			public string[] EquipBy;
+			public float EvadeCost;
+			public string Name;
+			public List<string> Resistances;
+			public string Spell;
 
-                for(int n = 0; n < 4; n++)
-                {
-                    SaveSystem.SetInt("player" + (n + 1) + "_HP", Mathf.Min(SaveSystem.GetInt("player" + (n + 1) + "_HP") + 30, SaveSystem.GetInt("player" + (n + 1) + "_maxHP")));
-                }
+			public Armor(string n, string cat, int d, string s, float e, List<string> r, string[] eq, int c) {
+				Name = n;
+				Category = cat;
+				Absorb = d;
+				Spell = s;
+				EvadeCost = e;
+				Resistances = r;
+				EquipBy = eq;
+				Cost = c;
+			}
+		}
 
-                Dictionary<string, int> party_items = SaveSystem.GetStringIntDict("items");
-                int count = party_items["Tent"];
-                if (count == 1)
-                    party_items.Remove("Tent");
-                else
-                    party_items["Tent"] = party_items["Tent"] - 1;
-                SaveSystem.SetStringIntDict("items", party_items);
+		public class Weapon {
+			public int Cost;
+			public float Crit;
+			public int Damage;
+			public string Element;
+			public string[] EquipBy;
+			public float Hit;
+			public string Name;
+			public string Spell;
 
-                GlobalControl.instance.mh.save_position();
+			public Weapon(string n, int d, float h, float cr, string s, string el, string[] eq, int c) {
+				Name = n;
+				Damage = d;
+				Hit = h;
+				Crit = c;
+				Spell = s;
+				Element = el;
+				EquipBy = eq;
+				Cost = c;
+			}
+		}
 
-                SaveSystem.SaveToDisk();
-                SceneManager.LoadScene("Title Screen");
+		public class Item {
+			public int Cost;
+			public bool IsDrink;
+			public bool KeyItem;
+			public string Name;
+			public bool SingleUse;
 
-                break;
-            case "Lute":
-                success = false;
-                break;
-        }
+			public Item(string n, int c, bool k, bool s, bool i) {
+				Name = n;
+				Cost = c;
+				KeyItem = k;
+				SingleUse = s;
+				IsDrink = i;
+			}
+		}
 
-        return success;
-    }
+		public class Spell {
+			public int Cost;
+			public string Element;
+			public float Hit;
+			public bool HitAllies;
+			public string[] LearnBy;
+			public int Level;
+			public int Mp;
+			public bool MultiTarget;
+			public string Name;
+			public int Power;
+			public bool Self;
+			public string Status;
+			public string Type;
+
+			public Spell(string n, string t, int mP, int l, int p, float h, bool m, bool ha, bool sf, string s, string e, int cst, string[] lb) {
+				Name = n;
+				Type = t;
+				Level = l;
+				Mp = mP;
+				Power = p;
+				Hit = h;
+				MultiTarget = m;
+				HitAllies = ha;
+				Self = sf;
+				Status = s;
+				Element = e;
+				Cost = cst;
+				LearnBy = lb;
+			}
+		}
+	}
 }

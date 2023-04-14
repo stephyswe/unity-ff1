@@ -1,224 +1,213 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class BattleSpriteController : MonoBehaviour
-{
-    public Sprite idle;
-    public Sprite walking1;
-    public Sprite walking2;
-    public Sprite attack1;
-    public Sprite attack2;
-    public Sprite magic_victory1;
-    public Sprite magic_victory2;
-    public Sprite tired;
-    public Sprite stone;
-    public Sprite dead;
-    
-    public SpriteRenderer sr;
+namespace Battling {
+	public class BattleSpriteController : MonoBehaviour {
+		public Sprite idle;
+		public Sprite walking1;
+		public Sprite walking2;
+		public Sprite attack1;
+		public Sprite attack2;
+		[FormerlySerializedAs("magic_victory1")]
+		public Sprite magicVictory1;
+		[FormerlySerializedAs("magic_victory2")]
+		public Sprite magicVictory2;
+		public Sprite tired;
+		public Sprite stone;
+		public Sprite dead;
 
-    string state;
+		public SpriteRenderer sr;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        state = "idle";
-    
-        sr = GetComponent<SpriteRenderer>();
+		[FormerlySerializedAs("is_walking")] public bool isWalking;
 
-        sr.sprite = idle;
-    }
+		[FormerlySerializedAs("is_fighting")] public bool isFighting;
 
-    void Update()
-    {
-        if(state == "idle")
-        {
-            if(sr.sprite != idle)
-            {
-                sr.sprite = idle;
-            }
-        }
-    }
-    
-    public void change_state(string st, WeaponSprite ws=null){
-        state = st;
-        switch (st)
-        {
-            case "idle":
-                sr.sprite = idle;
-                break;
-            case "walk":
-                StartCoroutine(walk());
-                break;
-            case "fight":
-                StartCoroutine(fight(ws));
-                break;
-            case "magic":
-                StartCoroutine(cast());
-                break;
-            case "tired":
-                sr.sprite = tired;
-                break;
-            case "stone":
-                sr.sprite = stone;
-                break;
-            case "dead":
-                sr.sprite = dead;
-                //GetComponent<PartyMember>().move_point = new Vector3(sr.gameObject.transform.position.x - .66f, sr.gameObject.transform.position.y, sr.gameObject.transform.position.z);
-                //sr.gameObject.transform.position = new Vector3(sr.gameObject.transform.position.x - .66f, sr.gameObject.transform.position.y, sr.gameObject.transform.position.z);
-                break;
-            case "run":
-                sr.sprite = idle;
-                sr.flipX = true;
-                break;
-            case "victory":
-                sr.sprite = idle;
-                StartCoroutine(victory());
-                break;
-        }
-    }
-    
-    public string get_state(){
-        return state;
-    }
+		[FormerlySerializedAs("is_casting")] public bool isCasting;
 
-    public bool is_walking;
-    public IEnumerator walk()
-    {
-        is_walking = true;
-        float wait = 0.071657625f;
+		bool is_victory;
 
-        sr.sprite = walking1;
-        yield return new WaitForSeconds(wait);
-        sr.sprite = walking2;
-        yield return new WaitForSeconds(wait);
-        sr.sprite = walking1;
-        yield return new WaitForSeconds(wait);
-        sr.sprite = walking2;
-        yield return new WaitForSeconds(wait);
+		string state;
 
-        is_walking = false;
+		// Start is called before the first frame update
+		void Start() {
+			state = "idle";
 
-        yield return null;
-    }
+			sr = GetComponent<SpriteRenderer>();
 
-    bool is_victory;
-    public IEnumerator victory()
-    {
-        float wait = .25f;
-        is_victory = true;
+			sr.sprite = idle;
+		}
 
-        for(int i = 0; i < 5; i++)
-        {
-            sr.sprite = magic_victory1;
-            yield return new WaitForSeconds(wait);
-            sr.sprite = magic_victory2;
-            yield return new WaitForSeconds(wait);
-        }
+		void Update() {
+			if (state == "idle") {
+				if (sr.sprite != idle)
+					sr.sprite = idle;
+			}
+		}
 
-        sr.sprite = idle;
+		public void change_state(string st, WeaponSprite ws = null) {
+			state = st;
+			switch (st) {
+				case "idle":
+					sr.sprite = idle;
+					break;
+				case "walk":
+					StartCoroutine(Walk());
+					break;
+				case "fight":
+					StartCoroutine(Fight(ws));
+					break;
+				case "magic":
+					StartCoroutine(Cast());
+					break;
+				case "tired":
+					sr.sprite = tired;
+					break;
+				case "stone":
+					sr.sprite = stone;
+					break;
+				case "dead":
+					sr.sprite = dead;
+					//GetComponent<PartyMember>().move_point = new Vector3(sr.gameObject.transform.position.x - .66f, sr.gameObject.transform.position.y, sr.gameObject.transform.position.z);
+					//sr.gameObject.transform.position = new Vector3(sr.gameObject.transform.position.x - .66f, sr.gameObject.transform.position.y, sr.gameObject.transform.position.z);
+					break;
+				case "run":
+					sr.sprite = idle;
+					sr.flipX = true;
+					break;
+				case "victory":
+					sr.sprite = idle;
+					StartCoroutine(Victory());
+					break;
+			}
+		}
 
-        is_victory = false;
+		public string get_state() {
+			return state;
+		}
+		public IEnumerator Walk() {
+			isWalking = true;
+			float wait = 0.071657625f;
 
-        yield return null;
-    }
+			sr.sprite = walking1;
+			yield return new WaitForSeconds(wait);
+			sr.sprite = walking2;
+			yield return new WaitForSeconds(wait);
+			sr.sprite = walking1;
+			yield return new WaitForSeconds(wait);
+			sr.sprite = walking2;
+			yield return new WaitForSeconds(wait);
 
-    public bool is_fighting;
-    public IEnumerator fight(WeaponSprite ws)
-    {
+			isWalking = false;
 
-        if(ws == null)
-        {
-            is_fighting = true;
-            float wait = 0.071657625f;
+			yield return null;
+		}
+		public IEnumerator Victory() {
+			float wait = .25f;
+			is_victory = true;
 
-            sr.sprite = attack1;
-            yield return new WaitForSeconds(wait);
-            sr.sprite = attack2;
-            yield return new WaitForSeconds(wait);
-            sr.sprite = attack1;
-            yield return new WaitForSeconds(wait);
-            sr.sprite = attack2;
-            yield return new WaitForSeconds(wait);
+			for (int i = 0; i < 5; i++) {
+				sr.sprite = magicVictory1;
+				yield return new WaitForSeconds(wait);
+				sr.sprite = magicVictory2;
+				yield return new WaitForSeconds(wait);
+			}
 
-        }
-        else
-        {
-            is_fighting = true;
-            float wait = 0.071657625f;
+			sr.sprite = idle;
 
-            ws.show();
+			is_victory = false;
 
-            ws.go_forward();
-            sr.sprite = attack1;
-            yield return new WaitForSeconds(wait);
-            ws.go_back();
-            sr.sprite = attack2;
-            yield return new WaitForSeconds(wait);
-            ws.go_forward();
-            sr.sprite = attack1;
-            yield return new WaitForSeconds(wait);
-            ws.go_back();
-            sr.sprite = attack2;
-            yield return new WaitForSeconds(wait);
+			yield return null;
+		}
+		public IEnumerator Fight(WeaponSprite ws) {
 
-            ws.hide();
-        }
+			if (ws == null) {
+				isFighting = true;
+				float wait = 0.071657625f;
 
-        is_fighting = false;
+				sr.sprite = attack1;
+				yield return new WaitForSeconds(wait);
+				sr.sprite = attack2;
+				yield return new WaitForSeconds(wait);
+				sr.sprite = attack1;
+				yield return new WaitForSeconds(wait);
+				sr.sprite = attack2;
+				yield return new WaitForSeconds(wait);
 
-        yield return null;
-    }
+			}
+			else {
+				isFighting = true;
+				float wait = 0.071657625f;
 
-    public bool is_casting;
-    public IEnumerator cast()
-    {
-        is_casting = true;
-        Debug.Log("casting");
-        is_casting = false;
+				ws.Show();
 
-        yield return null;
-    }
+				ws.go_forward();
+				sr.sprite = attack1;
+				yield return new WaitForSeconds(wait);
+				ws.go_back();
+				sr.sprite = attack2;
+				yield return new WaitForSeconds(wait);
+				ws.go_forward();
+				sr.sprite = attack1;
+				yield return new WaitForSeconds(wait);
+				ws.go_back();
+				sr.sprite = attack2;
+				yield return new WaitForSeconds(wait);
 
-    /*
-    public bool walk_animation;
+				ws.Hide();
+			}
 
-    public IEnumerator walk()
-    {
-        float wait = 0.13189315f;
-        walk_animation = true;
-        switch (direction)
-        {
-            case "up":
-                sr.sprite = active_character.up1;
-                yield return new WaitForSeconds(wait);
-                sr.sprite = active_character.up2;
-                yield return new WaitForSeconds(wait);
-                break;
-            case "down":
-                sr.sprite = active_character.down1;
-                yield return new WaitForSeconds(wait);
-                sr.sprite = active_character.down2;
-                yield return new WaitForSeconds(wait);
-                break;
-            case "left":
-                sr.flipX = false;
-                sr.sprite = active_character.step1;
-                yield return new WaitForSeconds(wait);
-                sr.flipX = false;
-                sr.sprite = active_character.step2;
-                yield return new WaitForSeconds(wait);
-                break;
-            case "right":
-                sr.flipX = true;
-                sr.sprite = active_character.step1;
-                yield return new WaitForSeconds(wait);
-                sr.sprite = active_character.step2;
-                yield return new WaitForSeconds(wait);
-                break;
-        }
-        walk_animation = false;
-    }
-    */
+			isFighting = false;
+
+			yield return null;
+		}
+		public IEnumerator Cast() {
+			isCasting = true;
+			Debug.Log("casting");
+			isCasting = false;
+
+			yield return null;
+		}
+
+		/*
+	public bool walk_animation;
+
+	public IEnumerator walk()
+	{
+		float wait = 0.13189315f;
+		walk_animation = true;
+		switch (direction)
+		{
+		    case "up":
+		        sr.sprite = active_character.up1;
+		        yield return new WaitForSeconds(wait);
+		        sr.sprite = active_character.up2;
+		        yield return new WaitForSeconds(wait);
+		        break;
+		    case "down":
+		        sr.sprite = active_character.down1;
+		        yield return new WaitForSeconds(wait);
+		        sr.sprite = active_character.down2;
+		        yield return new WaitForSeconds(wait);
+		        break;
+		    case "left":
+		        sr.flipX = false;
+		        sr.sprite = active_character.step1;
+		        yield return new WaitForSeconds(wait);
+		        sr.flipX = false;
+		        sr.sprite = active_character.step2;
+		        yield return new WaitForSeconds(wait);
+		        break;
+		    case "right":
+		        sr.flipX = true;
+		        sr.sprite = active_character.step1;
+		        yield return new WaitForSeconds(wait);
+		        sr.sprite = active_character.step2;
+		        yield return new WaitForSeconds(wait);
+		        break;
+		}
+		walk_animation = false;
+	}
+	*/
+	}
 }

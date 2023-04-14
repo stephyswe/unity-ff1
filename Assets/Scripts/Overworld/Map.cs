@@ -1,54 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Map : MonoBehaviour
-{
-    
-    public Transform entry_position;
+namespace Overworld {
+	public class Map : MonoBehaviour {
 
-    public string travel_mode;
+		[FormerlySerializedAs("entry_position")]
+		public Transform entryPosition;
 
-    public bool use_stairs;
+		[FormerlySerializedAs("travel_mode")] public string travelMode;
 
-    public Transform stair_entry_position;
-    
-    private PlayerController p;
-    
-    public bool suppress_map_just_changed;
-    
-    public bool encounters;
-    
-    private MusicHandler a_s;
-    
-    public bool play_music;
-    
-    void Awake(){
-        p = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>();
-        if(suppress_map_just_changed){
-            p.map_just_changed = false;
-        }
-        a_s = GetComponentInChildren<MusicHandler>();
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+		[FormerlySerializedAs("use_stairs")] public bool useStairs;
 
-    // Update is called once per frame
-    void Update()
-    {
-        AudioSource active = a_s.get_active();
-        if(!active.isPlaying && play_music){
-            active.enabled = true;
-            active.volume = 1f;
-            active.Play();
-        }
-    
-        if(suppress_map_just_changed){
-            p.map_just_changed = false;
-        }
-    }
+		[FormerlySerializedAs("stair_entry_position")]
+		public Transform stairEntryPosition;
+
+		[FormerlySerializedAs("suppress_map_just_changed")]
+		public bool suppressMapJustChanged;
+
+		public bool encounters;
+
+		[FormerlySerializedAs("play_music")] public bool playMusic;
+
+		MusicHandler a_s;
+
+		PlayerController p;
+
+		void Awake() {
+			p = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>();
+			if (suppressMapJustChanged)
+				p.mapJustChanged = false;
+			a_s = GetComponentInChildren<MusicHandler>();
+		}
+
+		// Start is called before the first frame update
+		void Start() {}
+
+		// Update is called once per frame
+		void Update() {
+			AudioSource active = a_s.get_active();
+			if (!active.isPlaying && playMusic) {
+				active.enabled = true;
+				active.volume = 1f;
+				active.Play();
+			}
+
+			if (suppressMapJustChanged)
+				p.mapJustChanged = false;
+		}
+	}
 }

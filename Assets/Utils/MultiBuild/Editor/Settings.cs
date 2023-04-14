@@ -1,8 +1,8 @@
-using UnityEngine;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
-namespace MultiBuild {
+namespace Utils.MultiBuild.Editor {
 
     // Our own enumeration of targets so we can serialize with confidence
     // in case Unity changes the values of their internal targets
@@ -15,7 +15,7 @@ namespace MultiBuild {
         MacUniversal = 4,
         Linux32 = 5,
         Linux64 = 6,
-        iOS = 7,
+        IOS = 7,
         Android = 8,
         WebGL = 9,
         WinStore = 10,
@@ -23,9 +23,9 @@ namespace MultiBuild {
         PS4 = 12,
         XboxOne = 13,
         SamsungTV = 14,
-        Nintendo3DS = 15,
+        Nintendo3Ds = 15,
         WiiU = 16,
-        tvOS = 17,
+        TVOS = 17,
 #if UNITY_5_6_OR_NEWER
         Switch = 18,
 #endif

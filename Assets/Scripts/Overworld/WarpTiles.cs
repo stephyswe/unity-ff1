@@ -1,22 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-public class WarpTiles : MonoBehaviour
-{
-    
-    public GameObject warp_to;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        GetComponent<TilemapRenderer>().enabled = false;
-    }
+namespace Overworld {
+	public class WarpTiles : MonoBehaviour {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		[FormerlySerializedAs("warp_to")] public GameObject warpTo;
+
+		// Start is called before the first frame update
+		void Start() {
+			GetComponent<TilemapRenderer>().enabled = false;
+		}
+
+		// Update is called once per frame
+		void Update() {}
+	}
 }

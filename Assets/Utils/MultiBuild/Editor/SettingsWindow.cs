@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,7 +20,7 @@ namespace UnityEditor
 }
 #endif
 
-namespace MultiBuild {
+namespace Utils.MultiBuild.Editor {
     public class SettingsWindow : EditorWindow {
 
         // Manually format the descriptive names
@@ -33,7 +31,7 @@ namespace MultiBuild {
                 if (_targetNames == null) {
                     _targetNames = new Dictionary<Target, string> {
                         {Target.Android, "Android"},
-                        {Target.iOS, "iOS"},
+                        {Target.IOS, "iOS"},
                         {Target.Linux32, "Linux 32-bit"},
                         {Target.Linux64, "Linux 64-bit"},
                         {Target.Mac32, "Mac 32-bit"},
@@ -48,8 +46,8 @@ namespace MultiBuild {
                         {Target.XboxOne, "Xbox One"},
                         {Target.SamsungTV, "Samsung TV"},
                         {Target.WiiU, "Nintendo WiiU"},
-                        {Target.tvOS, "tvOS"},
-                        {Target.Nintendo3DS, "Nintendo 3DS"},
+                        {Target.TVOS, "tvOS"},
+                        {Target.Nintendo3Ds, "Nintendo 3DS"},
 #if UNITY_5_6_OR_NEWER
                         {Target.Switch, "Nintendo Switch"},
 #endif
@@ -59,85 +57,85 @@ namespace MultiBuild {
             }
         }
 
-        Settings _settings;
+        Settings settings;
         Settings Settings {
             get {
-                if (_settings == null) {
-                    _settings = Storage.LoadOrCreateSettings();
+                if (settings == null) {
+                    settings = Storage.LoadOrCreateSettings();
                 }
-                return _settings;
+                return settings;
             }
         }
-        SerializedObject _serializedSettings;
+        SerializedObject serializedSettings;
         SerializedObject SerializedSettings {
             get {
-                if (_serializedSettings == null) {
-                    _serializedSettings = new SerializedObject(Settings);
+                if (serializedSettings == null) {
+                    serializedSettings = new SerializedObject(Settings);
                 }
-                return _serializedSettings;
+                return serializedSettings;
             }
         }
 
         // Because we need to sort and Unity Popup doesn't have a data tag
-        Dictionary<string, Target> _targetNameToValue;
+        Dictionary<string, Target> targetNameToValue;
         Dictionary<string, Target> TargetNameToValue {
             get {
-                if (_targetNameToValue == null) {
-                    _targetNameToValue = new Dictionary<string, Target>();
+                if (targetNameToValue == null) {
+                    targetNameToValue = new Dictionary<string, Target>();
                     foreach (var target in TargetNames.Keys) {
-                        _targetNameToValue[TargetNames[target]] = target;
+                        targetNameToValue[TargetNames[target]] = target;
                     }
                 }
-                return _targetNameToValue;
+                return targetNameToValue;
             }
         }
 
 
 
-        Target[] _targets;
+        Target[] targets;
         Target[] Targets {
             get {
-                if (_targets == null) {
-                    _targets = (Target[])Enum.GetValues(typeof(Target));
+                if (targets == null) {
+                    targets = (Target[])Enum.GetValues(typeof(Target));
                 }
-                return _targets;
+                return targets;
             }
         }
 
-        GUIStyle _actionButtonStyle;
+        GUIStyle actionButtonStyle;
         GUIStyle ActionButtonStyle {
             get {
-                if (_actionButtonStyle == null) {
-                    _actionButtonStyle = new GUIStyle(GUI.skin.button);
-                    _actionButtonStyle.fontStyle = FontStyle.Bold;
-                    _actionButtonStyle.normal.textColor = Color.white;
+                if (actionButtonStyle == null) {
+                    actionButtonStyle = new GUIStyle(GUI.skin.button);
+                    actionButtonStyle.fontStyle = FontStyle.Bold;
+                    actionButtonStyle.normal.textColor = Color.white;
                 }
-                return _actionButtonStyle;
+                return actionButtonStyle;
             }
         }
-        GUIStyle _labelMarginStyle;
+        GUIStyle labelMarginStyle;
         GUIStyle LabelMarginStyle {
             get {
-                if (_labelMarginStyle == null) {
-                    _labelMarginStyle = new GUIStyle();
-                    _labelMarginStyle.margin.left = GUI.skin.label.margin.left;
+                if (labelMarginStyle == null) {
+                    labelMarginStyle = new GUIStyle();
+                    labelMarginStyle.margin.left = GUI.skin.label.margin.left;
                 }
-                return _labelMarginStyle;
+                return labelMarginStyle;
             }
         }
-        GUIStyle _removeButtonContainerStyle;
+        GUIStyle removeButtonContainerStyle;
         GUIStyle RemoveButtonContainerStyle {
             get {
-                if (_removeButtonContainerStyle == null) {
-                    _removeButtonContainerStyle = new GUIStyle();
-                    _removeButtonContainerStyle.margin.left = 30;
+                if (removeButtonContainerStyle == null) {
+                    removeButtonContainerStyle = new GUIStyle();
+                    removeButtonContainerStyle.margin.left = 30;
                 }
-                return _removeButtonContainerStyle;
+                return removeButtonContainerStyle;
             }
         }
-        List<string> _targetNamesNotAdded;
-        bool _targetsDirty = true;
-        int _targetToAddIndex;
+        List<string> targetNamesNotAdded;
+        bool targetsDirty = true;
+        int targetToAddIndex;
 
         [MenuItem ("Tools/MultiBuild...")]
         public static void  ShowWindow () {
@@ -145,7 +143,7 @@ namespace MultiBuild {
         }
 
         void OnGUI () {
-            if (_targetsDirty) {
+            if (targetsDirty) {
                 UpdateTargetsNotAdded();
             }
 
@@ -182,7 +180,7 @@ namespace MultiBuild {
             GUILayout.Label ("Platforms To Build", EditorStyles.boldLabel);
 
             bool removeTargetAtEnd = false;
-            Target targetToRemove = Target.iOS;
+            Target targetToRemove = Target.IOS;
             foreach (var target in Settings.targets) {
                 EditorGUILayout.BeginHorizontal(RemoveButtonContainerStyle, GUILayout.MaxHeight(23));
                 EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(false), GUILayout.MinWidth(30));
@@ -216,14 +214,14 @@ namespace MultiBuild {
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical();
             GUILayout.FlexibleSpace();
-            _targetToAddIndex = EditorGUILayout.Popup(_targetToAddIndex, _targetNamesNotAdded.ToArray());
+            targetToAddIndex = EditorGUILayout.Popup(targetToAddIndex, targetNamesNotAdded.ToArray());
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(false));
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Add")) {
                 // Ugh dealing with arrays in SerializedObject is awful
-                string newTargetName = _targetNamesNotAdded[_targetToAddIndex];
+                string newTargetName = targetNamesNotAdded[targetToAddIndex];
                 Target newTarget = TargetNameToValue[newTargetName];
                 // Insert in order
                 var proplist = SerializedSettings.FindProperty("targets");
@@ -241,7 +239,7 @@ namespace MultiBuild {
                         proplist.GetArrayElementAtIndex(i-1).enumValueIndex;
                 }
                 proplist.GetArrayElementAtIndex(insertIndex).enumValueIndex = (int)newTarget;
-                _targetsDirty = true;
+                targetsDirty = true;
             }
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndVertical();
@@ -256,13 +254,13 @@ namespace MultiBuild {
                 int index = Settings.targets.IndexOf(targetToRemove);
                 var proplist = SerializedSettings.FindProperty("targets");
                 proplist.DeleteArrayElementAtIndex(index);
-                _targetsDirty = true;
+                targetsDirty = true;
             }
 
             // This applies any changes to the underlying asset and marks dirty if needed
             // this is what ensures the asset gets saved
             SerializedSettings.ApplyModifiedProperties();
-            if (_targetsDirty) {
+            if (targetsDirty) {
                 Repaint();
             }
 
@@ -276,13 +274,13 @@ namespace MultiBuild {
         }
 
         void UpdateTargetsNotAdded() {
-            _targetNamesNotAdded = new List<string>();
+            targetNamesNotAdded = new List<string>();
             foreach (Target target in Targets) {
                 if (!Settings.targets.Contains(target))
-                    _targetNamesNotAdded.Add(TargetNames[target]);
+                    targetNamesNotAdded.Add(TargetNames[target]);
             }
-            _targetNamesNotAdded.Sort();
-            _targetsDirty = false;
+            targetNamesNotAdded.Sort();
+            targetsDirty = false;
         }
 
         void Build() {

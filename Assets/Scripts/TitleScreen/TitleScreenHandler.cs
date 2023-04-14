@@ -1,393 +1,384 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using Overworld;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Utils.SaveGame.Scripts.SaveSystem;
 
-public class TitleScreenHandler : MonoBehaviour
-{
-    
-    public LoadingCircle loading_circle;
-    
-    public AudioSource classic;
-    public AudioSource remaster;
-    public AudioSource GBA;
+namespace TitleScreen {
+	public class TitleScreenHandler : MonoBehaviour {
 
-    public AudioSource button_hover;
-    
-    private string[] names;
-    
-    public GameObject title;
-    public GameObject char_select;
-    public GameObject settings_container;
-    
-    public InputField[] fields;
-    public SpriteController[] sprite_controllers;
+		[FormerlySerializedAs("loading_circle")]
+		public LoadingCircle loadingCircle;
 
-    public Slider battle_speed_slider;
-    public Text bss_text;
-    
-    private bool new_save = false;
+		public AudioSource classic;
+		public AudioSource remaster;
+		[FormerlySerializedAs("GBA")] public AudioSource gba;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+		[FormerlySerializedAs("button_hover")] public AudioSource buttonHover;
 
-        title.SetActive(true);
-        char_select.SetActive(false);
-        settings_container.SetActive(false);
-    
-        string bin_path = Application.persistentDataPath + "/party.bin";
-        
-        input_allowed = true;
-        
-        names = new string[]{"Matt", "Alta", "Ivan", "Cora"};
-        
-        if(!System.IO.File.Exists(bin_path)){
-            init_save_file();
-            new_save = true;
-        }
-        
-        if(SaveSystem.GetBool("classic_music")){
-            classic.volume = 1f;
-            remaster.volume = 0f;
-            GBA.volume = 0f;
-        }
-        else if (SaveSystem.GetBool("remaster_music"))
-        {
-            remaster.volume = 1f;
-            classic.volume = 0f;
-            GBA.volume = 0f;
-        }
-        else
-        {
-            GBA.volume = 1f;
-            classic.volume = 0f;
-            remaster.volume = 0f;
-        }
+		public GameObject title;
+		[FormerlySerializedAs("char_select")] public GameObject charSelect;
+		[FormerlySerializedAs("settings_container")]
+		public GameObject settingsContainer;
 
-        battle_speed_slider.value = SaveSystem.GetFloat("battle_speed");
+		public InputField[] fields;
+		[FormerlySerializedAs("sprite_controllers")]
+		public SpriteController[] spriteControllers;
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
+		[FormerlySerializedAs("battle_speed_slider")]
+		public Slider battleSpeedSlider;
+		[FormerlySerializedAs("bss_text")] public Text bssText;
 
-    void flags()
-    {
-        SaveSystem.SetBool("earth_orb", false);
-        SaveSystem.SetBool("fire_orb", false);
-        SaveSystem.SetBool("water_orb", false);
-        SaveSystem.SetBool("wind_orb", false);
+		[FormerlySerializedAs("input_allowed")]
+		public bool inputAllowed;
 
-        SaveSystem.SetBool("garland_battle", false);
-        SaveSystem.SetBool("princess_in_temple_of_fiends", false);
-        SaveSystem.SetBool("king_mentioned_bridge", false);
-        SaveSystem.SetBool("princess_gave_lute", false);
-    }
-    
-    public void init_save_file(){
-        SaveSystem.SetBool("in_submap", false);
-        SaveSystem.SetBool("inside_of_room", false);
+		int frames_since_music_switch = 15;
 
-        RandomEncounterHandler reh = gameObject.AddComponent<RandomEncounterHandler>();
-        reh.gen_seed();
+		string[] names;
 
-        SaveSystem.SetInt("reh_seed", reh.seed);
+		[FormerlySerializedAs("new_save")] [SerializeField] bool newSave;
 
-        SaveSystem.SetInt("gil", 400);
-    
-        SaveSystem.SetFloat("overworldX", -1f);
-        SaveSystem.SetFloat("overworldY", -5f);
-        
-        SaveSystem.SetString("player1_name", names[0]);
-        SaveSystem.SetString("player2_name", names[1]);
-        SaveSystem.SetString("player3_name", names[2]);
-        SaveSystem.SetString("player4_name", names[3]);
+		// Start is called before the first frame update
+		void Start() {
 
-        for(int i = 0; i < 4; i++)
-        {
-            string player_n = "player" + (i + 1) + "_";
+			title.SetActive(true);
+			charSelect.SetActive(false);
+			settingsContainer.SetActive(false);
 
-            SaveSystem.SetInt(player_n + "magic_level", 1);
+			string binPath = Application.persistentDataPath + "/party.json";
 
-            List<string> empty = new List<string>();
+			inputAllowed = true;
 
-            SaveSystem.SetStringList(player_n + "level_1_spells", empty);
-            SaveSystem.SetStringList(player_n + "level_2_spells", empty);
-            SaveSystem.SetStringList(player_n + "level_3_spells", empty);
-            SaveSystem.SetStringList(player_n + "level_4_spells", empty);
-            SaveSystem.SetStringList(player_n + "level_5_spells", empty);
-            SaveSystem.SetStringList(player_n + "level_6_spells", empty);
-            SaveSystem.SetStringList(player_n + "level_7_spells", empty);
-            SaveSystem.SetStringList(player_n + "level_8_spells", empty);
-        }
+			names = new[] {"Matt", "Alta", "Ivan", "Cora"};
 
-        SaveSystem.SetStringIntDict("items", new Dictionary<string, int>());
+			if (!File.Exists(binPath)) {
+				init_save_file();
+				newSave = true;
+			}
 
-        flags();
+			if (SaveSystem.GetBool("classic_music")) {
+				classic.volume = 1f;
+				remaster.volume = 0f;
+				gba.volume = 0f;
+			}
+			else if (SaveSystem.GetBool("remaster_music")) {
+				remaster.volume = 1f;
+				classic.volume = 0f;
+				gba.volume = 0f;
+			}
+			else {
+				gba.volume = 1f;
+				classic.volume = 0f;
+				remaster.volume = 0f;
+			}
 
-        SaveSystem.SaveToDisk();
-        Debug.Log("Done initializing");
-    }
+			battleSpeedSlider.value = SaveSystem.GetFloat("battle_speed");
 
-    public void hover_sound()
-    {
-        button_hover.Play();
-    }
-    
-    int frames_since_music_switch = 15;
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-        frames_since_music_switch += 1;
-        
-        if(input_allowed){
-            /*
-            if(Input.GetKeyDown("h") && names.Length > 0){
-                foreach(string name in names){
-                    SaveSystem.SetInt(name + "_maxHP", 100);
-                    SaveSystem.SetInt(name + "_HP", 100);
-                }
-                Debug.Log("Healed your party");
-            }
-            */
-        }
-        
-    }
+		// Update is called once per frame
+		void Update() {
 
-    public void set_classic_music()
-    {
-        classic.volume = 1f;
-        remaster.volume = 0f;
-        GBA.volume = 0f;
+			frames_since_music_switch += 1;
 
-        SaveSystem.SetBool("classic_music", true);
-        SaveSystem.SetBool("remaster_music", false);
+			if (inputAllowed) {
+				/*
+			if(Input.GetKeyDown("h") && names.Length > 0){
+				foreach(string name in names){
+				    SaveSystem.SetInt(name + "_maxHP", 100);
+				    SaveSystem.SetInt(name + "_HP", 100);
+				}
+				Debug.Log("Healed your party");
+			}
+			*/
+			}
 
-        classic.Play();
+		}
 
-        SaveSystem.SaveToDisk();
-    }
+		void Flags() {
+			SaveSystem.SetBool("earth_orb", false);
+			SaveSystem.SetBool("fire_orb", false);
+			SaveSystem.SetBool("water_orb", false);
+			SaveSystem.SetBool("wind_orb", false);
 
-    public void set_gba_music()
-    {
-        classic.volume = 0f;
-        remaster.volume = 0f;
-        GBA.volume = 1f;
+			SaveSystem.SetBool("garland_battle", false);
+			SaveSystem.SetBool("princess_in_temple_of_fiends", false);
+			SaveSystem.SetBool("king_mentioned_bridge", false);
+			SaveSystem.SetBool("princess_gave_lute", false);
+		}
 
-        SaveSystem.SetBool("classic_music", false);
-        SaveSystem.SetBool("remaster_music", false);
+		public void init_save_file() {
+			SaveSystem.SetBool("in_submap", false);
+			SaveSystem.SetBool("inside_of_room", false);
 
-        GBA.Play();
+			RandomEncounterHandler reh = gameObject.AddComponent<RandomEncounterHandler>();
+			reh.gen_seed();
 
-        SaveSystem.SaveToDisk();
-    }
+			SaveSystem.SetInt("reh_seed", reh.seed);
 
-    public void set_remastered_music()
-    {
-        classic.volume = 0f;
-        remaster.volume = 1f;
-        GBA.volume = 0f;
+			SaveSystem.SetInt("gil", 400);
 
-        SaveSystem.SetBool("classic_music", false);
-        SaveSystem.SetBool("remaster_music", true);
+			SaveSystem.SetFloat("overworldX", -1f);
+			SaveSystem.SetFloat("overworldY", -5f);
 
-        remaster.Play();
+			SaveSystem.SetString("player1_name", names[0]);
+			SaveSystem.SetString("player2_name", names[1]);
+			SaveSystem.SetString("player3_name", names[2]);
+			SaveSystem.SetString("player4_name", names[3]);
 
-        SaveSystem.SaveToDisk();
-    }
+			for (int i = 0; i < 4; i++) {
+				string playerN = "player" + (i + 1) + "_";
 
-    public void exit(){
+				SaveSystem.SetInt(playerN + "magic_level", 1);
+
+				List<string> empty = new List<string>();
+
+				SaveSystem.SetStringList(playerN + "level_1_spells", empty);
+				SaveSystem.SetStringList(playerN + "level_2_spells", empty);
+				SaveSystem.SetStringList(playerN + "level_3_spells", empty);
+				SaveSystem.SetStringList(playerN + "level_4_spells", empty);
+				SaveSystem.SetStringList(playerN + "level_5_spells", empty);
+				SaveSystem.SetStringList(playerN + "level_6_spells", empty);
+				SaveSystem.SetStringList(playerN + "level_7_spells", empty);
+				SaveSystem.SetStringList(playerN + "level_8_spells", empty);
+			}
+
+			SaveSystem.SetStringIntDict("items", new Dictionary<string, int>());
+
+			Flags();
+
+			SaveSystem.SaveToDisk();
+			Debug.Log("Done initializing");
+		}
+
+		public void hover_sound() {
+			buttonHover.Play();
+		}
+
+		public void set_classic_music() {
+			classic.volume = 1f;
+			remaster.volume = 0f;
+			gba.volume = 0f;
+
+			SaveSystem.SetBool("classic_music", true);
+			SaveSystem.SetBool("remaster_music", false);
+
+			classic.Play();
+
+			SaveSystem.SaveToDisk();
+		}
+
+		public void set_gba_music() {
+			classic.volume = 0f;
+			remaster.volume = 0f;
+			gba.volume = 1f;
+
+			SaveSystem.SetBool("classic_music", false);
+			SaveSystem.SetBool("remaster_music", false);
+
+			gba.Play();
+
+			SaveSystem.SaveToDisk();
+		}
+
+		public void set_remastered_music() {
+			classic.volume = 0f;
+			remaster.volume = 1f;
+			gba.volume = 0f;
+
+			SaveSystem.SetBool("classic_music", false);
+			SaveSystem.SetBool("remaster_music", true);
+
+			remaster.Play();
+
+			SaveSystem.SaveToDisk();
+		}
+
+		public void Exit() {
         #if UNITY_EDITOR
-            // Application.Quit() does not work in the editor so
-            // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
-            UnityEditor.EditorApplication.isPlaying = false;
+			// Application.Quit() does not work in the editor so
+			// UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+			EditorApplication.isPlaying = false;
         #else
             Application.Quit();
         #endif
-    }
-    
-    public bool input_allowed;
-    
-    public void continue_game(){
-        input_allowed = false;
-        StartCoroutine(load());
-    }
-    
-    public void new_game(){
-        input_allowed = false;
-        title.SetActive(false);
-        char_select.SetActive(true);
-    }
+		}
 
-    public void settings()
-    {
-        if (!settings_container.active)
-        {
-            input_allowed = false;
-            title.SetActive(false);
-            settings_container.SetActive(true);
-        }
-        else
-        {
-            input_allowed = true;
-            title.SetActive(true);
-            settings_container.SetActive(false);
-        }
-    }
+		public void continue_game() {
+			inputAllowed = false;
+			StartCoroutine(Load());
+		}
 
-    public void battle_speed_set()
-    {
-        SaveSystem.SetFloat("battle_speed", battle_speed_slider.value);
-        bss_text.text = "" + (int)(battle_speed_slider.value * 1000f);
-        SaveSystem.SaveToDisk();
-    }
+		public void new_game() {
+			inputAllowed = false;
+			title.SetActive(false);
+			charSelect.SetActive(true);
+		}
 
-    public void new_game_back()
-    {
-        title.SetActive(true);
-        char_select.SetActive(false);
-    }
-    
-    public void new_game_start(){
-        for(int i = 0; i < fields.Length; i++){
-            names[i] = fields[i].text;
-        }
-        for(int i = 0; i < sprite_controllers.Length; i++){
+		public void Settings() {
+			if (!settingsContainer.active) {
+				inputAllowed = false;
+				title.SetActive(false);
+				settingsContainer.SetActive(true);
+			}
+			else {
+				inputAllowed = true;
+				title.SetActive(true);
+				settingsContainer.SetActive(false);
+			}
+		}
 
-            int character_index = 0;
+		public void battle_speed_set() {
+			SaveSystem.SetFloat("battle_speed", battleSpeedSlider.value);
+			bssText.text = "" + (int)(battleSpeedSlider.value * 1000f);
+			SaveSystem.SaveToDisk();
+		}
 
-            string player_n = "player" + (i + 1) + "_";
+		public void new_game_back() {
+			title.SetActive(true);
+			charSelect.SetActive(false);
+		}
 
-            string p_class = sprite_controllers[i].get_class();
-            SaveSystem.SetString(player_n + "class", p_class);
-            
-            switch(p_class){
-                case "fighter":
-                    SaveSystem.SetInt(player_n + "strength", 20);
-                    SaveSystem.SetInt(player_n + "agility", 5);
-                    SaveSystem.SetInt(player_n + "intelligence", 1);
-                    SaveSystem.SetInt(player_n + "vitality", 10);
-                    SaveSystem.SetInt(player_n + "luck", 5);
-                    SaveSystem.SetInt(player_n + "HP", 35);
-                    SaveSystem.SetFloat(player_n + "hit_percent", .1f);
-                    SaveSystem.SetFloat(player_n + "magic_defense", .15f);
+		public void new_game_start() {
+			for (int i = 0; i < fields.Length; i++)
+				names[i] = fields[i].text;
+			for (int i = 0; i < spriteControllers.Length; i++) {
 
-                    SaveSystem.SetInt(player_n + "MP", 0);
+				int characterIndex = 0;
 
-                    character_index = 3;
+				string playerN = "player" + (i + 1) + "_";
 
-                    break;
-                case "black_belt":
-                    SaveSystem.SetInt(player_n + "strength", 5);
-                    SaveSystem.SetInt(player_n + "agility", 5);
-                    SaveSystem.SetInt(player_n + "intelligence", 5);
-                    SaveSystem.SetInt(player_n + "vitality", 20);
-                    SaveSystem.SetInt(player_n + "luck", 5);
-                    SaveSystem.SetInt(player_n + "HP", 33);
-                    SaveSystem.SetFloat(player_n + "hit_percent", .05f);
-                    SaveSystem.SetFloat(player_n + "magic_defense", .1f);
+				string pClass = spriteControllers[i].get_class();
+				SaveSystem.SetString(playerN + "class", pClass);
 
-                    SaveSystem.SetInt(player_n + "MP", 0);
+				switch (pClass) {
+					case "fighter":
+						SaveSystem.SetInt(playerN + "strength", 20);
+						SaveSystem.SetInt(playerN + "agility", 5);
+						SaveSystem.SetInt(playerN + "intelligence", 1);
+						SaveSystem.SetInt(playerN + "vitality", 10);
+						SaveSystem.SetInt(playerN + "luck", 5);
+						SaveSystem.SetInt(playerN + "HP", 35);
+						SaveSystem.SetFloat(playerN + "hit_percent", .1f);
+						SaveSystem.SetFloat(playerN + "magic_defense", .15f);
 
-                    character_index = 0;
+						SaveSystem.SetInt(playerN + "MP", 0);
 
-                    break;
-                case "red_mage":
-                    SaveSystem.SetInt(player_n + "strength", 10);
-                    SaveSystem.SetInt(player_n + "agility", 10);
-                    SaveSystem.SetInt(player_n + "intelligence", 10);
-                    SaveSystem.SetInt(player_n + "vitality", 5);
-                    SaveSystem.SetInt(player_n + "luck", 5);
-                    SaveSystem.SetInt(player_n + "HP", 30);
-                    SaveSystem.SetFloat(player_n + "hit_percent", .07f);
-                    SaveSystem.SetFloat(player_n + "magic_defense", .2f);
+						characterIndex = 3;
 
-                    SaveSystem.SetInt(player_n + "MP", 10);
+						break;
+					case "black_belt":
+						SaveSystem.SetInt(playerN + "strength", 5);
+						SaveSystem.SetInt(playerN + "agility", 5);
+						SaveSystem.SetInt(playerN + "intelligence", 5);
+						SaveSystem.SetInt(playerN + "vitality", 20);
+						SaveSystem.SetInt(playerN + "luck", 5);
+						SaveSystem.SetInt(playerN + "HP", 33);
+						SaveSystem.SetFloat(playerN + "hit_percent", .05f);
+						SaveSystem.SetFloat(playerN + "magic_defense", .1f);
 
-                    character_index = 7;
+						SaveSystem.SetInt(playerN + "MP", 0);
 
-                    break;
-                case "thief":
-                    SaveSystem.SetInt(player_n + "strength", 5);
-                    SaveSystem.SetInt(player_n + "agility", 10);
-                    SaveSystem.SetInt(player_n + "intelligence", 5);
-                    SaveSystem.SetInt(player_n + "vitality", 5);
-                    SaveSystem.SetInt(player_n + "luck", 15);
-                    SaveSystem.SetInt(player_n + "HP", 30);
-                    SaveSystem.SetFloat(player_n + "hit_percent", .05f);
-                    SaveSystem.SetFloat(player_n + "magic_defense", .15f);
+						characterIndex = 0;
 
-                    SaveSystem.SetInt(player_n + "MP", 0);
+						break;
+					case "red_mage":
+						SaveSystem.SetInt(playerN + "strength", 10);
+						SaveSystem.SetInt(playerN + "agility", 10);
+						SaveSystem.SetInt(playerN + "intelligence", 10);
+						SaveSystem.SetInt(playerN + "vitality", 5);
+						SaveSystem.SetInt(playerN + "luck", 5);
+						SaveSystem.SetInt(playerN + "HP", 30);
+						SaveSystem.SetFloat(playerN + "hit_percent", .07f);
+						SaveSystem.SetFloat(playerN + "magic_defense", .2f);
 
-                    character_index = 9;
+						SaveSystem.SetInt(playerN + "MP", 10);
 
-                    break;
-                case "white_mage":
-                    SaveSystem.SetInt(player_n + "strength", 5);
-                    SaveSystem.SetInt(player_n + "agility", 5);
-                    SaveSystem.SetInt(player_n + "intelligence", 15);
-                    SaveSystem.SetInt(player_n + "vitality", 10);
-                    SaveSystem.SetInt(player_n + "luck", 5);
-                    SaveSystem.SetInt(player_n + "HP", 28);
-                    SaveSystem.SetFloat(player_n + "hit_percent", .05f);
-                    SaveSystem.SetFloat(player_n + "magic_defense", .2f);
+						characterIndex = 7;
 
-                    SaveSystem.SetInt(player_n + "MP", 10);
+						break;
+					case "thief":
+						SaveSystem.SetInt(playerN + "strength", 5);
+						SaveSystem.SetInt(playerN + "agility", 10);
+						SaveSystem.SetInt(playerN + "intelligence", 5);
+						SaveSystem.SetInt(playerN + "vitality", 5);
+						SaveSystem.SetInt(playerN + "luck", 15);
+						SaveSystem.SetInt(playerN + "HP", 30);
+						SaveSystem.SetFloat(playerN + "hit_percent", .05f);
+						SaveSystem.SetFloat(playerN + "magic_defense", .15f);
 
-                    character_index = 10;
+						SaveSystem.SetInt(playerN + "MP", 0);
 
-                    break;
-                case "black_mage":
-                    SaveSystem.SetInt(player_n + "strength", 1);
-                    SaveSystem.SetInt(player_n + "agility", 10);
-                    SaveSystem.SetInt(player_n + "intelligence", 20);
-                    SaveSystem.SetInt(player_n + "vitality", 1);
-                    SaveSystem.SetInt(player_n + "luck", 10);
-                    SaveSystem.SetInt(player_n + "HP", 25);
-                    SaveSystem.SetFloat(player_n + "hit_percent", .055f);
-                    SaveSystem.SetFloat(player_n + "magic_defense", .2f);
+						characterIndex = 9;
 
-                    SaveSystem.SetInt(player_n + "MP", 10);
+						break;
+					case "white_mage":
+						SaveSystem.SetInt(playerN + "strength", 5);
+						SaveSystem.SetInt(playerN + "agility", 5);
+						SaveSystem.SetInt(playerN + "intelligence", 15);
+						SaveSystem.SetInt(playerN + "vitality", 10);
+						SaveSystem.SetInt(playerN + "luck", 5);
+						SaveSystem.SetInt(playerN + "HP", 28);
+						SaveSystem.SetFloat(playerN + "hit_percent", .05f);
+						SaveSystem.SetFloat(playerN + "magic_defense", .2f);
 
-                    character_index = 1;
+						SaveSystem.SetInt(playerN + "MP", 10);
 
-                    break;
-            }
+						characterIndex = 10;
 
-            SaveSystem.SetStringList(player_n + "armor_inventory", new List<string>());
-            SaveSystem.SetStringList(player_n + "weapons_inventory", new List<string>());
+						break;
+					case "black_mage":
+						SaveSystem.SetInt(playerN + "strength", 1);
+						SaveSystem.SetInt(playerN + "agility", 10);
+						SaveSystem.SetInt(playerN + "intelligence", 20);
+						SaveSystem.SetInt(playerN + "vitality", 1);
+						SaveSystem.SetInt(playerN + "luck", 10);
+						SaveSystem.SetInt(playerN + "HP", 25);
+						SaveSystem.SetFloat(playerN + "hit_percent", .055f);
+						SaveSystem.SetFloat(playerN + "magic_defense", .2f);
 
-            SaveSystem.SetString(player_n + "shield", "");
-            SaveSystem.SetString(player_n + "helmet", "");
-            SaveSystem.SetString(player_n + "armor", "");
-            SaveSystem.SetString(player_n + "glove", "");
+						SaveSystem.SetInt(playerN + "MP", 10);
 
-            SaveSystem.SetString(player_n + "weapon", "");
+						characterIndex = 1;
 
-            SaveSystem.SetInt(player_n + "exp", 0);
-            SaveSystem.SetBool(player_n + "poison", false);
-            SaveSystem.SetBool(player_n + "stone", false);
-            SaveSystem.SetInt(player_n + "maxHP", SaveSystem.GetInt(player_n + "HP"));
+						break;
+				}
 
-            if (i == 0)
-            {
-                SaveSystem.SetInt("character_index", character_index);
-            }
-        }
-        init_save_file();
-        StartCoroutine(load());
-    }
-    
-    IEnumerator load(){
-        loading_circle.gameObject.SetActive(true);
-        loading_circle.start_loading_circle();
-        yield return new WaitForSeconds(.5f);
-        Cursor.visible = false;
-        SceneManager.LoadSceneAsync("Overworld");
-    }
+				SaveSystem.SetStringList(playerN + "armor_inventory", new List<string>());
+				SaveSystem.SetStringList(playerN + "weapons_inventory", new List<string>());
+
+				SaveSystem.SetString(playerN + "shield", "");
+				SaveSystem.SetString(playerN + "helmet", "");
+				SaveSystem.SetString(playerN + "armor", "");
+				SaveSystem.SetString(playerN + "glove", "");
+
+				SaveSystem.SetString(playerN + "weapon", "");
+
+				SaveSystem.SetInt(playerN + "exp", 0);
+				SaveSystem.SetBool(playerN + "poison", false);
+				SaveSystem.SetBool(playerN + "stone", false);
+				SaveSystem.SetInt(playerN + "maxHP", SaveSystem.GetInt(playerN + "HP"));
+
+				if (i == 0)
+					SaveSystem.SetInt("character_index", characterIndex);
+			}
+			init_save_file();
+			StartCoroutine(Load());
+		}
+
+		IEnumerator Load() {
+			loadingCircle.gameObject.SetActive(true);
+			loadingCircle.start_loading_circle();
+			yield return new WaitForSeconds(.5f);
+			Cursor.visible = false;
+			SceneManager.LoadSceneAsync("Overworld");
+		}
+	}
 }

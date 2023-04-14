@@ -1,69 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utils.SaveGame.Scripts.SaveSystem;
 
-public class LockedDoor : Interactable
-{
+namespace Overworld {
+	public class LockedDoor : Interactable {
 
-    public string ID;
-    bool unlocked;
+		[FormerlySerializedAs("ID")] public string id;
 
-    public BoxCollider2D collider;
+		public BoxCollider2D collider;
+		bool unlocked;
 
-    public IEnumerator interact(PlayerController p)
-    {
-        p.can_move = false;
-        p.pause_menu_container.SetActive(false);
+		// Start is called before the first frame update
+		void Start() {}
 
-        Dictionary<string, int> items = SaveSystem.GetStringIntDict("items");
+		// Update is called once per frame
+		void Update() {}
 
-        Vector3 p_pos = p.gameObject.transform.position;
+		void OnEnable() {
+			unlocked = SaveSystem.GetBool("door_" + id);
+		}
 
-        Vector3 location = new Vector3(p_pos.x, p_pos.y - 7.5f, p_pos.z);
+		public IEnumerator Interact(PlayerController p) {
+			p.canMove = false;
+			p.pauseMenuContainer.SetActive(false);
 
-        if (items.ContainsKey("MYSTIC KEY") && !unlocked)
-        {
-            dialogue = "Unlocked the door with the MYSTIC KEY";
-            Destroy(collider);
-            unlocked = true;
+			Dictionary<string, int> items = SaveSystem.GetStringIntDict("items");
 
-            SaveSystem.SetBool("door_" + ID, true);
-        }
-        else if(!items.ContainsKey("MYSTIC KEY") && !unlocked)
-        {
-            dialogue = "This door is locked";
-        }
+			Vector3 pPos = p.gameObject.transform.position;
 
-        display_textbox(location);
+			Vector3 location = new Vector3(pPos.x, pPos.y - 7.5f, pPos.z);
 
-        yield return new WaitForSeconds(.8f);
-        while (!Input.GetKey(CustomInputManager.cim.select))
-        {
-            yield return null;
-        }
+			if (items.ContainsKey("MYSTIC KEY") && !unlocked) {
+				dialogue = "Unlocked the door with the MYSTIC KEY";
+				Destroy(collider);
+				unlocked = true;
 
-        hide_textbox();
+				SaveSystem.SetBool("door_" + id, true);
+			}
+			else if (!items.ContainsKey("MYSTIC KEY") && !unlocked)
+				dialogue = "This door is locked";
 
-        p.can_move = true;
-        p.pause_menu_container.SetActive(true);
+			display_textbox(location);
 
-        p.frames_since_last_interact = 0;
-    }
+			yield return new WaitForSeconds(.8f);
+			while (!Input.GetKey(CustomInputManager.Cim.Select))
+				yield return null;
 
-    void OnEnable()
-    {
-        unlocked = SaveSystem.GetBool("door_" + ID);
-    }
+			hide_textbox();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+			p.canMove = true;
+			p.pauseMenuContainer.SetActive(true);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+			p.framesSinceLastInteract = 0;
+		}
+	}
 }

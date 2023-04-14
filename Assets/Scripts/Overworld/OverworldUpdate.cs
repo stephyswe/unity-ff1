@@ -1,66 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using UnityEngine.Serialization;
+using Utils.SaveGame.Scripts.SaveSystem;
 
-public class OverworldUpdate : MonoBehaviour
-{
+namespace Overworld {
+	public class OverworldUpdate : MonoBehaviour {
 
-    [Serializable]
-    public class FlagCheck
-    {
-        public string name;
-        public bool flagValToShow;
-        public GameObject replacementNPC;
+		[FormerlySerializedAs("need_flags_to_show")]
+		public bool needFlagsToShow;
+		[FormerlySerializedAs("flags_to_show")]
+		public FlagCheck[] flagsToShow;
 
-        public bool check()
-        {
-            return SaveSystem.GetBool(name) == flagValToShow;
-        }
-    }
+		public GameObject old;
+		public GameObject updated;
 
-    public bool need_flags_to_show;
-    public FlagCheck[] flags_to_show;
+		[FormerlySerializedAs("start_with_update")]
+		public bool startWithUpdate;
 
-    public GameObject old;
-    public GameObject updated;
-    
-    public bool start_with_update;
-    
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        date_map();
-        bool update = true;
-        if (start_with_update){
-            update = true;
-        }
-        if (need_flags_to_show)
-        {
-            foreach (FlagCheck fc in flags_to_show)
-            {
-                if (!fc.check())
-                    update = false;
-            }
-        }
-        if (update)
-            update_map();
-    }
+		// Update is called once per frame
+		void Update() {}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
-    public void update_map(){
-        old.SetActive(false);
-        updated.SetActive(true);
-    }
-    
-    public void date_map(){
-        old.SetActive(true);
-        updated.SetActive(false);
-    }
+		// Start is called before the first frame update
+		void OnEnable() {
+			date_map();
+			bool update = true;
+			if (startWithUpdate)
+				update = true;
+			if (needFlagsToShow) {
+				foreach (FlagCheck fc in flagsToShow) {
+					if (!fc.Check())
+						update = false;
+				}
+			}
+			if (update)
+				update_map();
+		}
+
+		public void update_map() {
+			old.SetActive(false);
+			updated.SetActive(true);
+		}
+
+		public void date_map() {
+			old.SetActive(true);
+			updated.SetActive(false);
+		}
+
+		[Serializable]
+		public class FlagCheck {
+			public string name;
+			public bool flagValToShow;
+			[FormerlySerializedAs("replacementNPC")]
+			public GameObject replacementNpc;
+
+			public bool Check() {
+				return SaveSystem.GetBool(name) == flagValToShow;
+			}
+		}
+	}
 }

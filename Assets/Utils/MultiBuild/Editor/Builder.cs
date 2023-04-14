@@ -1,11 +1,11 @@
-using UnityEditor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
+using UnityEditor;
 using UnityEditor.Build.Reporting;
 
-namespace MultiBuild {
+namespace Utils.MultiBuild.Editor {
 
     public static class Builder {
 
@@ -188,7 +188,7 @@ namespace MultiBuild {
                 return BuildTarget.StandaloneLinux;
             case Target.Linux64:
                 return BuildTarget.StandaloneLinux64;
-            case Target.iOS:
+            case Target.IOS:
                 return BuildTarget.iOS;
             case Target.Android:
                 return BuildTarget.Android;
@@ -204,10 +204,10 @@ namespace MultiBuild {
                 return BuildTarget.XboxOne;
             case Target.WiiU:
                 return BuildTarget.WiiU;
-            case Target.tvOS:
+            case Target.TVOS:
                 return BuildTarget.tvOS;
 #if UNITY_5_5_OR_NEWER
-            case Target.Nintendo3DS:
+            case Target.Nintendo3Ds:
                 return BuildTarget.N3DS;
 #else
             case Target.Nintendo3DS:

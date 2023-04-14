@@ -1,36 +1,34 @@
 using UnityEngine;
 
-public class LoadingCircle : MonoBehaviour
-{
-    
-    public GameObject progress;
+namespace TitleScreen {
+	public class LoadingCircle : MonoBehaviour {
 
-    private RectTransform rectComponent;
-    public float rotateSpeed = 200f;
-    
-    private bool turning;
+		public GameObject progress;
+		public float rotateSpeed = 200f;
 
-    private void Start()
-    {
-        turning = false;
-        rectComponent = progress.GetComponent<RectTransform>();
-        progress.SetActive(false);
-    }
-    
-    public void start_loading_circle(){
-        progress.SetActive(true);
-        turning = true;
-    }
-    
-    public void stop_loading_circle(){
-        progress.SetActive(false);
-        turning = false;
-    }
+		RectTransform rectComponent;
 
-    private void Update()
-    {
-        if(turning){
-            rectComponent.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
-        }
-    }
+		bool turning;
+
+		void Start() {
+			turning = false;
+			rectComponent = progress.GetComponent<RectTransform>();
+			progress.SetActive(false);
+		}
+
+		void Update() {
+			if (turning)
+				rectComponent.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
+		}
+
+		public void start_loading_circle() {
+			progress.SetActive(true);
+			turning = true;
+		}
+
+		public void stop_loading_circle() {
+			progress.SetActive(false);
+			turning = false;
+		}
+	}
 }

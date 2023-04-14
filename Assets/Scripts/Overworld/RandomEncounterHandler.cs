@@ -1,180 +1,162 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils.SaveGame.Scripts.SaveSystem;
 
-public class RandomEncounterHandler : MonoBehaviour
-{
+namespace Overworld {
+	public class RandomEncounterHandler : MonoBehaviour {
 
-    public int seed;
-    
-    public PlayerController player;
-    public Transform cam;
-    
-    public bool encounters;
-    
-    public void set_encounters(bool onoff){
-        encounters = onoff;
-    }
-    
-    public void gen_seed(){
-        seed = Random.Range(50, 255);
-    }
-    
-    public void decrement(int d){
-        if(encounters){
-            seed -= d;
-        }
-    }
-    
-    public bool battling;
-    
-    IEnumerator initiate_encounter(){
+		public int seed;
 
-        player.can_move = false;
+		public PlayerController player;
+		public Transform cam;
 
-        battling = true;
+		public bool encounters;
 
-        while (player.transform.position != player.move_point.position)
-        {
-            yield return null;
-        }
+		public bool battling;
 
-        if (player.travel_mode != "none")
-        {
+		bool won_boss_battle;
 
-            player.pause_menu_container.SetActive(false);
+		// Start is called before the first frame update
+		void Start() {
+			if (!player == null)
+				encounters = player.mapHandler.activeMap.GetComponent<Map>().encounters;
+			seed = SaveSystem.GetInt("reh_seed");
+			/*
+		GameObject[] NPCs = FindObjectsOfType<NPC>();
+		foreach(GameObject g in NPCs)
+		{
+			foreach (FlagCheck fc in g.GetComponent<NPC>().flags)
+			{
+			    if (!fc.check())
+			        g.SetActive(false);
+			    else
+			        gameObject.SetActive(true);
+			}
+		}
+		*/
+		}
 
-            GlobalControl.instance.monster_party = player.og.get_monster_party();
+		// Update is called once per frame
+		void Update() {
+			if (seed <= 0 && !battling) {
+				Debug.Log("Random encounter initiated");
+				StartCoroutine(initiate_encounter());
 
-            int countLoaded = SceneManager.sceneCount;
-            if (countLoaded == 1)
-            {
+				gen_seed();
+				SaveSystem.SetInt("reh_seed", seed);
+			}
+		}
 
-                player.can_move = false;
-                player.multiplier = 0f;
+		public void set_encounters(bool onoff) {
+			encounters = onoff;
+		}
 
-                //gameObject.AddComponent(typeof(Camera));
-                cam.transform.parent = gameObject.transform;
+		public void gen_seed() {
+			seed = Random.Range(50, 255);
+		}
 
-                GlobalControl.instance.overworld_scene_container.SetActive(false);
+		public void Decrement(int d) {
+			if (encounters)
+				seed -= d;
+		}
 
-                //gameObject.AddComponent(typeof(AudioListener));
+		IEnumerator initiate_encounter() {
 
-                AudioSource source = GetComponent<AudioSource>();
-                source.Play();
-                while (source.isPlaying)
-                {
-                    yield return null;
-                }
+			player.canMove = false;
 
-                Destroy(GetComponent<AudioListener>());
+			battling = true;
 
-                SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
-                Destroy(GetComponent<Camera>());
+			while (player.transform.position != player.movePoint.position)
+				yield return null;
 
-                while (SceneManager.sceneCount > 1)
-                {
-                    yield return null;
-                }
+			if (player.travelMode != "none") {
 
-                GlobalControl.instance.overworld_scene_container.SetActive(true);
-            }
+				player.pauseMenuContainer.SetActive(false);
 
-            countLoaded = SceneManager.sceneCount;
+				GlobalControl.Instance.monsterParty = player.og.get_monster_party();
 
-            while (countLoaded > 1)
-            {
-                countLoaded = SceneManager.sceneCount;
-                yield return null;
-            }
+				int countLoaded = SceneManager.sceneCount;
+				if (countLoaded == 1) {
 
-            player.can_move = true;
-            player.multiplier = 2f;
+					player.canMove = false;
+					player.multiplier = 0f;
 
-            player.pause_menu_container.SetActive(true);
+					//gameObject.AddComponent(typeof(Camera));
+					cam.transform.parent = gameObject.transform;
 
-            player.map_handler.save_position();
-            battling = false;
-        }
-        else
-        {
-            seed = 1;
-        }
-        
-        yield return null;
-    }
+					GlobalControl.Instance.overworldSceneContainer.SetActive(false);
 
-    bool won_boss_battle;
+					//gameObject.AddComponent(typeof(AudioListener));
 
-    public IEnumerator start_boss_battle(PlayerController player, GameObject boss, string flag, bool flagval, GameObject overworld_boss)
-    {
+					AudioSource source = GetComponent<AudioSource>();
+					source.Play();
+					while (source.isPlaying)
+						yield return null;
 
-        player.can_move = false;
+					Destroy(GetComponent<AudioListener>());
 
-        battling = true;
-        player.pause_menu_container.SetActive(false);
+					SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
+					Destroy(GetComponent<Camera>());
 
-        GlobalControl.instance.monster_party = boss;
+					while (SceneManager.sceneCount > 1)
+						yield return null;
 
-        int countLoaded = SceneManager.sceneCount;
-        if (countLoaded == 1)
-        {
-            player.multiplier = 0f;
+					GlobalControl.Instance.overworldSceneContainer.SetActive(true);
+				}
 
-            cam.transform.parent = gameObject.transform;
+				countLoaded = SceneManager.sceneCount;
 
-            GlobalControl.instance.overworld_scene_container.SetActive(false);
-            GlobalControl.instance.bossmode = true;
+				while (countLoaded > 1) {
+					countLoaded = SceneManager.sceneCount;
+					yield return null;
+				}
 
-            //AudioSource source = GetComponent<AudioSource>();
-            //source.Play();
-            //yield return new WaitForSeconds(1.127f);
+				player.canMove = true;
+				player.multiplier = 2f;
 
-            SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
+				player.pauseMenuContainer.SetActive(true);
 
-            while (SceneManager.sceneCount > 1)
-            {
-                yield return null;
-            }
-        }
+				player.mapHandler.save_position();
+				battling = false;
+			}
+			else
+				seed = 1;
 
-        
+			yield return null;
+		}
 
-        yield return null;
-    }
+		public IEnumerator start_boss_battle(PlayerController player, GameObject boss, string flag, bool flagval, GameObject overworldBoss) {
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        if(!player == null)
-            encounters = player.map_handler.active_map.GetComponent<Map>().encounters;
-        seed = SaveSystem.GetInt("reh_seed");
-        /*
-        GameObject[] NPCs = FindObjectsOfType<NPC>();
-        foreach(GameObject g in NPCs)
-        {
-            foreach (FlagCheck fc in g.GetComponent<NPC>().flags)
-            {
-                if (!fc.check())
-                    g.SetActive(false);
-                else
-                    gameObject.SetActive(true);
-            }
-        }
-        */
-    }
+			player.canMove = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(seed <= 0 && !battling){
-            Debug.Log("Random encounter initiated");
-            StartCoroutine(initiate_encounter());
+			battling = true;
+			player.pauseMenuContainer.SetActive(false);
 
-            gen_seed();
-            SaveSystem.SetInt("reh_seed", seed);
-        }
-    }
+			GlobalControl.Instance.monsterParty = boss;
+
+			int countLoaded = SceneManager.sceneCount;
+			if (countLoaded == 1) {
+				player.multiplier = 0f;
+
+				cam.transform.parent = gameObject.transform;
+
+				GlobalControl.Instance.overworldSceneContainer.SetActive(false);
+				GlobalControl.Instance.bossmode = true;
+
+				//AudioSource source = GetComponent<AudioSource>();
+				//source.Play();
+				//yield return new WaitForSeconds(1.127f);
+
+				SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
+
+				while (SceneManager.sceneCount > 1)
+					yield return null;
+			}
+
+
+
+			yield return null;
+		}
+	}
 }

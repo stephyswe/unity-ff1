@@ -1,65 +1,59 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-public class BridgeTitleHandler : MonoBehaviour
-{
+namespace Overworld {
+	public class BridgeTitleHandler : MonoBehaviour {
 
-    public Sprite[] sprites;
-    public string[] strings;
+		public Sprite[] sprites;
+		public string[] strings;
 
-    public SpriteRenderer sr;
+		public SpriteRenderer sr;
 
-    public Text display_text;
+		[FormerlySerializedAs("display_text")] public Text displayText;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        display_text.text = "";
-        StartCoroutine(process());
-    }
+		// Start is called before the first frame update
+		void Start() {
+			displayText.text = "";
+			StartCoroutine(Process());
+		}
 
-    IEnumerator process()
-    {
-        for(int i = 0; i < 13; i++)
-        {
-            sr.sprite = sprites[i];
-            yield return new WaitForSeconds(.25f);
-        }
+		// Update is called once per frame
+		void Update() {}
 
-        for(int i = 0; i < strings.Length; i++)
-        {
-            if (i > 3)
-                display_text.alignment = TextAnchor.UpperCenter;
-            if (i == 8)
-                display_text.alignment = TextAnchor.UpperLeft;
+		IEnumerator Process() {
+			for (int i = 0; i < 13; i++) {
+				sr.sprite = sprites[i];
+				yield return new WaitForSeconds(.25f);
+			}
 
-            string s = strings[i];
+			for (int i = 0; i < strings.Length; i++) {
+				if (i > 3)
+					displayText.alignment = TextAnchor.UpperCenter;
+				if (i == 8)
+					displayText.alignment = TextAnchor.UpperLeft;
 
-            display_text.text = s.Replace("<br>", "\n"); ;
-            yield return new WaitForSeconds(8f);
-        }
+				string s = strings[i];
 
-        while (!Input.GetKeyDown(CustomInputManager.cim.select))
-            yield return null;
+				displayText.text = s.Replace("<br>", "\n");
+				;
+				yield return new WaitForSeconds(8f);
+			}
 
-        display_text.text = "";
+			while (!Input.GetKeyDown(CustomInputManager.Cim.Select))
+				yield return null;
 
-        for (int i = 11; i > -1; i--)
-        {
-            sr.sprite = sprites[i];
-            yield return new WaitForSeconds(.25f);
-        }
-        sr.enabled = false;
+			displayText.text = "";
 
-        SceneManager.LoadSceneAsync("Title Screen");
-    }
+			for (int i = 11; i > -1; i--) {
+				sr.sprite = sprites[i];
+				yield return new WaitForSeconds(.25f);
+			}
+			sr.enabled = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+			SceneManager.LoadSceneAsync("Title Screen");
+		}
+	}
 }

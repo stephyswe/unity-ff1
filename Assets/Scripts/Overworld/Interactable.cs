@@ -1,38 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class Interactable : MonoBehaviour
-{
+namespace Overworld {
+	public class Interactable : MonoBehaviour {
 
-    public string dialogue;
-    
-    public GameObject text_box;
+		public string dialogue;
 
-    GameObject tb_instance;
+		[FormerlySerializedAs("text_box")] public GameObject textBox;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+		GameObject tb_instance;
 
-    }
-    
-    public void display_textbox(Vector3 pos){
-        tb_instance = Instantiate(text_box, pos, Quaternion.identity);
-        if (dialogue.Length >= 91)
-            tb_instance.GetComponentInChildren<Text>().fontSize = 26;
-        tb_instance.GetComponentInChildren<Text>().text = dialogue;
-        tb_instance.SetActive(true);
-    }
-    
-    public void hide_textbox(){
-        Destroy(tb_instance);
-    }
+		// Start is called before the first frame update
+		void Start() {}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		// Update is called once per frame
+		void Update() {}
+
+		public void display_textbox(Vector3 pos) {
+			tb_instance = Instantiate(textBox, pos, Quaternion.identity);
+			if (dialogue.Length >= 91)
+				tb_instance.GetComponentInChildren<Text>().fontSize = 26;
+			tb_instance.GetComponentInChildren<Text>().text = dialogue;
+			tb_instance.SetActive(true);
+		}
+
+		public void hide_textbox() {
+			Destroy(tb_instance);
+		}
+	}
 }

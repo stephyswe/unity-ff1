@@ -1,26 +1,24 @@
 using System.Collections.Generic;
+using Battling;
 
-public class PartyHandler
-{
-    private List<PartyMember> party;
+namespace Refactor {
+	public class PartyHandler {
+		readonly List<PartyMember> party;
 
-    public PartyHandler(List<PartyMember> party)
-    {
-        this.party = party;
-    }
+		public PartyHandler(List<PartyMember> party) {
+			this.party = party;
+		}
 
-    public float GetPartyAverageLevel()
-    {
-        float level = 0;
-        float count = 0;
-        foreach (PartyMember p in party)
-        {
-            if (p.HP > 0)
-            {
-                level += (float)p.level;
-                count += 1f;
-            }
-        }
-        return (level / count);
-    }
+		public float GetPartyAverageLevel() {
+			float level = 0;
+			float count = 0;
+			foreach (PartyMember p in party) {
+				if (p.hp > 0) {
+					level += p.level;
+					count += 1f;
+				}
+			}
+			return level / count;
+		}
+	}
 }

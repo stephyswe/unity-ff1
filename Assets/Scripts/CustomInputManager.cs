@@ -1,43 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class CustomInputManager : MonoBehaviour
-{
+public class CustomInputManager : MonoBehaviour {
 
-    public static CustomInputManager cim;
+	public static CustomInputManager Cim;
 
-    public KeyCode up { get; set; }
-    public KeyCode down { get; set; }
-    public KeyCode left { get; set; }
-    public KeyCode right { get; set; }
-    public KeyCode back { get; set; }
-    public KeyCode select { get; set; }
+	public KeyCode Up { get; set; }
+	public KeyCode Down { get; set; }
+	public KeyCode Left { get; set; }
+	public KeyCode Right { get; set; }
+	public KeyCode Back { get; set; }
+	public KeyCode Select { get; set; }
 
-    // Start is called before the first frame update
-    void Awake()
-    {
-        if(cim == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            cim = this;
-        }
-        else if(cim != this)
-        {
-            Destroy(gameObject);
-        }
+	// Start is called before the first frame update
+	void Awake() {
+		if (Cim == null) {
+			DontDestroyOnLoad(gameObject);
+			Cim = this;
+		}
+		else if (Cim != this)
+			Destroy(gameObject);
 
-        up = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("upkey", "W"));
-        down = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("downkey", "S"));
-        left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftkey", "A"));
-        right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightkey", "D"));
-        back = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backkey", "O"));
-        select = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("selectkey", "P"));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		Up = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("upkey", "W"));
+		Down = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("downkey", "S"));
+		Left = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftkey", "A"));
+		Right = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightkey", "D"));
+		Back = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backkey", "O"));
+		Select = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("selectkey", "P"));
+	}
 }
