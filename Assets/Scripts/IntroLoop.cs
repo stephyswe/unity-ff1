@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class IntroLoop : MonoBehaviour
 {
-    
-    public float loop_start_seconds;
-    public float loop_end_seconds;
-    
+    [SerializeField] public float loopStartSeconds;
+    [SerializeField] public float loopEndSeconds;
     AudioSource source;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +16,7 @@ public class IntroLoop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(source.time >= loop_end_seconds){
-            source.time = loop_start_seconds;
-        }
+        if (source.time >= loopStartSeconds)
+            source.time = loopEndSeconds;
     }
 }

@@ -16,16 +16,16 @@ public class PartyMember : Battler
     public int intelligence;
     public int vitality;
     public int luck;
-    
+
     public int experience;
     public int level;
-    
+
     public bool can_run;
-    
+
     public BattleHandler bh;
-    
+
     public Vector3 move_point;
-    
+
     private CursorController monster_cursor;
     private CursorController menu_cursor;
 
@@ -33,7 +33,7 @@ public class PartyMember : Battler
 
     public WeaponSprite weapon_sprite;
     public MagicSprite magic_sprite;
-    
+
     public string action;
     public GameObject target;
 
@@ -318,7 +318,7 @@ public class PartyMember : Battler
 
         return stats_increased;
     }
-        
+
     public void save_player(){
         string player_n = "player" + (index + 1) + "_";
         SaveSystem.SetInt(player_n + "strength", strength);
@@ -348,7 +348,7 @@ public class PartyMember : Battler
         HP = SaveSystem.GetInt(player_n + "HP");
         maxHP = SaveSystem.GetInt(player_n + "maxHP");
         experience = SaveSystem.GetInt(player_n + "exp");
-        level = bh.get_level_from_exp(experience);
+        level = LevelChart.GetLevelFromExp(experience);
 
         if(SaveSystem.GetBool(player_n + "stone"))
         {
@@ -359,7 +359,7 @@ public class PartyMember : Battler
             conditions.Add("poison");
         }
     }
-    
+
     public IEnumerator choose_monster(string act){
 
         if (GlobalControl.instance.bossmode)
@@ -549,21 +549,21 @@ public class PartyMember : Battler
             monster_cursor.gameObject.SetActive(false);
         menu_cursor.gameObject.SetActive(false);
     }
-    
+
     public void walk_back(){
         move_point = new Vector3(3.66f, transform.position.y, transform.position.z);
     }
-    
+
     public bool is_moving(){
         return transform.position != move_point;
     }
-    
+
     public bool is_playing_animation(){
         return bsc.is_casting || bsc.is_fighting || bsc.is_walking;
     }
-    
+
     public bool done_showing = true;
-    
+
     public IEnumerator show_battle(){
         done_showing = false;
 
@@ -591,7 +591,7 @@ public class PartyMember : Battler
 
         done_showing = true;
     }
-    
+
     private void check_load(){
         if(!monster_cursor && !GlobalControl.instance.bossmode)
             monster_cursor = bh.monster_cursor;
@@ -600,7 +600,7 @@ public class PartyMember : Battler
         if(!menu_cursor)
             menu_cursor = bh.menu_cursor;
     }
-    
+
     public void turn(){
         check_load();
 
@@ -613,24 +613,24 @@ public class PartyMember : Battler
             monster_cursor.gameObject.SetActive(false);
 
         bsc.change_state("walk");
-        
+
         move_point = new Vector3(1.66f, transform.position.y, transform.position.z);
 
         menu_cursor.gameObject.SetActive(true);
     }
-    
+
     public bool done_set_up;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         done_set_up = false;
-        
+
         move_point = transform.position;
         if(!GlobalControl.instance.bossmode)
             monster_cursor = bh.monster_cursor;
         menu_cursor = bh.menu_cursor;
-        
+
         menu_cursor.gameObject.SetActive(false);
         if (!GlobalControl.instance.bossmode)
             monster_cursor.gameObject.SetActive(false);
@@ -639,7 +639,7 @@ public class PartyMember : Battler
 
         weapon = SaveSystem.GetString("player" + (index + 1) + "_weapon");
         weapon_sprite.set_sprite(bh.mwsh.get_weapon(weapon));
-        
+
         done_set_up = true;
 
         done_showing = true;

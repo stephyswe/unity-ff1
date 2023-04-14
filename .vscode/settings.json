@@ -52,5 +52,24 @@
         "ProjectSettings/":true,
         "temp/":true,
         "Temp/":true
+    },
+    "[csharp]": {
+        "editor.rulers": [
+            120
+        ],
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.wordWrapColumn": 120,
+        "editor.formatOnPaste": true,
+        "editor.formatOnType": true,
+        "editor.formatOnSave": true,
+        "csharp.format.insertSpaceAfterMethodCallName": false,
+        "csharp.format.placeOpenBraceOnNewLineForControlBlocks": false,
+        "csharp.format.placeOpenBraceOnNewLineForFunctions": false,
+        "csharp.format.placeOpenBraceOnNewLineForAnonymousMethods": false,
+        "csharp.format.placeOpenBraceOnNewLineForMethods": false,
+        "csharp.format.placeOpenBraceOnNewLineForTypes": false,
+        "csharp.format.placeOpenBraceOnNewLineForObjectInitializers": false,
     }
+
 }

@@ -2689,7 +2689,12 @@ PrefabInstance:
     - target: {fileID: 114000013899026410, guid: 7390c897091da344f9e8cd44bca04117,
         type: 3}
       propertyPath: fileName
-      value: party.bin
+      value: party.json
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013899026410, guid: 7390c897091da344f9e8cd44bca04117,
+        type: 3}
+      propertyPath: dontDestroyOnLoad
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7390c897091da344f9e8cd44bca04117, type: 3}

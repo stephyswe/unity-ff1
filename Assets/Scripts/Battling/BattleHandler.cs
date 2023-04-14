@@ -18,7 +18,7 @@ public class BattleHandler : MonoBehaviour
     public Text battle_text;
     public Text[] party_names;
     public Text[] party_HP;
-    
+
     private List<GameObject> battlers;
 
     public MagicWeaponSpriteHandler mwsh;
@@ -28,122 +28,33 @@ public class BattleHandler : MonoBehaviour
     public CursorController menu_cursor;
     public EventSystem es;
     public Canvas c;
-    
+
     public MusicHandler battle_music;
     public MusicHandler victory_music;
     public MusicHandler death_music;
     public MusicHandler boss_music;
-    
+
     public PartyMember active_party_member;
-    
+    private PartyHandler partyHandler;
+
     public bool battle_complete;
     public bool win;
     public bool lose;
     public bool stalemate;
 
+    private LevelChart levelChart;
     private Dictionary<int, int> level_up_chart;
 
-    public Dictionary<int, int> get_level_chart()
+    public void remove_from_array<T>(ref T[] arr, int index)
     {
-        Dictionary<int, int> level_chart = new Dictionary<int, int>();
-
-        level_chart.Add(2, 40);
-        level_chart.Add(3, 196);
-        level_chart.Add(4, 547);
-        level_chart.Add(5, 1171);
-        level_chart.Add(6, 2146);
-        level_chart.Add(7, 3550);
-        level_chart.Add(8, 5461);
-        level_chart.Add(9, 7957);
-        level_chart.Add(10, 11116);
-        level_chart.Add(11, 15016);
-        level_chart.Add(12, 19753);
-        level_chart.Add(13, 25351);
-        level_chart.Add(14, 31942);
-        level_chart.Add(15, 39586);
-        level_chart.Add(16, 48361);
-        level_chart.Add(17, 58345);
-        level_chart.Add(18, 69617);
-        level_chart.Add(19, 82253);
-        level_chart.Add(20, 96332);
-        level_chart.Add(21, 111932);
-        level_chart.Add(22, 129131);
-        level_chart.Add(23, 148008);
-        level_chart.Add(24, 168639);
-        level_chart.Add(25, 191103);
-        level_chart.Add(26, 215479);
-        level_chart.Add(27, 241843);
-        level_chart.Add(28, 270275);
-        level_chart.Add(29, 300851);
-        level_chart.Add(30, 333651);
-        level_chart.Add(31, 366450);
-        level_chart.Add(32, 399250);
-        level_chart.Add(33, 432049);
-        level_chart.Add(34, 464849);
-        level_chart.Add(35, 497648);
-        level_chart.Add(36, 530448);
-        level_chart.Add(37, 563247);
-        level_chart.Add(38, 596047);
-        level_chart.Add(39, 628846);
-        level_chart.Add(40, 661646);
-        level_chart.Add(41, 694445);
-        level_chart.Add(42, 727245);
-        level_chart.Add(43, 760044);
-        level_chart.Add(44, 792844);
-        level_chart.Add(45, 825643);
-        level_chart.Add(46, 858443);
-        level_chart.Add(47, 891242);
-        level_chart.Add(48, 924042);
-        level_chart.Add(49, 956841);
-        level_chart.Add(50, 989641);
-
-        return level_chart;
-    }
-
-    public string process_monster_name(string m_name)
-    {
-        if (!m_name.Contains("("))
-            return m_name;
-        return m_name.Substring(0, m_name.IndexOf("(") - 1);
-    }
-
-    public int get_level_from_exp(int exp)
-    {
-        Dictionary<int, int> level_chart = get_level_chart();
-        int level = 1;
-
-        foreach (KeyValuePair<int, int> entry in level_chart)
+        for (int a = index; a < arr.Length - 1; a++)
         {
-            if (entry.Value > exp)
-                break;
-            else
-                level = entry.Key;
+            // moving elements downwards, to fill the gap at [index]
+            arr[a] = arr[a + 1];
         }
-        return level;
+        // finally, let's decrement Array's size by one
+        Array.Resize(ref arr, arr.Length - 1);
     }
-    
-    public float party_average_level(){
-        float level = 0;
-        float count = 0;
-        foreach(PartyMember p in party){
-            if(p.HP > 0){
-                level += (float)p.level;
-                count += 1f;
-            }
-        }
-        return (level/count);
-    }
-    
-     public void remove_from_array<T>(ref T[] arr, int index)
-     {
-         for (int a = index; a < arr.Length - 1; a++)
-         {
-             // moving elements downwards, to fill the gap at [index]
-             arr[a] = arr[a + 1];
-         }
-         // finally, let's decrement Array's size by one
-         Array.Resize(ref arr, arr.Length - 1);
-     }
 
     bool setting_battle_text;
 
@@ -161,7 +72,7 @@ public class BattleHandler : MonoBehaviour
             }
         }
 
-        if(clear_on_finish)
+        if (clear_on_finish)
             battle_text.text = "";
 
         setting_battle_text = false;
@@ -171,7 +82,8 @@ public class BattleHandler : MonoBehaviour
 
     public bool party_selecting = false;
 
-    IEnumerator battle() {
+    IEnumerator battle()
+    {
 
         float text_delay = SaveSystem.GetFloat("battle_speed");
 
@@ -209,8 +121,8 @@ public class BattleHandler : MonoBehaviour
         List<string> monsters_encountered = new List<string>();
         foreach (Monster m in monsters)
         {
-            if (!monsters_encountered.Contains(process_monster_name(m.gameObject.name)))
-                monsters_encountered.Add(process_monster_name(m.gameObject.name));
+            if (!monsters_encountered.Contains(MonsterHandler.ProcessMonsterName(m.gameObject.name)))
+                monsters_encountered.Add(MonsterHandler.ProcessMonsterName(m.gameObject.name));
         }
         string encounter_text = "Encountered ";
         foreach (string s in monsters_encountered)
@@ -224,7 +136,7 @@ public class BattleHandler : MonoBehaviour
         yield return new WaitForSeconds(.3f);
 
         menu_cursor.gameObject.SetActive(false);
-        if(!GlobalControl.instance.bossmode)
+        if (!GlobalControl.instance.bossmode)
             monster_cursor.gameObject.SetActive(false);
 
         while (Input.GetKey(CustomInputManager.cim.select))
@@ -271,8 +183,8 @@ public class BattleHandler : MonoBehaviour
             List<string> ms = new List<string>();
             foreach (Monster mo in monsters)
             {
-                if (!ms.Contains(process_monster_name(mo.gameObject.name)) && mo.HP > 0)
-                    ms.Add(process_monster_name(mo.gameObject.name));
+                if (!ms.Contains(MonsterHandler.ProcessMonsterName(mo.gameObject.name)) && mo.HP > 0)
+                    ms.Add(MonsterHandler.ProcessMonsterName(mo.gameObject.name));
             }
             string txt = "";
             foreach (string s in ms)
@@ -280,11 +192,13 @@ public class BattleHandler : MonoBehaviour
 
             //Party selection
             party_selecting = true;
-            for(int i = 0; i < party.Length; i++){
+            for (int i = 0; i < party.Length; i++)
+            {
 
                 PartyMember p = party[i];
 
-                if(p.HP > 0){
+                if (p.HP > 0)
+                {
                     active_party_member = p;
 
                     yield return StartCoroutine(set_battle_text(txt, .05f, false, false));
@@ -292,12 +206,13 @@ public class BattleHandler : MonoBehaviour
                     p.turn();
 
                     menu_cursor.gameObject.SetActive(true);
-                    
-                    while(p.action == "" || p.target == null){
+
+                    while (p.action == "" || p.target == null)
+                    {
 
                         if (Input.GetKeyDown(CustomInputManager.cim.back))
                         {
-                            if(i > 0)
+                            if (i > 0)
                             {
                                 i -= 2;
                                 yield return StartCoroutine(p.end_turn());
@@ -311,7 +226,7 @@ public class BattleHandler : MonoBehaviour
                             }
                         }
 
-                        if(p.action == "run")
+                        if (p.action == "run")
                             break;
                         yield return null;
                     }
@@ -323,10 +238,12 @@ public class BattleHandler : MonoBehaviour
             if (!GlobalControl.instance.bossmode)
                 monster_cursor.gameObject.SetActive(false);
             menu_cursor.gameObject.SetActive(false);
-            
+
             //Monster selection
-            foreach(Monster m in monsters){
-                if(m.HP > 0){
+            foreach (Monster m in monsters)
+            {
+                if (m.HP > 0)
+                {
                     m.turn();
                     /*
                     if(m.target == null){
@@ -348,55 +265,68 @@ public class BattleHandler : MonoBehaviour
             //Scheduling
             //Debug.Log("Scheduling...");
             List<int> schedule = new List<int>();
-            
-            foreach(Monster m in monsters){
+
+            foreach (Monster m in monsters)
+            {
                 schedule.Add(schedule.Count);
             }
             int added_party_members = 0;
-            foreach(PartyMember p in party){
+            foreach (PartyMember p in party)
+            {
                 schedule.Add(80 + added_party_members);
                 added_party_members += 1;
             }
-            for(int i = 0; i < 17; i++){
+            for (int i = 0; i < 17; i++)
+            {
                 int idx1 = UnityEngine.Random.Range(0, battlers.Count);
                 int idx2 = UnityEngine.Random.Range(0, battlers.Count);
-                
+
                 int temp = schedule[idx1];
                 schedule[idx1] = schedule[idx2];
                 schedule[idx2] = temp;
             }
-            
-            foreach(PartyMember p in party){
-                while(p.is_moving()){
+
+            foreach (PartyMember p in party)
+            {
+                while (p.is_moving())
+                {
                     yield return null;
                 }
             }
-            
+
             living = 0;
-            foreach(Monster m in monsters){
-                if(m.HP > 0){
+            foreach (Monster m in monsters)
+            {
+                if (m.HP > 0)
+                {
                     living += 1;
                 }
-                else{
+                else
+                {
                     m.gameObject.SetActive(false);
                 }
             }
-    
-            if(living == 0){
+
+            if (living == 0)
+            {
                 stalemate = true;
                 break;
             }
-            
+
             //Display battle
-            foreach(int x in schedule){
-                if(x >= 80){
+            foreach (int x in schedule)
+            {
+                if (x >= 80)
+                {
                     PartyMember p = party[x - 80];
-                    
-                    if(p.HP <= 0){
+
+                    if (p.HP <= 0)
+                    {
                         continue;
                     }
-                    
-                    if(p.action == "fight"){
+
+                    if (p.action == "fight")
+                    {
 
                         while (p.target.GetComponent<Monster>().HP <= 0)
                         {
@@ -404,25 +334,27 @@ public class BattleHandler : MonoBehaviour
                         }
 
                         StartCoroutine(p.show_battle());
-                        while(!p.done_showing){
+                        while (!p.done_showing)
+                        {
                             yield return null;
                         }
-                        
-                        while(p.target == null){
+
+                        while (p.target == null)
+                        {
                             p.target = monsters[UnityEngine.Random.Range(0, monsters.Length)].gameObject;
                         }
-                        
+
                         int damage = p.GetComponent<Battler>().fight(p, p.target.GetComponent<Monster>());
-                        if(damage == -9999999)
+                        if (damage == -9999999)
                             yield return StartCoroutine(set_battle_text(p.gameObject.name + " missed", text_delay, true, true));
-                        else if(damage > 0)
+                        else if (damage > 0)
                         {
-                            yield return StartCoroutine(set_battle_text(p.gameObject.name + " does " + damage + " damage to " + process_monster_name(p.target.gameObject.name), text_delay, true, true));
+                            yield return StartCoroutine(set_battle_text(p.gameObject.name + " does " + damage + " damage to " + MonsterHandler.ProcessMonsterName(p.target.gameObject.name), text_delay, true, true));
                         }
                         else
                         {
                             yield return StartCoroutine(set_battle_text("Critical hit!", text_delay, true, true));
-                            yield return StartCoroutine(set_battle_text(p.gameObject.name + " does " + (-damage) + " damage to " + process_monster_name(p.target.gameObject.name), text_delay, true, true));
+                            yield return StartCoroutine(set_battle_text(p.gameObject.name + " does " + (-damage) + " damage to " + MonsterHandler.ProcessMonsterName(p.target.gameObject.name), text_delay, true, true));
                         }
 
                         while (setting_battle_text)
@@ -435,7 +367,7 @@ public class BattleHandler : MonoBehaviour
                             gold_won += p.target.GetComponent<Monster>().gold;
                             exp_won += p.target.GetComponent<Monster>().exp;
 
-                            yield return StartCoroutine(set_battle_text(process_monster_name(p.target.gameObject.name) + " was slain", text_delay, true, true));
+                            yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(p.target.gameObject.name) + " was slain", text_delay, true, true));
 
                             while (setting_battle_text)
                             {
@@ -444,14 +376,15 @@ public class BattleHandler : MonoBehaviour
                         }
                     }
 
-                    else if(p.action == "drink")
+                    else if (p.action == "drink")
                     {
                         string drink_text = p.drink_action();
 
                         yield return StartCoroutine(set_battle_text(drink_text, text_delay, true, true));
                     }
-                    
-                    else if(p.action == "run") {
+
+                    else if (p.action == "run")
+                    {
                         /*
                         if(!p.can_run){
                             Debug.Log("Can't run!");
@@ -459,7 +392,8 @@ public class BattleHandler : MonoBehaviour
                         else{
                         */
                         int run_seed = UnityEngine.Random.Range(0, p.level + 15);
-                        if(p.luck > run_seed && p.can_run){
+                        if (p.luck > run_seed && p.can_run)
+                        {
 
                             yield return StartCoroutine(set_battle_text(p.gameObject.name + " ran away", text_delay, true, true));
 
@@ -470,7 +404,7 @@ public class BattleHandler : MonoBehaviour
 
                             foreach (PartyMember pm in party)
                             {
-                                if(pm.HP > 0)
+                                if (pm.HP > 0)
                                     pm.bsc.change_state("run");
                                 yield return new WaitForSeconds(.26f);
                             }
@@ -479,7 +413,8 @@ public class BattleHandler : MonoBehaviour
                             stalemate = true;
                             break;
                         }
-                        else{
+                        else
+                        {
                             yield return StartCoroutine(set_battle_text(p.name + " couldn't run", text_delay, true, true));
 
                             while (setting_battle_text)
@@ -490,12 +425,15 @@ public class BattleHandler : MonoBehaviour
                         //}
                     }
                 }
-                else{
+                else
+                {
                     GameObject b = battlers[x];
                     Monster m = b.GetComponent<Monster>();
-                    
-                    if(m.HP > 0 && m.target != null){
-                        if(m.action == "fight"){
+
+                    if (m.HP > 0 && m.target != null)
+                    {
+                        if (m.action == "fight")
+                        {
 
                             while (m.target.GetComponent<PartyMember>().HP <= 0)
                             {
@@ -504,18 +442,19 @@ public class BattleHandler : MonoBehaviour
 
                             int damage = m.GetComponent<Battler>().fight(m, m.target.GetComponent<PartyMember>());
                             if (damage == -1)
-                                yield return StartCoroutine(set_battle_text(process_monster_name(m.gameObject.name) + " missed", text_delay, true, true));
+                                yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " missed", text_delay, true, true));
                             else
-                                yield return StartCoroutine(set_battle_text(process_monster_name(m.gameObject.name) + " does " + damage + " damage to " + m.target.gameObject.name, text_delay, true, true));
+                                yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " does " + damage + " damage to " + m.target.gameObject.name, text_delay, true, true));
 
                             while (setting_battle_text)
                             {
                                 yield return null;
                             }
                         }
-                        
-                        else if(m.action == "run"){
-                            yield return StartCoroutine(set_battle_text(process_monster_name(m.gameObject.name) + " ran away", text_delay, true, true));
+
+                        else if (m.action == "run")
+                        {
+                            yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " ran away", text_delay, true, true));
 
                             while (setting_battle_text)
                             {
@@ -530,7 +469,7 @@ public class BattleHandler : MonoBehaviour
                         {
                             m.target.GetComponent<PartyMember>().bsc.change_state("dead");
                             yield return StartCoroutine(set_battle_text(m.target.gameObject.name + " was slain", text_delay, true, true));
-                            
+
                             while (setting_battle_text)
                             {
                                 yield return null;
@@ -540,8 +479,10 @@ public class BattleHandler : MonoBehaviour
                 }
                 //Check if players won
                 living = 0;
-                foreach(Monster m in monsters){
-                    if(m.HP > 0){
+                foreach (Monster m in monsters)
+                {
+                    if (m.HP > 0)
+                    {
                         living += 1;
                     }
                     else
@@ -549,12 +490,15 @@ public class BattleHandler : MonoBehaviour
                         m.gameObject.SetActive(false);
                     }
                 }
-        
-                if(living == 0){
-                    if(monsters.Length == 0){
+
+                if (living == 0)
+                {
+                    if (monsters.Length == 0)
+                    {
                         stalemate = true;
                     }
-                    else{
+                    else
+                    {
                         win = true;
                     }
                     break;
@@ -575,14 +519,14 @@ public class BattleHandler : MonoBehaviour
                 }
             }
 
-            
+
         }
-        
-        if(win)
+
+        if (win)
         {
             foreach (PartyMember p in party)
             {
-                if(p.HP > 0)
+                if (p.HP > 0)
                     p.bsc.change_state("victory");
                 if (GlobalControl.instance.bossmode)
                     p.can_run = false;
@@ -600,7 +544,7 @@ public class BattleHandler : MonoBehaviour
 
             yield return StartCoroutine(set_battle_text("Victory!", text_delay, true, false));
 
-            while (victory_music.get_active().time <= victory_music.get_active().gameObject.GetComponent<IntroLoop>().loop_start_seconds / 2f)
+            while (victory_music.get_active().time <= victory_music.get_active().gameObject.GetComponent<IntroLoop>().loopStartSeconds / 2f)
             {
                 yield return null;
             }
@@ -622,10 +566,10 @@ public class BattleHandler : MonoBehaviour
 
             foreach (PartyMember m in party)
             {
-                if(m.HP > 0)
+                if (m.HP > 0)
                 {
                     m.experience += exp_each;
-                    while (get_level_from_exp(m.experience) > m.level)
+                    while (LevelChart.GetLevelFromExp(m.experience) > m.level)
                     {
                         List<string> stats = m.level_up();
 
@@ -673,7 +617,7 @@ public class BattleHandler : MonoBehaviour
             Destroy(p.gameObject);
         }
 
-        if(win && GlobalControl.instance.bossmode)
+        if (win && GlobalControl.instance.bossmode)
             GlobalControl.instance.bossvictory = true;
         SceneManager.UnloadScene("Battle");
 
@@ -695,22 +639,24 @@ public class BattleHandler : MonoBehaviour
     {
         drk = dr;
     }
-    
-    public void fight_choose(){
-        if(accept_input)
+
+    public void fight_choose()
+    {
+        if (accept_input)
             StartCoroutine(active_party_member.choose_monster("fight"));
     }
-    
-    public void player_run(){
+
+    public void player_run()
+    {
         active_party_member.action = "run";
         active_party_member.walk_back();
     }
-    
+
     public GameObject monster_party;
 
     public void load_party()
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             string player_n = "player" + (i + 1) + "_";
             string job = SaveSystem.GetString("player" + (i + 1) + "_class");
@@ -742,15 +688,17 @@ public class BattleHandler : MonoBehaviour
             party[i].load_player();
         }
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
+
         load_party();
 
         active_party_member = party[0];
 
-        level_up_chart = get_level_chart();
+        // Call the GetLevelChart() method using the class name
+        level_up_chart = LevelChart.GetLevelChart();
 
         if (GlobalControl.instance.bossmode)
         {
@@ -786,14 +734,15 @@ public class BattleHandler : MonoBehaviour
         battle_complete = false;
         win = false;
         lose = false;
-        
+
         StartCoroutine(battle());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(monsters.Length == 0){
+        if (monsters.Length == 0)
+        {
             battle_complete = true;
         }
         for (int i = 0; i < 4; i++)
