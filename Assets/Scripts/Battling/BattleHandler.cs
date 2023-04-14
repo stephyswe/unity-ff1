@@ -544,7 +544,7 @@ public class BattleHandler : MonoBehaviour
 
             yield return StartCoroutine(set_battle_text("Victory!", text_delay, true, false));
 
-            while (victory_music.get_active().time <= victory_music.get_active().gameObject.GetComponent<IntroLoop>().loopStartSeconds / 2f)
+            while (victory_music.get_active().time <= victory_music.get_active().gameObject.GetComponent<IntroLoop>().loop_start_seconds / 2f)
             {
                 yield return null;
             }

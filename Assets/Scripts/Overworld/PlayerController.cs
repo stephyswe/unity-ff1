@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.5f, NPC);
             if(hit.collider){
                 GameObject obj = hit.collider.gameObject;
-                NPC inter_npc = obj.GetComponent<NPC>();
+                Npc inter_npc = obj.GetComponent<Npc>();
                 Chest inter_chest = obj.GetComponent<Chest>();
                 LockedDoor lockedDoor = obj.GetComponent<LockedDoor>();
                 Boss inter_boss = obj.GetComponent<Boss>();

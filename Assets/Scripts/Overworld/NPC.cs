@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class NPC : Interactable
+public class Npc : Interactable
 {
     // Start is called before the first frame update
 
