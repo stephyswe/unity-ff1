@@ -30,9 +30,9 @@ namespace Overworld {
 		void Update() {}
 
 		public void Change() {
-			rooms.SetActive(!rooms.active);
-			outsideCollision.SetActive(!outsideCollision.active);
-			outsideNpCs.SetActive(!outsideNpCs.active);
+			rooms.SetActive(!rooms.activeSelf);
+			outsideCollision.SetActive(!outsideCollision.activeSelf);
+			outsideNpCs.SetActive(!outsideNpCs.activeSelf);
 		}
 	}
 }

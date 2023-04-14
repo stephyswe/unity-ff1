@@ -32,19 +32,19 @@ namespace Overworld {
 				fade_img.color = setColor;
 				setColor.a = setColor.a + .01f;
 
-				if (setColor.a >= 1f) {
-					fade_out = false;
-					setColor.a = 1f;
-				}
+				if (!(setColor.a >= 1f))
+					return;
+				fade_out = false;
+				setColor.a = 1f;
 			}
 			else if (fade_in && can_fade()) {
 				fade_img.color = setColor;
 				setColor.a = setColor.a - .01f;
 
-				if (setColor.a <= 0f) {
-					fade_out = false;
-					setColor.a = 0f;
-				}
+				if (!(setColor.a <= 0f))
+					return;
+				fade_out = false;
+				setColor.a = 0f;
 			}
 		}
 

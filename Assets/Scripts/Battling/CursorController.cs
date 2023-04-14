@@ -60,7 +60,7 @@ namespace Battling {
 					if (active < 0)
 						active = active_list.Count - 1;
 
-					while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].active == false) {
+					while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].activeSelf == false) {
 						active -= 1;
 
 						if (active < 0)
@@ -76,7 +76,7 @@ namespace Battling {
 					if (active >= active_list.Count)
 						active = 0;
 
-					while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].active == false) {
+					while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].activeSelf == false) {
 						active += 1;
 
 						if (active >= active_list.Count)
@@ -113,13 +113,13 @@ namespace Battling {
 			active_list = active_array.OfType<GameObject>().ToList();
 
 			for (int i = 0; i < buttons.Length; i++) {
-				if (buttons[i].active == false)
+				if (buttons[i].activeSelf == false)
 					remove_from_list(buttons[i]);
 			}
 
 			active_list = active_array.OfType<GameObject>().ToList();
 
-			while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].active == false) {
+			while (monsterMode && get_monster().hp <= 0 || !monsterMode && active_list[active].activeSelf == false) {
 				active += 1;
 
 				if (active >= active_list.Count)

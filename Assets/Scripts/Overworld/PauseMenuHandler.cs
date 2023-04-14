@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -120,7 +121,7 @@ namespace Overworld {
 		}
 
 		public void hover_sound() {
-			if (bagObj.active) {}
+			if (bagObj.activeSelf) {}
 			buttonHover.Play();
 		}
 
@@ -184,9 +185,7 @@ namespace Overworld {
 			Dictionary<int, int> levelChart = get_level_chart();
 			int level = 1;
 
-			foreach (KeyValuePair<int, int> entry in levelChart) {
-				if (entry.Value > exp)
-					break;
+			foreach (KeyValuePair<int, int> entry in levelChart.TakeWhile(entry => entry.Value <= exp)) {
 				level = entry.Key;
 			}
 			return level;
@@ -634,20 +633,7 @@ namespace Overworld {
 					case "armor":
 						string armorType = equips.get_armor(name).Category;
 
-						switch (armorType) {
-							case "armor":
-								SaveSystem.SetString(status_player_n + "armor", "");
-								break;
-							case "shield":
-								SaveSystem.SetString(status_player_n + "shield", "");
-								break;
-							case "helmet":
-								SaveSystem.SetString(status_player_n + "helmet", "");
-								break;
-							case "glove":
-								SaveSystem.SetString(status_player_n + "glove", "");
-								break;
-						}
+						SaveSystem.SetString(status_player_n + armorType, "");
 
 						statusBagItems[item_select_status_index].text = name.Substring(3);
 
@@ -701,10 +687,10 @@ namespace Overworld {
 							if (SaveSystem.GetString(status_player_n + "weapon") != "") {
 								string alreadyEquipped = SaveSystem.GetString(status_player_n + "weapon");
 								foreach (Text t in statusBagItems) {
-									if (t.text == "E- " + alreadyEquipped) {
-										t.text = t.text.Substring(3, t.text.Length - 3);
-										break;
-									}
+									if (t.text != "E- " + alreadyEquipped)
+										continue;
+									t.text = t.text.Substring(3, t.text.Length - 3);
+									break;
 								}
 							}
 							SaveSystem.SetString(status_player_n + "weapon", statusBagItems[item_select_status_index].text);
@@ -772,9 +758,9 @@ namespace Overworld {
 		}
 
 		public void status_off() {
-			if (equipparty.active)
+			if (equipparty.activeSelf)
 				equipparty.SetActive(false);
-			if (statusBag.active)
+			if (statusBag.activeSelf)
 				statusBag.SetActive(false);
 			else {
 				pausemenuContainer.SetActive(true);
@@ -787,11 +773,11 @@ namespace Overworld {
 		}
 
 		public void Off() {
-			if (give.active)
+			if (give.activeSelf)
 				give.SetActive(false);
-			else if (givedrop.active)
+			else if (givedrop.activeSelf)
 				givedrop.SetActive(false);
-			else if (bagObj.active) {
+			else if (bagObj.activeSelf) {
 				bagObj.SetActive(false);
 				bagBtn.SetActive(true);
 			}

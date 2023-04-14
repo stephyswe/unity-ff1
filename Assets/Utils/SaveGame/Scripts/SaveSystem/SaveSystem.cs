@@ -396,15 +396,13 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 
 		static int INTParse(string val)
 		{
-			int value;
-			if(int.TryParse(val, out value)) return value;
+			if(int.TryParse(val, out int value)) return value;
 			return 0;
 		}
 
 		static float FloatParse(string val)
 		{
-			float value;
-			if(float.TryParse(val, out value)) return value;
+			if(float.TryParse(val, out float value)) return value;
 			return 0;
 		}
 

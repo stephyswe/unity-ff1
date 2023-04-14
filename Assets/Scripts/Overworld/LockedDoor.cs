@@ -9,19 +9,17 @@ namespace Overworld {
 
 		[FormerlySerializedAs("ID")] public string id;
 
-		public BoxCollider2D collider;
+		public new BoxCollider2D collider;
 		bool unlocked;
-
-		// Start is called before the first frame update
-		void Start() {}
-
-		// Update is called once per frame
-		void Update() {}
 
 		void OnEnable() {
 			unlocked = SaveSystem.GetBool("door_" + id);
 		}
 
+		// ReSharper disable Unity.PerformanceAnalysis
+		
+		// summmary //
+		// This is the method that is called when the player interacts with the object
 		public IEnumerator Interact(PlayerController p) {
 			p.canMove = false;
 			p.pauseMenuContainer.SetActive(false);

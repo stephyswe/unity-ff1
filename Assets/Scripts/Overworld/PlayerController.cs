@@ -60,13 +60,14 @@ namespace Overworld {
 		// Update is called once per frame
 		void Update() {
 
-			if (reh.gameObject.active == false)
+			if (reh.gameObject.activeSelf == false)
 				reh.gameObject.SetActive(true);
 
 			//Movement
-			transform.rotation = Quaternion.identity;
+			Transform transform1 = transform;
+			transform1.rotation = Quaternion.identity;
 
-			transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
+			transform.position = Vector3.MoveTowards(transform1.position, movePoint.position, moveSpeed * Time.deltaTime);
 
 			if (canMove) {
 				if (Vector3.Distance(transform.position, movePoint.position) <= .025f) {

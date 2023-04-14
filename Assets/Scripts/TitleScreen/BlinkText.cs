@@ -3,9 +3,7 @@ using UnityEngine.UI;
 
 namespace TitleScreen {
 	public class BlinkText : MonoBehaviour {
-
-		int counter;
-
+		float counter;
 		Text text;
 
 		// Start is called before the first frame update
@@ -15,12 +13,11 @@ namespace TitleScreen {
 
 		// Update is called once per frame
 		void Update() {
-			counter += 1;
-
-			if (counter == 30) {
-				text.enabled = !text.enabled;
-				counter = 0;
-			}
+			counter += Time.deltaTime;
+			if (counter < 0.2f)
+				return;
+			text.enabled = !text.enabled;
+			counter = 0;
 		}
 	}
 }

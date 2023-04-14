@@ -85,7 +85,7 @@ namespace Overworld {
 				RoomHandler rh = activeMap.GetComponentInChildren<RoomHandler>();
 
 				if (rh)
-					SaveSystem.SetBool("inside_of_room", rh.rooms.active);
+					SaveSystem.SetBool("inside_of_room", rh.rooms.activeSelf);
 			}
 		}
 

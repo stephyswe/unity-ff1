@@ -549,7 +549,7 @@ namespace Battling {
 
 				yield return StartCoroutine(set_battle_text("Game over...", textDelay * 2f, true, false));
 
-				SceneManager.UnloadScene("Overworld");
+				SceneManager.UnloadSceneAsync("Overworld");
 				SceneManager.LoadSceneAsync("Title Screen");
 			}
 
@@ -564,7 +564,7 @@ namespace Battling {
 
 			if (win && GlobalControl.Instance.bossmode)
 				GlobalControl.Instance.bossvictory = true;
-			SceneManager.UnloadScene("Battle");
+			SceneManager.UnloadSceneAsync("Battle");
 
 		}
 

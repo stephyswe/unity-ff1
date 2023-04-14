@@ -1,9 +1,9 @@
+using System;
+
 namespace Refactor {
-	public class MonsterHandler {
+	public abstract class MonsterHandler {
 		public static string ProcessMonsterName(string mName) {
-			if (!mName.Contains("("))
-				return mName;
-			return mName.Substring(0, mName.IndexOf("(") - 1);
+			return mName.Contains("(") ? mName[..(mName.IndexOf("(", StringComparison.Ordinal) - 1)] : mName;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils.SaveGame.Scripts.SaveSystem;
@@ -112,43 +113,32 @@ namespace Overworld {
 		}
 
 		public KeyValuePair<string, int> name_price(string name) {
-			foreach (Weapon w in _weapons) {
-				if (w.Name == name)
-					return new KeyValuePair<string, int>(w.Name, w.Cost);
+			foreach (Weapon w in _weapons.Where(w => w.Name == name)) {
+				return new KeyValuePair<string, int>(w.Name, w.Cost);
 			}
-			foreach (Armor a in _armor) {
-				if (a.Name == name)
-					return new KeyValuePair<string, int>(a.Name, a.Cost);
+			foreach (Armor a in _armor.Where(a => a.Name == name)) {
+				return new KeyValuePair<string, int>(a.Name, a.Cost);
 			}
-			foreach (Item i in _items) {
-				if (i.Name == name)
-					return new KeyValuePair<string, int>(i.Name, i.Cost);
+			foreach (Item i in _items.Where(i => i.Name == name)) {
+				return new KeyValuePair<string, int>(i.Name, i.Cost);
 			}
-			foreach (Spell s in _spells) {
-				if (s.Name == name)
-					return new KeyValuePair<string, int>(s.Name, s.Cost);
+			foreach (Spell s in _spells.Where(s => s.Name == name)) {
+				return new KeyValuePair<string, int>(s.Name, s.Cost);
 			}
 			return new KeyValuePair<string, int>("", 0);
 		}
 
 		public string item_category(string name) {
-			foreach (Weapon w in _weapons) {
-				if (w.Name == name)
-					return "weapon";
+			if (_weapons.Any(w => w.Name == name)) {
+				return "weapon";
 			}
-			foreach (Armor a in _armor) {
-				if (a.Name == name)
-					return "armor";
+			if (_armor.Any(a => a.Name == name)) {
+				return "armor";
 			}
-			foreach (Item i in _items) {
-				if (i.Name == name)
-					return "item";
+			if (_items.Any(i => i.Name == name)) {
+				return "item";
 			}
-			foreach (Spell s in _spells) {
-				if (s.Name == name)
-					return "spell";
-			}
-			return "idk";
+			return _spells.Any(s => s.Name == name) ? "spell" : "idk";
 		}
 
 		public int sum_armor(int index) {

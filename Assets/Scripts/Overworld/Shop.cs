@@ -179,9 +179,9 @@ namespace Overworld {
 		void Update() {
 
 			if (Input.GetKeyDown(CustomInputManager.Cim.Back)) {
-				if (buySellQuit.active || shopmode == "clinic" || shopmode == "inn")
+				if (buySellQuit.activeSelf || shopmode == "clinic" || shopmode == "inn")
 					exit_shop();
-				else if (buyContainer.active)
+				else if (buyContainer.activeSelf)
 					Setup();
 			}
 
@@ -297,9 +297,10 @@ namespace Overworld {
 		public void exit_shop() {
 			foreach (GameObject t in partyClones)
 				Destroy(t);
-
+			// close music
+			shopMusic.get_active().Stop();
+			SceneManager.UnloadSceneAsync("Shop");
 			GlobalControl.Instance.overworldSceneContainer.SetActive(true);
-			SceneManager.UnloadScene("Shop");
 		}
 
 		IEnumerator inn_sleep() {

@@ -39,13 +39,13 @@ namespace Overworld {
 
 		// Update is called once per frame
 		void Update() {
-			if (seed <= 0 && !battling) {
-				Debug.Log("Random encounter initiated");
-				StartCoroutine(initiate_encounter());
-
-				gen_seed();
-				SaveSystem.SetInt("reh_seed", seed);
-			}
+			if (seed > 0 || battling)
+				return;
+			StartCoroutine(initiate_encounter());
+			
+			// gen new save seed
+			gen_seed();
+			SaveSystem.SetInt("reh_seed", seed);
 		}
 
 		public void set_encounters(bool onoff) {

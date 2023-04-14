@@ -2,12 +2,9 @@ using UnityEngine;
 
 namespace TitleScreen {
 	public class LoadingCircle : MonoBehaviour {
-
 		public GameObject progress;
 		public float rotateSpeed = 200f;
-
 		RectTransform rectComponent;
-
 		bool turning;
 
 		void Start() {

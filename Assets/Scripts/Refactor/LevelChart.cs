@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Refactor {
 	public class LevelChart {
@@ -15,11 +16,7 @@ namespace Refactor {
 			int level = 1;
 
 			// Iterate over the level chart until finding the level that corresponds to the given experience
-			foreach (KeyValuePair<int, int> entry in levelChart) {
-				// If the current level's experience requirement is greater than the given experience, exit the loop
-				if (entry.Value > exp)
-					break;
-
+			foreach (KeyValuePair<int, int> entry in levelChart.TakeWhile(entry => entry.Value <= exp)) {
 				// Otherwise, update the level to the current level
 				level = entry.Key;
 			}

@@ -5,55 +5,32 @@ using UnityEngine.UI;
 namespace TitleScreen {
 	public class ControlsHandler : MonoBehaviour {
 		Text buttonText;
-
 		Event keyEvent;
 		KeyCode newKey;
-
 		bool waitingForKey;
-
-
-		void Update() {}
-
 
 		void OnEnable() {
 			//Assign menuPanel to the Panel object in our Canvas
 			//Make sure it's not active when the game starts
 			waitingForKey = false;
 
-			/*iterate through each child of the panel and check
-		 * the names of each one. Each if statement will
-		 * set each button's text component to display
-		 * the name of the key that is associated
-		 * with each command. Example: the ForwardKey
-		 * button will display "W" in the middle of it
-		 */
 
-			Debug.Log(CustomInputManager.Cim.Down.ToString());
+			Debug.Log("ControlsHandler: " +CustomInputManager.Cim.Down.ToString());
 
+			// Get all the buttons
 			Text[] buttonTexts = GetComponentsInChildren<Text>();
 
-			for (int i = 0; i < buttonTexts.Length; i++) {
-
-				switch (buttonTexts[i].gameObject.name) {
-					case "upkey":
-						buttonTexts[i].text = CustomInputManager.Cim.Up.ToString().ToUpper();
-						break;
-					case "downkey":
-						buttonTexts[i].text = CustomInputManager.Cim.Down.ToString().ToUpper();
-						break;
-					case "leftkey":
-						buttonTexts[i].text = CustomInputManager.Cim.Left.ToString().ToUpper();
-						break;
-					case "rightkey":
-						buttonTexts[i].text = CustomInputManager.Cim.Right.ToString().ToUpper();
-						break;
-					case "backkey":
-						buttonTexts[i].text = CustomInputManager.Cim.Back.ToString().ToUpper();
-						break;
-					case "selectkey":
-						buttonTexts[i].text = CustomInputManager.Cim.Select.ToString().ToUpper();
-						break;
-				}
+			// Iterate through all the buttons
+			foreach (Text t in buttonTexts) {
+				t.text = t.gameObject.name switch {
+					"upkey" => CustomInputManager.Cim.Up.ToString().ToUpper(),
+					"downkey" => CustomInputManager.Cim.Down.ToString().ToUpper(),
+					"leftkey" => CustomInputManager.Cim.Left.ToString().ToUpper(),
+					"rightkey" => CustomInputManager.Cim.Right.ToString().ToUpper(),
+					"backkey" => CustomInputManager.Cim.Back.ToString().ToUpper(),
+					"selectkey" => CustomInputManager.Cim.Select.ToString().ToUpper(),
+					_ => t.text
+				};
 			}
 		}
 
@@ -66,10 +43,10 @@ namespace TitleScreen {
 
 			//Executes if a button gets pressed and
 			//the user presses a key
-			if (keyEvent.isKey && waitingForKey) {
-				newKey = keyEvent.keyCode; //Assigns newKey to the key user presses
-				waitingForKey = false;
-			}
+			if (!keyEvent.isKey || !waitingForKey)
+				return;
+			newKey = keyEvent.keyCode; //Assigns newKey to the key user presses
+			waitingForKey = false;
 		}
 
 		/*Buttons cannot call on Coroutines via OnClick().
@@ -100,43 +77,29 @@ namespace TitleScreen {
 	 * to the new key that the user presses, which is grabbed
 	 * in the OnGUI() function, above.
 	 */
-		public IEnumerator AssignKey(string keyName) {
+		IEnumerator AssignKey(string keyName) {
 			waitingForKey = true;
 
 			yield return WaitForKey(); //Executes endlessly until user presses a key
 
-			switch (keyName) {
-				case "up":
-					CustomInputManager.Cim.Up = newKey; //Set forward to new keycode
-					buttonText.text = CustomInputManager.Cim.Up.ToString().ToUpper(); //Set button text to new key
-					PlayerPrefs.SetString("upkey", CustomInputManager.Cim.Up.ToString()); //save new key to PlayerPrefs
-					break;
-				case "down":
-					CustomInputManager.Cim.Down = newKey; //set backward to new keycode
-					buttonText.text = CustomInputManager.Cim.Down.ToString().ToUpper(); //set button text to new key
-					PlayerPrefs.SetString("downkey", CustomInputManager.Cim.Down.ToString()); //save new key to PlayerPrefs
-					break;
-				case "left":
-					CustomInputManager.Cim.Left = newKey; //set left to new keycode
-					buttonText.text = CustomInputManager.Cim.Left.ToString().ToUpper(); //set button text to new key
-					PlayerPrefs.SetString("leftkey", CustomInputManager.Cim.Left.ToString()); //save new key to playerprefs
-					break;
-				case "right":
-					CustomInputManager.Cim.Right = newKey; //set right to new keycode
-					buttonText.text = CustomInputManager.Cim.Right.ToString().ToUpper(); //set button text to new key
-					PlayerPrefs.SetString("rightkey", CustomInputManager.Cim.Right.ToString()); //save new key to playerprefs
-					break;
-				case "back":
-					CustomInputManager.Cim.Back = newKey; //set jump to new keycode
-					buttonText.text = CustomInputManager.Cim.Back.ToString().ToUpper(); //set button text to new key
-					PlayerPrefs.SetString("backkey", CustomInputManager.Cim.Back.ToString()); //save new key to playerprefs
-					break;
-				case "select":
-					CustomInputManager.Cim.Select = newKey; //set jump to new keycode
-					buttonText.text = CustomInputManager.Cim.Select.ToString().ToUpper(); //set button text to new key
-					PlayerPrefs.SetString("selectkey", CustomInputManager.Cim.Select.ToString()); //save new key to playerprefs
-					break;
-			}
+			if (keyName == "up")
+				CustomInputManager.Cim.Up = newKey;
+			else if (keyName == "down")
+				CustomInputManager.Cim.Down = newKey;
+			else if (keyName == "left")
+				CustomInputManager.Cim.Left = newKey;
+			else if (keyName == "right")
+				CustomInputManager.Cim.Right = newKey;
+			else if (keyName == "back")
+				CustomInputManager.Cim.Back = newKey;
+			else if (keyName == "select")
+				CustomInputManager.Cim.Select = newKey;
+			
+			//set button text to new key
+			buttonText.text = newKey.ToString().ToUpper(); //set button text to new key
+			
+			// save new key to player prefs
+			PlayerPrefs.SetString(keyName + "key", newKey.ToString()); 
 
 			yield return null;
 		}
