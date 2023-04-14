@@ -150,7 +150,7 @@ TextureImporter:
       213: 7848139357662469081
     second: town_48
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -170,6 +170,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -179,8 +181,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -201,10 +203,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -220,6 +226,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1272,6 +1302,56 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      town_0: -4618140422616490331
+      town_1: -1673532320919651668
+      town_10: -7221324488985074634
+      town_11: -8359360539672819624
+      town_12: 305367517543123678
+      town_13: -3135622409381049012
+      town_14: -1600997406610350847
+      town_15: 4425462532568460718
+      town_16: -7095248050684861954
+      town_17: 8518986636195424849
+      town_18: 2463406276347395620
+      town_19: 1441949613944058652
+      town_2: 2520432246283893675
+      town_20: -2731044564172704472
+      town_21: 4248436300466366216
+      town_22: -523553770304112785
+      town_23: 447663790336247869
+      town_24: 6002677856938635044
+      town_25: -6205904998996487339
+      town_26: 5223220381351197218
+      town_27: -3230063642526474206
+      town_28: 5022206284304702674
+      town_29: -8444494466954303858
+      town_3: 4294997415327816918
+      town_30: 3961374788622120261
+      town_31: -2967184945982063011
+      town_32: 3564861769115774455
+      town_33: 477586178027566263
+      town_34: -1046757518058268175
+      town_35: -9069172149768372134
+      town_36: -129400375923891348
+      town_37: 6255453195334526852
+      town_38: 5626556487770095037
+      town_39: 6105142937400233195
+      town_4: -8238731240084579248
+      town_40: 6271012634343004545
+      town_41: -7280557421288899831
+      town_42: -8839217522464629534
+      town_43: 8186599924248427341
+      town_44: -4685720082547856998
+      town_45: 539810438034433091
+      town_46: 7826564079137334211
+      town_47: 8152814399053373331
+      town_48: 7848139357662469081
+      town_5: 3466425899674473509
+      town_6: -8802495705847379393
+      town_7: -6575499101246560356
+      town_8: -1367092914875146730
+      town_9: -3950553812399088459
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

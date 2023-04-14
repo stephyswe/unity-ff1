@@ -186,7 +186,7 @@ TextureImporter:
       213: -5562499642869439454
     second: temple_of_fiends_60
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -206,6 +206,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -215,8 +217,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -237,10 +239,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -256,6 +262,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1560,6 +1590,68 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      temple_of_fiends_0: 4345519518879834968
+      temple_of_fiends_1: -8079077860575666921
+      temple_of_fiends_10: -981486657697204959
+      temple_of_fiends_11: 5455294494333974528
+      temple_of_fiends_12: 4159046203746425595
+      temple_of_fiends_13: 2970915607911973546
+      temple_of_fiends_14: 6368713900170450931
+      temple_of_fiends_15: -6768133951897553581
+      temple_of_fiends_16: -7514379179388979857
+      temple_of_fiends_17: -1970987772284365931
+      temple_of_fiends_18: 8835227105949514651
+      temple_of_fiends_19: 13506245065511855
+      temple_of_fiends_2: 2144715738999797395
+      temple_of_fiends_20: -7718886629690509545
+      temple_of_fiends_21: -163101082119392918
+      temple_of_fiends_22: 5861107575342031919
+      temple_of_fiends_23: 1971439315379198822
+      temple_of_fiends_24: -7593610141764218830
+      temple_of_fiends_25: -8181337916383895633
+      temple_of_fiends_26: 3123218842484899734
+      temple_of_fiends_27: 2956198859162699791
+      temple_of_fiends_28: 8900167758309034858
+      temple_of_fiends_29: 773171848548713379
+      temple_of_fiends_3: -831635805491988742
+      temple_of_fiends_30: -3500210164394209023
+      temple_of_fiends_31: -6232851898688126964
+      temple_of_fiends_32: -4133335875125493236
+      temple_of_fiends_33: -224483369264539090
+      temple_of_fiends_34: 7676939377440801157
+      temple_of_fiends_35: -745272688916865265
+      temple_of_fiends_36: 3592935840720766401
+      temple_of_fiends_37: -2413827196118428236
+      temple_of_fiends_38: -6457725468684838930
+      temple_of_fiends_39: 5710950233199016789
+      temple_of_fiends_4: -6110626107644870402
+      temple_of_fiends_40: -4508091444887791526
+      temple_of_fiends_41: 2880037579603869366
+      temple_of_fiends_42: 8594873246586299633
+      temple_of_fiends_43: -4576261591716065909
+      temple_of_fiends_44: -4060311791086657167
+      temple_of_fiends_45: 5055823714500573790
+      temple_of_fiends_46: 6957318961359777597
+      temple_of_fiends_47: -3827777301534751873
+      temple_of_fiends_48: -2701430985894843544
+      temple_of_fiends_49: 5300470029574234685
+      temple_of_fiends_5: -4587226069905282426
+      temple_of_fiends_50: 4210670832852502988
+      temple_of_fiends_51: -7167229349491026436
+      temple_of_fiends_52: -374839899930619026
+      temple_of_fiends_53: 648437268581548854
+      temple_of_fiends_54: -3148454028697508523
+      temple_of_fiends_55: -4956284512235543880
+      temple_of_fiends_56: 2190766857406783240
+      temple_of_fiends_57: -2815247120960385258
+      temple_of_fiends_58: 8051688140401476513
+      temple_of_fiends_59: -5962407791659882016
+      temple_of_fiends_6: 7016144339685874826
+      temple_of_fiends_60: -5562499642869439454
+      temple_of_fiends_7: 539908951599137882
+      temple_of_fiends_8: -3696489971824832323
+      temple_of_fiends_9: 3508331005210088541
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

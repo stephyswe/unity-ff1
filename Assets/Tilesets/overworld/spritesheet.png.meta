@@ -324,7 +324,7 @@ TextureImporter:
       213: 811743801655400868
     second: castle2_3
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -344,6 +344,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -353,8 +355,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -375,10 +377,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -394,6 +400,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 100
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 100
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
@@ -2664,6 +2694,114 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      bottom_wall: -7088014404590163093
+      castle2_0: 655305000280709651
+      castle2_1: -2254380589530487662
+      castle2_2: -7671474916949920668
+      castle2_3: 811743801655400868
+      castle_0: -3654083477062011090
+      castle_1: -2213891765562235112
+      castle_2: 6463828295129595045
+      castle_3: 2920052613717862253
+      castle_4: -8151809739343590656
+      castle_5: 1486011304807624349
+      concrete: -1297572194080285004
+      dock_bl: -1557503619298483170
+      dock_br: 1425127498379637175
+      dock_l: -7901777169779311463
+      dock_r: 5203210261242217090
+      dock_tl: 7785628452164488187
+      dock_top: 8746164212724197313
+      dock_tr: 2455660249822621566
+      forest: 8367830406354533065
+      forest_b: 6123212246031883711
+      forest_bl: -5381851817413261878
+      forest_br: -8158273205997960823
+      forest_l: -6420534950463556919
+      forest_r: -4721245407534591264
+      forest_t: 2788568348960109317
+      forest_tl: -5962389079421231736
+      forest_tr: 226702753830753226
+      grass: 5476210624315791439
+      house2_0: 4358228687824631495
+      house2_1: -7033796726722632800
+      house_0: 7816579671404485219
+      house_1: -8873626391699258573
+      house_2: -7546874146221198523
+      l_wall2: -2731854774048942697
+      l_wall_0: 1111231892956182058
+      l_wall_1: 7686511047796825374
+      l_wall_3: 4057492184055871464
+      ocean: 182515998739034355
+      ocean_bl: -7803645574393991823
+      ocean_bottom: -8540854674809487797
+      ocean_br: -2800876817223335725
+      ocean_left: -2642393358525368334
+      ocean_right: 5390129371266227295
+      ocean_tl: -7921052967969465774
+      ocean_top: -1370661682523340017
+      ocean_tr: -8276262488406422588
+      pillar_l: -4231952906909274518
+      pillar_r: -3253330834931219228
+      r_wall_0: -5895191231709818157
+      r_wall_1: 8434893452232278025
+      r_wall_2: 1752520659032480968
+      r_wall_3: 8203384205706593396
+      rock: 4773514653529381359
+      rock_b: 2696214034221626940
+      rock_bl: 4116411608050698257
+      rock_br: 5339229742347854233
+      rock_l: 6985626698306143173
+      rock_r: 6413020478584453356
+      rock_t: -6251682230944352461
+      rock_tl: 8020143640844766479
+      rock_tr: -1259408508766424310
+      ruins_0: -5575019744733750458
+      ruins_1: -289723467203535953
+      ruins_2: -2169895058544258997
+      ruins_3: -7162000436051808513
+      ruins_4: 7904464350286974632
+      ruins_5: -2634763343079757682
+      spritesheet_100: -222044690269729384
+      spritesheet_24: 3042023047814558122
+      spritesheet_26: -5351138903708955224
+      spritesheet_42: 3062383759408700104
+      spritesheet_43: -3687489427716195
+      spritesheet_44: 1751618896811465624
+      spritesheet_45: 156824180473805077
+      spritesheet_46: 9109323392184880499
+      spritesheet_47: 2598833627876718223
+      spritesheet_48: -2033776217500058201
+      spritesheet_49: -9123048126347468465
+      spritesheet_55: -8188909564941553941
+      spritesheet_56: 8203099556873942403
+      spritesheet_57: -4180715191943267252
+      spritesheet_58: -3423954715984931012
+      spritesheet_59: -1173080275824419151
+      spritesheet_60: -3194430170665604626
+      spritesheet_61: -4180478380050184196
+      spritesheet_62: 1528203702100030697
+      spritesheet_69: 4881338712816961750
+      spritesheet_70: -3637585315767756026
+      spritesheet_71: 3339521214611036040
+      spritesheet_72: -8054094661458634563
+      spritesheet_73: -4398394707965095008
+      spritesheet_74: 4764081960791798808
+      spritesheet_85: -100600239254619610
+      spritesheet_86: -2246593140615009828
+      spritesheet_87: 4690727812591204254
+      spritesheet_88: -1837837421625175352
+      spritesheet_97: 422470951999582962
+      spritesheet_98: 4300032086827013196
+      spritesheet_99: -4570924730061458200
+      top_wall: 1269540525142108225
+      wall_corner_0: 5777552420452043588
+      wall_corner_1: -2630129836624287915
+      wall_corner_2: -1933497887715123699
+      wall_corner_3: -7217613064680546865
+      wall_corner_4: -5906973516983679737
+      wall_corner_5: -7676219313036738927
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

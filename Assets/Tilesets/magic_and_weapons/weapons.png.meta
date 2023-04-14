@@ -120,7 +120,7 @@ TextureImporter:
       213: 2757244013601477781
     second: Giant's Sword
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -140,6 +140,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -149,8 +151,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -171,10 +173,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -190,6 +196,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1032,6 +1062,46 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Battle Axe: -9140482831790144931
+      Cat Claws: 9109090114378654661
+      Coral Sword: -7706190253212291482
+      Crosier: -9144315404355856836
+      Defender: 1715686085431780359
+      Excalibur: 6321443046475953421
+      Falchion: -6635782518697459388
+      Flame Sword: -5039132156621874023
+      Giant's Sword: 2757244013601477781
+      Great Axe: 5629216859032522159
+      Healing Staff: 4609766379470990746
+      Ice Brand: -4855083040135353222
+      Iron Hammer: 1808469803286354170
+      Iron Nunchucks: -1825381902100672638
+      Katana: 1145637296735392538
+      Large Knife: -5557420877203330147
+      Light Axe: 781155818728307869
+      Longsword: -8508422110644630109
+      Mage's Staff: -2747368275626950390
+      Masamune: -1211484807944515241
+      Mythril Axe: 5956946754449639209
+      Mythril Hammer: 7642472461541729571
+      Mythril Knife: -7888296697152109952
+      Mythril Sword: -2600240032574155362
+      Power Staff: 8217522810482615355
+      Rapier_Saber: 698664279297640794
+      Razer: 3975059572695951870
+      Rune Blade: 8101326686158321518
+      Scimitar: -2639032509303485284
+      Short Broadsword: 2912464402848211330
+      Small Knife: 1098179606456428539
+      Sun Blade: -7353613653143852761
+      Thor's Hammer: 6287368773376091983
+      Vorpal Sword: -1499788451389146327
+      Werebane: 2920547695714349933
+      Wizard's Staff: -1160564495915953521
+      Wooden Nunchucks: -2885549205037184772
+      Wooden Staff: 7728853880080238148
+      Wyrmkiller: 853742892412031643
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -162,7 +162,7 @@ TextureImporter:
       213: 2410799531365328533
     second: castle_52
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -182,6 +182,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -191,8 +193,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -213,10 +215,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -232,6 +238,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1368,6 +1398,60 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      castle_0: -5119980863986964875
+      castle_1: -145931186996790647
+      castle_10: -5853191270310667760
+      castle_11: -3912771823451007086
+      castle_12: 1012419091630331881
+      castle_13: -6442752708971868256
+      castle_14: -5853110265339956700
+      castle_15: -1275497654853739782
+      castle_16: -7743775136136695913
+      castle_17: -3479832052722871984
+      castle_18: -3259637682033831952
+      castle_19: -4860844454453048527
+      castle_2: -6713637968961796653
+      castle_20: 1726393260581370977
+      castle_21: 777967326503817377
+      castle_22: -2754428959235553714
+      castle_23: 1793556096956993585
+      castle_24: -5516625206202700598
+      castle_25: -7986612575664558838
+      castle_26: 3877466156865855176
+      castle_27: 8869254569480573002
+      castle_28: -3958413972221402090
+      castle_29: -865151223459055080
+      castle_3: 8274383364455029367
+      castle_30: 5483835931046881821
+      castle_31: 9022800261471729371
+      castle_32: 4221460550731656897
+      castle_33: -5247314745626961765
+      castle_34: -4051648308102549229
+      castle_35: -9209840031812700413
+      castle_36: -4634252370763218587
+      castle_37: 9147638832357617334
+      castle_38: -2047320655008094912
+      castle_39: -6013385706014719534
+      castle_4: 4466985803740509904
+      castle_40: -5978383853348623794
+      castle_41: 4879564340095673008
+      castle_42: 3528468172848154158
+      castle_43: -4320252305285446974
+      castle_44: -5729929974521148276
+      castle_45: 7541308100617182246
+      castle_46: -1857016301213461899
+      castle_47: -1701657572107011336
+      castle_48: -2887085770226353209
+      castle_49: -2978312277382936058
+      castle_5: -3866869904939141465
+      castle_50: 4427062616628583355
+      castle_51: -8334323690172450089
+      castle_52: 2410799531365328533
+      castle_6: -4158710450684444814
+      castle_7: -3623823689492173423
+      castle_8: -4930899982216085204
+      castle_9: -8338805312295432353
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
