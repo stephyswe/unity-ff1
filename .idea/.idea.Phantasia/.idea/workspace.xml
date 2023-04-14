@@ -7,7 +7,10 @@
     <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Overworld.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Overworld.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Shop.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Shop.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenuHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenuHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,11 +23,15 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/88e4733ac7bc4ae1b496735e6b83bbd346ac00/ce/c2d080cb/NullReferenceException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/7e/b8ac9ba3/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../_complete/PhantasiaComplete/Assets/Scripts/Battling/CursorController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Overworld.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Overworld/PauseMenuHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/TitleScreen/ControlsHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/InputField.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/ProjectSettings/ProjectSettings.asset" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -102,7 +109,7 @@
       <option name="presentableId" value="Default" />
       <updated>1681488820604</updated>
       <workItem from="1681488822366" duration="20326000" />
-      <workItem from="1681509874697" duration="337000" />
+      <workItem from="1681509874697" duration="2176000" />
     </task>
     <servers />
   </component>

@@ -65,6 +65,7 @@ namespace TitleScreen {
 			Cursor.visible = true;
 		}
 
+		// used in the character select screen
 		public void new_game_start() {
 			for (int i = 0; i < fields.Length; i++)
 				names[i] = fields[i].text;
@@ -80,6 +81,7 @@ namespace TitleScreen {
 			StartCoroutine(Load());
 		}
 
+		// used in the title screen
 		public void continue_game() {
 			StartCoroutine(Load());
 		}

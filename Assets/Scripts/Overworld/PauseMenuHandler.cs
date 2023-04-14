@@ -415,10 +415,12 @@ namespace Overworld {
 			StartCoroutine(drop_item());
 		}
 
+		// ReSharper disable once IdentifierTypo
 		public void Areyousureyes() {
 			areyousure_yes = true;
 		}
 
+		// ReSharper disable once IdentifierTypo
 		public void Areyousureno() {
 			areyousure_no = true;
 		}
