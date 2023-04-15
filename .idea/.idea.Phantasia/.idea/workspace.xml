@@ -4,22 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(rider): refactor with partials">
+    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/Common.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/DataSave.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/DataSave.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/EditTests.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/EditTests.asmdef" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/MockSaveSystem.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/MockSaveSystem.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Title Screen.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Title Screen.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons/Common.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons/Common.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/Common.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers/PauseMenuHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/PauseMenuHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers/PauseMenuHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/PauseMenuHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/CommonWrapper.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/CommonWrapper.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/DataSave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/DataSave.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/NewTestScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/NewTestScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utils/BattleTransitions/ScreenTransition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/BattleTransitions/ScreenTransition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Builder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Builder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Settings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Settings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/SettingsWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/SettingsWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Storage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Storage.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystemData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystemData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystemSetup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystemSetup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/TestSaveGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/TestSaveGame.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utils/Screen Wipe/Scripts/ScreenTransitionImageEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/Screen Wipe/Scripts/ScreenTransitionImageEffect.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,15 +40,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/7e/b8ac9ba3/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/93/28009175/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../_complete/PhantasiaComplete/Assets/Scripts/Battling/CursorController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Overworld.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Overworld/Boss.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Overworld/PauseMenuHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/TitleScreen/ControlsHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/InputField.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/ProjectSettings/ProjectSettings.asset" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -62,7 +62,7 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "ReSpellerSettingsId",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -100,10 +100,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="24164">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="24164" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -120,7 +120,9 @@
       <option name="presentableId" value="Default" />
       <updated>1681488820604</updated>
       <workItem from="1681488822366" duration="20326000" />
-      <workItem from="1681509874697" duration="14041000" />
+      <workItem from="1681509874697" duration="14468000" />
+      <workItem from="1681545751594" duration="1980000" />
+      <workItem from="1681547941945" duration="10187000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -136,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681521120215</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat(rider): lots of refactor">
+      <created>1681524439691</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1681524439691</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,7 +158,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="feat(update): code" />
     <MESSAGE value="feat(rider): refactor with partials" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(rider): refactor with partials" />
+    <MESSAGE value="feat(rider): lots of refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(rider): lots of refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -192,6 +202,45 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs</url>
+          <line>85</line>
+          <properties documentPath="D:\dev\unity\_games\Phantasia\Assets\Scripts\TitleScreen\TitleScreenHandler.cs" initialLine="84" containingFunctionPresentation="Method 'Settings'">
+            <startOffsets>
+              <option value="1993" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2016" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs</url>
+          <line>89</line>
+          <properties documentPath="D:\dev\unity\_games\Phantasia\Assets\Scripts\TitleScreen\TitleScreenHandler.cs" initialLine="88" containingFunctionPresentation="Method 'Settings'">
+            <startOffsets>
+              <option value="2075" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2097" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs</url>
+          <line>48</line>
+          <properties documentPath="D:\dev\unity\_games\Phantasia\Assets\Scripts\TitleScreen\Common.cs" initialLine="48" containingFunctionPresentation="Method 'pre_setup'">
+            <startOffsets>
+              <option value="1403" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1459" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

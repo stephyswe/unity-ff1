@@ -5,28 +5,33 @@ using Newtonsoft.Json;
 namespace Utils.SaveGame.Scripts.SaveSystem {
 	[System.Serializable]
 	public class SaveData {
-		public string Key { get; }
+
+		public string Key {get;set;}
 		public string Value {get;set;}
-		
+
 		public SaveData(){}
+
 		public SaveData(string key, string value)
 		{
-			Key = key;
-			Value = value;
+			this.Key = key;
+			this.Value = value;
 		}
 	}
 
 	[System.Serializable]
 	public class DataState {
+
 		public List<SaveData> items = new List<SaveData>();
+
+		public DataState(){}
+
 		public void AddItem(SaveData item)
 		{
 			items.Add(item);
 		}
 	}
 
-	// ReSharper disable once IdentifierTypo
-	public abstract class SerializatorBinary
+	public class SerializatorBinary
 	{
 
 		public static void SaveBinary(DataState state, string dataPath)
@@ -39,6 +44,8 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 		{
 			string jsonData = File.ReadAllText(dataPath);
 			DataState state = JsonConvert.DeserializeObject<DataState>(jsonData);
+
+
 			return state;
 		}
 	}

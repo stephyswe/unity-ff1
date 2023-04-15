@@ -12,18 +12,23 @@ namespace TitleScreen {
 
 			// Initialize the save file
 			InitSaveFileStorage(reh);
+			
+			
+			for( int j = 0; j < 4; j++ ) {
+				string playerN = "player" + (j + 1) + "_";
+				// Player names
+				SaveSystem.SetString(playerN + "name", names[j]);
+			}
 
 			// Player data
 			for (int i = 0; i < 4; i++) {
-				string playerN = "player" + (i + 1) + "_";
-				// Player names
-				SaveSystem.SetString(playerN + "name", names[i]);
+				string player = "player" + (i + 1) + "_";
 				// Player magic level
-				SaveSystem.SetInt(playerN + "magic_level", 1);
+				SaveSystem.SetInt(player + "magic_level", 1);
 				List<string> empty = new List<string>();
 				// Player spells
 				for (int j = 1; j < 9; j++) {
-					SaveSystem.SetStringList(playerN + "level_" + j + "_spells", empty);
+					SaveSystem.SetStringList(player + "level_" + j + "_spells", empty);
 				}
 			}
 			WorldFlags();
@@ -46,7 +51,9 @@ namespace TitleScreen {
 			SaveSystem.SetBool(player + "stone", false);
 			SaveSystem.SetInt(player + "maxHP", SaveSystem.GetInt(player + "HP"));
 		}
-		public static void WorldFlags() {
+		static void WorldFlags() {
+			// Items
+			SaveSystem.SetStringIntDict("items", new Dictionary<string, int>());
 			SaveSystem.SetBool("earth_orb", false);
 			SaveSystem.SetBool("fire_orb", false);
 			SaveSystem.SetBool("water_orb", false);
@@ -57,8 +64,7 @@ namespace TitleScreen {
 			SaveSystem.SetBool("king_mentioned_bridge", false);
 			SaveSystem.SetBool("princess_gave_lute", false);
 		}
-		static void SaveCharacterValues(string playerName, int chIndex, IReadOnlyList<float> attributes) {
-			SaveSystem.SetInt(playerName + "character_index", chIndex);
+		static void SaveCharacterValues(string playerName, IReadOnlyList<float> attributes) {
 			SaveSystem.SetInt(playerName + "strength", (int)attributes[0]);
 			SaveSystem.SetInt(playerName + "agility", (int)attributes[1]);
 			SaveSystem.SetInt(playerName + "intelligence", (int)attributes[2]);
@@ -71,17 +77,16 @@ namespace TitleScreen {
 		}
 		
 		static void InitSaveFileStorage(RandomEncounterHandler reh) {
-			SaveSystem.SetInt("reh_seed", reh.seed);
-
-			// World data
-			SaveSystem.SetInt("gil", 400);
 			SaveSystem.SetBool("in_submap", false);
 			SaveSystem.SetBool("inside_of_room", false);
+			
+			//TODO: reh_seed is random number, all good!
+			SaveSystem.SetInt("reh_seed", reh.seed);
+			SaveSystem.SetInt("gil", 400);
+
+			// World data
 			SaveSystem.SetFloat("overworldX", -1f);
 			SaveSystem.SetFloat("overworldY", -5f);
-
-			// Items
-			SaveSystem.SetStringIntDict("items", new Dictionary<string, int>());
 		}
 	}
 }

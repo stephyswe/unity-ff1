@@ -10,17 +10,17 @@ public class MusicHandler : MonoBehaviour {
 	// Start is called before the first frame update
 	void Start() {
 		if (SaveSystem.GetBool("classic_music")) {
-			classic.volume = 1f;
+			classic.volume = .3f;
 			remaster.gameObject.SetActive(false);
 			gba.gameObject.SetActive(false);
 		}
 		else if (SaveSystem.GetBool("remaster_music")) {
-			remaster.volume = 1f;
+			remaster.volume = .3f;
 			classic.gameObject.SetActive(false);
 			gba.gameObject.SetActive(false);
 		}
 		else {
-			gba.volume = 1f;
+			gba.volume = .3f;
 			classic.gameObject.SetActive(false);
 			remaster.gameObject.SetActive(false);
 		}

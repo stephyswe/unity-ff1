@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utils.SaveGame.Scripts.SaveSystem;
 
-namespace Overworld {
+namespace Overworld.PauseMenu {
 	public partial class PauseMenuHandler : MonoBehaviour {
 		public PlayerController player;
 		[FormerlySerializedAs("overworld_scene_container")]
@@ -83,37 +83,25 @@ namespace Overworld {
 
 		[FormerlySerializedAs("give_index")] public int giveIndex = -1;
 		bool areYouSureNo;
-
 		bool areYouSureYes;
-
 		Equips equips;
-
 		int item_select_index;
-
 		int item_select_status_index;
-
 		string status_player_n;
-		readonly Common common;
-		readonly CommonWrapper commonWrapper;
-		
+
 
 		public PauseMenuHandler() {
-			common = new Common(this);
-			commonWrapper = new CommonWrapper(this);
-			
-		}
+			Common = new Common(this);
+			DataSave = new DataSave(this);
 
-		public Common Common {
-			get { return common; }
 		}
-		public CommonWrapper CommonWrapper {
-			get { return commonWrapper; }
-		}
-		
+		public Common Common { get; }
+		DataSave DataSave { get; }
+
 
 		void Start() {
 			// setup
-			CommonWrapper.Setup();
+			Common.Setup();
 			
 			// overworld, pause menu & status scene container
 			overworldSceneContainer.SetActive(true);
@@ -169,7 +157,7 @@ namespace Overworld {
 			return level;
 		}
 
-		int exp_till_level(int exp) {
+		public int exp_till_level(int exp) {
 			Dictionary<int, int> levelChart = LevelChart.GetLevelChart();
 			int level = get_level_from_exp(exp);
 
@@ -218,7 +206,7 @@ namespace Overworld {
 			Common.SwitchStatusCharacter(job);
 
 			// set name and save
-			StatusTextCharacter(playerN);
+			DataSave.StatusTextCharacter(playerN);
 
 			statusContainer.SetActive(true);
 		}
@@ -319,7 +307,7 @@ namespace Overworld {
 			while (useIndex == -1)
 				yield return null;
 
-			string itemName = bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x", StringComparison.Ordinal));
+			string itemName = bagItems[item_select_index].text[..bagItems[item_select_index].text.IndexOf(" x", StringComparison.Ordinal)];
 
 			if (equips.use_item(itemName, useIndex)) {
 				Dictionary<string, int> partyItems = SaveSystem.GetStringIntDict("items");
@@ -330,7 +318,7 @@ namespace Overworld {
 					partyItems[itemName] -= 1;
 				SaveSystem.SetStringIntDict("items", partyItems);
 
-				CommonWrapper.Setup();
+				Common.Setup();
 			}
 
 			useOn.SetActive(false);

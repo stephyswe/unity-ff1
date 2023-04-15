@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using Overworld;
 using UnityEditor;
@@ -36,61 +34,18 @@ namespace TitleScreen {
 		[FormerlySerializedAs("bss_text")] public Text bssText;
 
 		public string[] names;
-		
-		void Start() {
-			// Setup config
-			title.SetActive(true);
-			charSelect.SetActive(false);
-			settingsContainer.SetActive(false);
-			string binPath = Application.persistentDataPath + "/party.json";
 
-			// Set up the names array
-			names = new[] {"Matt", "Alta", "Ivan", "Cora"};
+		void Start() {
+			// Pre setup
+			string binPath = pre_setup();
 
 			// If the save file doesn't exist, create it
 			if (!File.Exists(binPath)) {
 				init_save_file();
 			}
-
-			// music selection
-			title_selection();
-
-			// battle speed
-			battleSpeedSlider.value = SaveSystem.GetFloat("battle_speed");
-
-			// show cursor
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
 		}
 
-		// used in the character select screen
-		public void new_game_start() {
-			for (int i = 0; i < fields.Length; i++)
-				names[i] = fields[i].text;
-
-			for (int i = 0; i < spriteControllers.Length; i++) {
-				string playerName = "player" + (i + 1) + "_";
-				string pClass = spriteControllers[i].get_class();
-				SaveSystem.SetString(playerName + "class", pClass);
-				
-				// Set player data
-				before_init_save(pClass, playerName, i);
-				if (i == 0)
-					SaveSystem.SetInt("character_index", i);
-			}
-			
-			// Set the battle speed
-			init_save_file();
-			
-			// Load the overworld
-			StartCoroutine(Load());
-		}
-
-		// used in the title screen
-		public void continue_game() {
-			StartCoroutine(Load());
-		}
-
+		// Load (start game & continue)
 		IEnumerator Load() {
 			gameObject.SetActive(true);
 			loadingCircle.start_loading_circle();
@@ -99,12 +54,60 @@ namespace TitleScreen {
 			SceneManager.LoadSceneAsync("Overworld");
 		}
 
+		// Misc - Hover Sound
 		void hover_sound() {
 			buttonHover.Play();
 		}
 
+		// Title Screen Options:
+
+		// New game & back
+		public void new_game() {
+			if (!charSelect.activeSelf) {
+				title.SetActive(false);
+				charSelect.SetActive(true);
+			}
+			else {
+				title.SetActive(true);
+				charSelect.SetActive(false);
+			}
+		}
+
+		// Continue
+		public void continue_game() {
+			StartCoroutine(Load());
+		}
+
+		
+
+		// setting & back
+		public void Settings() {
+			if (!settingsContainer.activeSelf) {
+				title.SetActive(false);
+				settingsContainer.SetActive(true);
+			}
+			else {
+				title.SetActive(true);
+				settingsContainer.SetActive(false);
+			}
+		}
+		
+		// Quit
+		public void Exit() {
+        #if UNITY_EDITOR
+			EditorApplication.isPlaying = false;
+        #endif
+		}
+
+		// Setting Options:
+		public void battle_speed_set() {
+			SaveSystem.SetFloat("battle_speed", battleSpeedSlider.value);
+			bssText.text = "" + (int)(battleSpeedSlider.value * 1000f);
+			SaveSystem.SaveToDisk();
+		}
+
+		// Music Choice
 		void set_classic_music() {
-			
 			PlayMusicTrack(MusicTrack.Classic, 1f);
 		}
 
@@ -116,58 +119,39 @@ namespace TitleScreen {
 			PlayMusicTrack(MusicTrack.Remastered, 1f);
 		}
 
-		void title_selection() {
-			// Set the music from preference
-			bool classicMusic = SaveSystem.GetBool("classic_music");
-			bool remasterMusic = SaveSystem.GetBool("remaster_music");
-			SetMusicVolumes(classicMusic, remasterMusic);
-		}
+		// Character Selection Screen Options:
 
-		public void Exit() {
-        #if UNITY_EDITOR
-			// Application.Quit() does not work in the editor so
-			// UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
-			EditorApplication.isPlaying = false;
-        #endif
-		}
+		// Start Game
+		public void new_game_start() {
 
-		public void new_game() {
-			title.SetActive(false);
-			charSelect.SetActive(true);
-		}
-
-		public void Settings() {
-			if (!settingsContainer.activeSelf) {
-				title.SetActive(false);
-				settingsContainer.SetActive(true);
+			// set name if exist
+			if (fields[0].text != "") {
+				for (int j = 0; j < fields.Length; j++)
+					names[j] = fields[j].text;
 			}
-			else {
-				title.SetActive(true);
-				settingsContainer.SetActive(false);
+
+			for (int spriteIndex = 0; spriteIndex < spriteControllers.Length; spriteIndex++) {
+				string playerName = "player" + (spriteIndex + 1) + "_";
+				string pClass = spriteControllers[spriteIndex].get_class();
+				SaveSystem.SetString(playerName + "class", pClass);
+
+				// Set player data
+				(float[] values, int characterIndex) = GetCharacterValues(pClass);
+
+				// Save the character attributes
+				SaveCharacterValues(playerName, values);
+				SaveCharacterInventory(playerName);
+
+				// Set player model based on first character selected
+				if (spriteIndex == 0)
+					SaveSystem.SetInt("character_index", characterIndex);
 			}
+
+			// Set the battle speed
+			init_save_file();
+
+			// Load the overworld
+			StartCoroutine(Load());
 		}
-
-		public void battle_speed_set() {
-			SaveSystem.SetFloat("battle_speed", battleSpeedSlider.value);
-			bssText.text = "" + (int)(battleSpeedSlider.value * 1000f);
-			SaveSystem.SaveToDisk();
-		}
-
-		public void new_game_back() {
-			title.SetActive(true);
-			charSelect.SetActive(false);
-		}
-
-		static void before_init_save(string pClass, string player, int i) {
-			
-			// get the character attributes
-			(float[] values, int characterIndex) = GetCharacterValues(pClass);
-
-			// Save the character attributes
-			SaveCharacterValues(player, characterIndex, values);
-			SaveCharacterInventory(player);
-		}
-
-
 	}
 }

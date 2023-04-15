@@ -839,7 +839,7 @@ PrefabInstance:
     - target: {fileID: 114000013899026410, guid: 7390c897091da344f9e8cd44bca04117,
         type: 3}
       propertyPath: dontDestroyOnLoad
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7390c897091da344f9e8cd44bca04117, type: 3}
@@ -7675,8 +7675,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2127099251}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: new_game_back
+        m_TargetAssemblyTypeName: TitleScreen.TitleScreenHandler, Scripts
+        m_MethodName: new_game
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10249,7 +10249,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1640676084
 Canvas:
   m_ObjectHideFlags: 0
@@ -12444,7 +12444,6 @@ MonoBehaviour:
   - {fileID: 3711603810358322156}
   battleSpeedSlider: {fileID: 1177180635}
   bssText: {fileID: 692557323}
-  inputAllowed: 0
   names: []
 --- !u!4 &2127099252
 Transform:
