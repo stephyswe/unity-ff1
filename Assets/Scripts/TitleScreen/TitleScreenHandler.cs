@@ -36,13 +36,28 @@ namespace TitleScreen {
 		public string[] names;
 
 		void Start() {
-			// Pre setup
-			string binPath = pre_setup();
-
+			pre_setup();
+			string binPath = Application.persistentDataPath + "/party.json";
 			// If the save file doesn't exist, create it
 			if (!File.Exists(binPath)) {
-				init_save_file();
+				// first-time values 
+				SaveSystem.SetBool("gameStarted", false);
+				SaveSystem.SetBool("classic_music", true);
+				SaveSystem.SetBool("remaster_music", false);
+				SaveSystem.SetBool("gba_music", false);
 			}
+			
+			if (!SaveSystem.GetBool("gameStarted")) {
+				GameObject.Find("Continue").GetComponent<Button>().interactable = false;
+			}
+			battleSpeedSlider.value = SaveSystem.GetFloat("battle_speed");
+			
+			GetMusic();
+		}
+		void GetMusic() {
+			bool classicMusic = SaveSystem.GetBool("classic_music");
+			bool remasterMusic = SaveSystem.GetBool("remaster_music");
+			SetMusicVolumes(classicMusic, remasterMusic);
 		}
 
 		// Load (start game & continue)
@@ -55,7 +70,7 @@ namespace TitleScreen {
 		}
 
 		// Misc - Hover Sound
-		void hover_sound() {
+		public void hover_sound() {
 			buttonHover.Play();
 		}
 
@@ -77,9 +92,7 @@ namespace TitleScreen {
 		public void continue_game() {
 			StartCoroutine(Load());
 		}
-
 		
-
 		// setting & back
 		public void Settings() {
 			if (!settingsContainer.activeSelf) {
@@ -108,15 +121,15 @@ namespace TitleScreen {
 
 		// Music Choice
 		void set_classic_music() {
-			PlayMusicTrack(MusicTrack.Classic, 1f);
+			PlayMusicTrack(MusicTrack.Classic, .3f);
 		}
 
 		void set_gba_music() {
-			PlayMusicTrack(MusicTrack.Gba, 1f);
+			PlayMusicTrack(MusicTrack.Gba, .3f);
 		}
 
 		void set_remastered_music() {
-			PlayMusicTrack(MusicTrack.Remastered, 1f);
+			PlayMusicTrack(MusicTrack.Remastered, .3f);
 		}
 
 		// Character Selection Screen Options:
@@ -145,9 +158,10 @@ namespace TitleScreen {
 				// Set player model based on first character selected
 				if (spriteIndex == 0)
 					SaveSystem.SetInt("character_index", characterIndex);
+				SaveSystem.SetBool("gameStarted", true);
 			}
 
-			// Set the battle speed
+			// more save data
 			init_save_file();
 
 			// Load the overworld

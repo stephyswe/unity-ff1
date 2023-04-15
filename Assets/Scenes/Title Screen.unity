@@ -7241,8 +7241,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Core.GameHandler, Scripts
+      - m_Target: {fileID: 2127099251}
+        m_TargetAssemblyTypeName: TitleScreen.TitleScreenHandler, Scripts
         m_MethodName: continue_game
         m_Mode: 1
         m_Arguments:
@@ -7309,7 +7309,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 2127099251}
-          m_TargetAssemblyTypeName: 
+          m_TargetAssemblyTypeName: TitleScreen.TitleScreenHandler, Scripts
           m_MethodName: hover_sound
           m_Mode: 1
           m_Arguments:

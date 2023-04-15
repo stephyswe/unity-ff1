@@ -44,8 +44,6 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 		{
 			string jsonData = File.ReadAllText(dataPath);
 			DataState state = JsonConvert.DeserializeObject<DataState>(jsonData);
-
-
 			return state;
 		}
 	}

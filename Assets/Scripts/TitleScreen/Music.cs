@@ -13,24 +13,20 @@ namespace TitleScreen {
 			};
 
 			foreach ((MusicTrack key, float value) in volumes) {
-				switch (key) {
-					case MusicTrack.Classic:
-						classic.volume = value;
-						break;
-					case MusicTrack.Remastered:
-						remaster.volume = value;
-						break;
-					case MusicTrack.Gba:
-						gba.volume = value;
-						break;
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
+				// ReSharper disable once ConvertIfStatementToSwitchStatement
+				if (key == MusicTrack.Classic)
+					classic.volume = value;
+				else if (key == MusicTrack.Remastered)
+					remaster.volume = value;
+				else if (key == MusicTrack.Gba)
+					gba.volume = value;
+				else
+					throw new ArgumentOutOfRangeException();
 			}
 		}
 		void PlayMusicTrack(MusicTrack track, float volume) {
 			AudioSource[] tracks = {classic, remaster, gba};
-			string[] keys = {"classic_music", "remastered_music", "gba_music"};
+			string[] keys = {"classic_music", "remaster_music", "gba_music"};
 
 			for (int i = 0; i < tracks.Length; i++) {
 				tracks[i].volume = (i == (int)track) ? volume : 0f;

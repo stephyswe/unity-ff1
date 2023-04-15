@@ -31,8 +31,14 @@ namespace TitleScreen {
 					SaveSystem.SetStringList(player + "level_" + j + "_spells", empty);
 				}
 			}
+			
+			// world events
 			WorldFlags();
+			
+			// Save the save file, get back data here.
 			SaveSystem.SaveToDisk();
+			
+			// use data to check if save file was created
 			Debug.Log("Done initializing");
 		}
 		static void SaveCharacterInventory(string player) {

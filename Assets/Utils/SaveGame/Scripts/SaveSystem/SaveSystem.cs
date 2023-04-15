@@ -32,6 +32,12 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 			Debug.Log("[SaveGame] --> Loading the save file: " + GetPath());
 		}
 
+		public static DataState LoadAndReturn()
+		{
+			_data = SerializatorBinary.LoadBinary(GetPath());
+			return _data;
+		}
+
 		static void ReplaceItem(string name, string item)
 		{
 			bool j = false;

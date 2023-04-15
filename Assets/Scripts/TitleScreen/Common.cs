@@ -38,25 +38,16 @@ namespace TitleScreen {
 			}
 			return (values, characterIndex);
 		}
-		string pre_setup() {
+		void pre_setup() {
 			title.SetActive(true);
 			charSelect.SetActive(false);
 			settingsContainer.SetActive(false);
-			string binPath = Application.persistentDataPath + "/party.json";
+			
 			names = new[] {"Matt", "Alta", "Ivan", "Cora"};
-			
-			// Set the music from preference
-			bool classicMusic = SaveSystem.GetBool("classic_music");
-			bool remasterMusic = SaveSystem.GetBool("remaster_music");
-			SetMusicVolumes(classicMusic, remasterMusic);
-			
-			// battle speed
-			battleSpeedSlider.value = SaveSystem.GetFloat("battle_speed");
 
 			// show cursor
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;
-			return binPath;
 		}
 	}
 }

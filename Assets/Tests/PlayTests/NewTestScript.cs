@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 namespace Tests.PlayTests
@@ -18,6 +20,19 @@ namespace Tests.PlayTests
         [UnityTest]
         public IEnumerator NewTestScriptWithEnumeratorPasses()
         {
+            SceneManager.LoadScene("Assets/Scenes/Title Screen.unity", LoadSceneMode.Single);
+            
+            yield return null;
+
+            GameObject eventSystem = GameObject.Find("Title");
+
+            Assert.IsTrue(eventSystem != null, "should find the 'Title' object in the scene");
+            
+            // Mouse movement
+            
+            // LeftMouseClick( (int)xPos, (int)yPos );
+
+            yield return new WaitForSeconds(4);
             // Use the Assert class to test conditions.
             // Use yield to skip a frame.
             yield return null;
