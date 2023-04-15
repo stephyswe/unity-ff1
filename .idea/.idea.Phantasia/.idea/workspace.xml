@@ -4,13 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="">
+    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(update): code">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons/Common.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons/Common.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/CommonWrapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/CommonWrapper.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/DataSave.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/DataSave.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Music.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Music.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/MockSaveSystem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/MockSaveSystem.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Overworld.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Overworld.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Shop.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Shop.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenuHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenuHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Boss.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Boss.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/BridgeTrigger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/BridgeTrigger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller/CameraController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/CameraController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller/CameraController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Chest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Chest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/GlobalControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/GlobalControl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/LockedDoor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/LockedDoor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/MapHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/MapHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenuHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers/PauseMenuHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenuHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers/PauseMenuHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PlayerController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller/PlayerController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/RandomEncounterHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/RandomEncounterHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/ShopWarp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/ShopWarp.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/EditTests.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/EditTests.asmdef" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/NewTestScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/NewTestScript.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +53,10 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/88e4733ac7bc4ae1b496735e6b83bbd346ac00/ce/c2d080cb/NullReferenceException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/7e/b8ac9ba3/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/93/28009175/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../_complete/PhantasiaComplete/Assets/Scripts/Battling/CursorController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Overworld.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Overworld/Boss.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Overworld/PauseMenuHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/TitleScreen/ControlsHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" root0="SKIP_HIGHLIGHTING" />
@@ -109,8 +141,16 @@
       <option name="presentableId" value="Default" />
       <updated>1681488820604</updated>
       <workItem from="1681488822366" duration="20326000" />
-      <workItem from="1681509874697" duration="2176000" />
+      <workItem from="1681509874697" duration="10763000" />
     </task>
+    <task id="LOCAL-00001" summary="feat(update): code">
+      <created>1681512381744</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1681512381744</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,6 +161,8 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="feat(update): code" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(update): code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -153,13 +195,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Overworld/Map.cs</url>
-          <line>41</line>
+          <line>42</line>
           <properties documentPath="D:\dev\unity\_games\Phantasia\Assets\Scripts\Overworld\Map.cs" initialLine="41" containingFunctionPresentation="Method 'Update'">
             <startOffsets>
-              <option value="1068" />
+              <option value="1096" />
             </startOffsets>
             <endOffsets>
-              <option value="1090" />
+              <option value="1118" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="10" />

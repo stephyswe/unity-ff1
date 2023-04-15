@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Utils.SaveGame.Scripts.SaveSystem;
 
-namespace Overworld {
+namespace Overworld.Controller {
 	public class PlayerController : MonoBehaviour {
 
 		[FormerlySerializedAs("move_speed")] public float moveSpeed;

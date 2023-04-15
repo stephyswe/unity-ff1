@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Overworld.Controller;
+using Refactor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,11 +12,12 @@ using UnityEngine.UI;
 using Utils.SaveGame.Scripts.SaveSystem;
 
 namespace Overworld {
-	public class PauseMenuHandler : MonoBehaviour {
+	public partial class PauseMenuHandler : MonoBehaviour {
 		public PlayerController player;
 		[FormerlySerializedAs("overworld_scene_container")]
 		public GameObject overworldSceneContainer;
 		[FormerlySerializedAs("pausemenu_container")]
+		// ReSharper disable once IdentifierTypo
 		public GameObject pausemenuContainer;
 		[FormerlySerializedAs("status_container")]
 		public GameObject statusContainer;
@@ -39,15 +43,15 @@ namespace Overworld {
 
 		[FormerlySerializedAs("give_names")] public Text[] giveNames;
 		[FormerlySerializedAs("use_names")] public Text[] useNames;
-		public GameObject givedrop;
-		public GameObject usedrop;
-		public GameObject equipparty;
+		[FormerlySerializedAs("givedrop")] public GameObject giveDrop;
+		[FormerlySerializedAs("usedrop")] public GameObject useDrop;
+		[FormerlySerializedAs("equipparty")] public GameObject equipParty;
 
 		public GameObject give;
 		[FormerlySerializedAs("use_on")] public GameObject useOn;
 
-		public GameObject areyousure;
-		public Text areyousuretext;
+		[FormerlySerializedAs("areyousure")] public GameObject areYouSure;
+		[FormerlySerializedAs("areyousuretext")] public Text areYouSureText;
 
 		public Text gold;
 
@@ -78,9 +82,9 @@ namespace Overworld {
 		[FormerlySerializedAs("use_index")] public int useIndex = -1;
 
 		[FormerlySerializedAs("give_index")] public int giveIndex = -1;
-		bool areyousure_no;
+		bool areYouSureNo;
 
-		bool areyousure_yes;
+		bool areYouSureYes;
 
 		Equips equips;
 
@@ -89,100 +93,74 @@ namespace Overworld {
 		int item_select_status_index;
 
 		string status_player_n;
+		readonly Common common;
+		readonly CommonWrapper commonWrapper;
+		
+
+		public PauseMenuHandler() {
+			common = new Common(this);
+			commonWrapper = new CommonWrapper(this);
+			
+		}
+
+		public Common Common {
+			get { return common; }
+		}
+		public CommonWrapper CommonWrapper {
+			get { return commonWrapper; }
+		}
+		
 
 		void Start() {
+			// setup
+			CommonWrapper.Setup();
+			
+			// overworld, pause menu & status scene container
 			overworldSceneContainer.SetActive(true);
 			pausemenuContainer.SetActive(false);
 			statusContainer.SetActive(false);
+			
+			// activate buttons
 			bagObj.SetActive(false);
 			give.SetActive(false);
-			givedrop.SetActive(false);
-			equipparty.SetActive(false);
-			usedrop.SetActive(false);
+			giveDrop.SetActive(false);
+			equipParty.SetActive(false);
+			useDrop.SetActive(false);
 			useOn.SetActive(false);
 
+			// setup equips
 			equips = new Equips();
 		}
 
 		// Update is called once per frame
 		void Update() {
-			if (Input.GetKeyDown("escape")) {
-				if (SceneManager.sceneCount == 1 && player.canMove)
-					Setup();
-				On();
-			}
+			// open on escape key
+			if (!Input.GetKeyDown("escape"))
+				return;
+			
+			// 
+			if (SceneManager.sceneCount == 1 && player.canMove) {}
+			On();
 		}
 
 		void OnEnable() {
+			// de-activate second pause menu
 			statusContainer.SetActive(false);
 			bagObj.SetActive(false);
-			givedrop.SetActive(false);
-			equipparty.SetActive(false);
+			giveDrop.SetActive(false);
+			equipParty.SetActive(false);
 		}
 
 		public void hover_sound() {
+			// play sound on hover
 			if (bagObj.activeSelf) {}
 			buttonHover.Play();
 		}
 
-		Dictionary<int, int> get_level_chart() {
-			Dictionary<int, int> levelChart = new Dictionary<int, int>();
 
-			levelChart.Add(2, 40);
-			levelChart.Add(3, 196);
-			levelChart.Add(4, 547);
-			levelChart.Add(5, 1171);
-			levelChart.Add(6, 2146);
-			levelChart.Add(7, 3550);
-			levelChart.Add(8, 5461);
-			levelChart.Add(9, 7957);
-			levelChart.Add(10, 11116);
-			levelChart.Add(11, 15016);
-			levelChart.Add(12, 19753);
-			levelChart.Add(13, 25351);
-			levelChart.Add(14, 31942);
-			levelChart.Add(15, 39586);
-			levelChart.Add(16, 48361);
-			levelChart.Add(17, 58345);
-			levelChart.Add(18, 69617);
-			levelChart.Add(19, 82253);
-			levelChart.Add(20, 96332);
-			levelChart.Add(21, 111932);
-			levelChart.Add(22, 129131);
-			levelChart.Add(23, 148008);
-			levelChart.Add(24, 168639);
-			levelChart.Add(25, 191103);
-			levelChart.Add(26, 215479);
-			levelChart.Add(27, 241843);
-			levelChart.Add(28, 270275);
-			levelChart.Add(29, 300851);
-			levelChart.Add(30, 333651);
-			levelChart.Add(31, 366450);
-			levelChart.Add(32, 399250);
-			levelChart.Add(33, 432049);
-			levelChart.Add(34, 464849);
-			levelChart.Add(35, 497648);
-			levelChart.Add(36, 530448);
-			levelChart.Add(37, 563247);
-			levelChart.Add(38, 596047);
-			levelChart.Add(39, 628846);
-			levelChart.Add(40, 661646);
-			levelChart.Add(41, 694445);
-			levelChart.Add(42, 727245);
-			levelChart.Add(43, 760044);
-			levelChart.Add(44, 792844);
-			levelChart.Add(45, 825643);
-			levelChart.Add(46, 858443);
-			levelChart.Add(47, 891242);
-			levelChart.Add(48, 924042);
-			levelChart.Add(49, 956841);
-			levelChart.Add(50, 989641);
 
-			return levelChart;
-		}
-
-		int get_level_from_exp(int exp) {
-			Dictionary<int, int> levelChart = get_level_chart();
+		public int get_level_from_exp(int exp) {
+			Dictionary<int, int> levelChart = LevelChart.GetLevelChart();
 			int level = 1;
 
 			foreach (KeyValuePair<int, int> entry in levelChart.TakeWhile(entry => entry.Value <= exp)) {
@@ -192,91 +170,13 @@ namespace Overworld {
 		}
 
 		int exp_till_level(int exp) {
-			Dictionary<int, int> levelChart = get_level_chart();
+			Dictionary<int, int> levelChart = LevelChart.GetLevelChart();
 			int level = get_level_from_exp(exp);
 
 			return levelChart[level + 1] - exp;
 		}
 
 		// Start is called before the first frame update
-		void Setup() {
-			gold.text = "" + SaveSystem.GetInt("gil");
-
-			for (int i = 0; i < 4; i++) {
-				string playerN = "player" + (i + 1) + "_";
-
-				names[i].text = SaveSystem.GetString(playerN + "name");
-
-				levels[i].text = "L " + get_level_from_exp(SaveSystem.GetInt(playerN + "exp"));
-
-				hPs[i].text = "HP\n" + SaveSystem.GetInt(playerN + "HP") + "-" + SaveSystem.GetInt(playerN + "maxHP");
-
-				mPs[i].text = "0-0-0-0\n0-0-0-0";
-
-				string job = SaveSystem.GetString(playerN + "class");
-
-				switch (job) {
-					case "fighter":
-						spriteControllers[i].set_character(0);
-						break;
-					case "knight":
-						spriteControllers[i].set_character(1);
-						break;
-					case "thief":
-						spriteControllers[i].set_character(2);
-						break;
-					case "ninja":
-						spriteControllers[i].set_character(3);
-						break;
-					case "black_belt":
-						spriteControllers[i].set_character(4);
-						break;
-					case "master":
-						spriteControllers[i].set_character(5);
-						break;
-					case "black_mage":
-						spriteControllers[i].set_character(6);
-						break;
-					case "black_wizard":
-						spriteControllers[i].set_character(7);
-						break;
-					case "white_mage":
-						spriteControllers[i].set_character(8);
-						break;
-					case "white_wizard":
-						spriteControllers[i].set_character(9);
-						break;
-					case "red_mage":
-						spriteControllers[i].set_character(10);
-						break;
-					case "red_wizard":
-						spriteControllers[i].set_character(11);
-						break;
-				}
-			}
-
-
-
-			if (!SaveSystem.GetBool("earth_orb"))
-				earth.GetComponent<SpriteController>().change_direction("down");
-			else
-				earth.GetComponent<SpriteController>().change_direction("up");
-
-			if (!SaveSystem.GetBool("fire_orb"))
-				fire.GetComponent<SpriteController>().change_direction("down");
-			else
-				fire.GetComponent<SpriteController>().change_direction("up");
-
-			if (!SaveSystem.GetBool("water_orb"))
-				water.GetComponent<SpriteController>().change_direction("down");
-			else
-				water.GetComponent<SpriteController>().change_direction("up");
-
-			if (!SaveSystem.GetBool("wind_orb"))
-				wind.GetComponent<SpriteController>().change_direction("down");
-			else
-				wind.GetComponent<SpriteController>().change_direction("up");
-		}
 
 		public void status_n(int n) {
 			Status(n);
@@ -284,8 +184,8 @@ namespace Overworld {
 
 		public void Bag() {
 
-			givedrop.SetActive(false);
-			usedrop.SetActive(false);
+			giveDrop.SetActive(false);
+			useDrop.SetActive(false);
 
 			Dictionary<string, int> items = SaveSystem.GetStringIntDict("items");
 			foreach (Text t in bagItems) {
@@ -314,72 +214,11 @@ namespace Overworld {
 
 			string job = SaveSystem.GetString(playerN + "class");
 
-			switch (job) {
-				case "fighter":
-					sprite.set_character(0);
-					statusClass.text = "FIGHTER";
-					break;
-				case "knight":
-					sprite.set_character(1);
-					statusClass.text = "KNIGHT";
-					break;
-				case "thief":
-					sprite.set_character(2);
-					statusClass.text = "THIEF";
-					break;
-				case "ninja":
-					sprite.set_character(3);
-					statusClass.text = "NINJA";
-					break;
-				case "black_belt":
-					sprite.set_character(4);
-					statusClass.text = "BLACK BELT";
-					break;
-				case "master":
-					sprite.set_character(5);
-					statusClass.text = "MASTER";
-					break;
-				case "black_mage":
-					sprite.set_character(6);
-					statusClass.text = "BLACK MAGE";
-					break;
-				case "black_wizard":
-					sprite.set_character(7);
-					statusClass.text = "BLACK WIZARD";
-					break;
-				case "white_mage":
-					sprite.set_character(8);
-					statusClass.text = "WHITE MAGE";
-					break;
-				case "white_wizard":
-					sprite.set_character(9);
-					statusClass.text = "WHITE WIZARD";
-					break;
-				case "red_mage":
-					sprite.set_character(10);
-					statusClass.text = "RED MAGE";
-					break;
-				case "red_wizard":
-					sprite.set_character(11);
-					statusClass.text = "RED WIZARD";
-					break;
-			}
+			// set sprite
+			Common.SwitchStatusCharacter(job);
 
-			statusName.text = SaveSystem.GetString(playerN + "name");
-			statusLevel.text = "LVL " + get_level_from_exp(SaveSystem.GetInt(playerN + "exp"));
-			statusExp.text = "" + SaveSystem.GetInt(playerN + "exp");
-			statusToLevelUp.text = "" + exp_till_level(SaveSystem.GetInt(playerN + "exp"));
-
-			statusStr.text = "" + SaveSystem.GetInt(playerN + "strength");
-			statusAgl.text = "" + SaveSystem.GetInt(playerN + "agility");
-			statusINT.text = "" + SaveSystem.GetInt(playerN + "intelligence");
-			statusVit.text = "" + SaveSystem.GetInt(playerN + "vitality");
-			statusLuck.text = "" + SaveSystem.GetInt(playerN + "luck");
-
-			statusDmg.text = "NA";
-			statusHit.text = "" + (int)(100 * SaveSystem.GetFloat(playerN + "hit_percent"));
-			statusAbs.text = "NA";
-			statusEvade.text = "" + (48 + SaveSystem.GetInt(playerN + "agility"));
+			// set name and save
+			StatusTextCharacter(playerN);
 
 			statusContainer.SetActive(true);
 		}
@@ -391,60 +230,64 @@ namespace Overworld {
 			Select();
 		}
 
-		public void Select() {
+		void Select() {
 			for (int i = 0; i < 4; i++) {
 				giveNames[i].text = SaveSystem.GetString("player" + (i + 1) + "_name");
 				useNames[i].text = SaveSystem.GetString("player" + (i + 1) + "_name");
 			}
 
-			string itemName = bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x"));
+			string itemName = bagItems[item_select_index].text[..bagItems[item_select_index].text.IndexOf(" x", StringComparison.Ordinal)];
 
 			string category = equips.item_category(itemName);
 
 			Debug.Log(itemName);
 
-			if (category == "weapon" || category == "armor")
-				givedrop.SetActive(true);
-			else if (category == "item")
-				usedrop.SetActive(true);
+			switch (category) {
+				case "weapon" or "armor":
+					giveDrop.SetActive(true);
+					break;
+				case "item":
+					useDrop.SetActive(true);
+					break;
+			}
 		}
 
 		public void Drop() {
-			areyousuretext.text = "Are you sure you want to drop this?";
-			areyousure.SetActive(true);
+			areYouSureText.text = "Are you sure you want to drop this?";
+			areYouSure.SetActive(true);
 			StartCoroutine(drop_item());
 		}
 
 		// ReSharper disable once IdentifierTypo
 		public void Areyousureyes() {
-			areyousure_yes = true;
+			areYouSureYes = true;
 		}
 
 		// ReSharper disable once IdentifierTypo
 		public void Areyousureno() {
-			areyousure_no = true;
+			areYouSureNo = true;
 		}
 
 		IEnumerator drop_item() {
-			while (!areyousure_yes && !areyousure_no)
+			while (!areYouSureYes && !areYouSureNo)
 				yield return null;
 
-			if (areyousure_yes && !equips.get_item(bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x"))).KeyItem) {
-				string name = bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x"));
+			if (areYouSureYes && !equips.get_item(bagItems[item_select_index].text[..bagItems[item_select_index].text.IndexOf(" x", StringComparison.Ordinal)]).KeyItem) {
+				string bagItem = bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x", StringComparison.Ordinal));
 
 				Dictionary<string, int> items = SaveSystem.GetStringIntDict("items");
-				if (items[name] == 1)
-					items.Remove(name);
+				if (items[bagItem] == 1)
+					items.Remove(bagItem);
 				else
-					items[name] = items[name] - 1;
+					items[bagItem] -= 1;
 				SaveSystem.SetStringIntDict("items", items);
 			}
 
-			areyousure.SetActive(false);
-			givedrop.SetActive(false);
+			areYouSure.SetActive(false);
+			giveDrop.SetActive(false);
 
-			areyousure_yes = false;
-			areyousure_no = false;
+			areYouSureYes = false;
+			areYouSureNo = false;
 
 			Bag();
 		}
@@ -455,7 +298,7 @@ namespace Overworld {
 		}
 
 		public void use_button() {
-			string itemName = bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x"));
+			string itemName = bagItems[item_select_index].text[..bagItems[item_select_index].text.IndexOf(" x", StringComparison.Ordinal)];
 
 			if (equips.get_item(itemName).SingleUse) {
 				useOn.SetActive(true);
@@ -469,13 +312,14 @@ namespace Overworld {
 			useIndex = n;
 		}
 
+		// ReSharper disable Unity.PerformanceAnalysis
 		IEnumerator use_on_player() {
-			usedrop.SetActive(false);
+			useDrop.SetActive(false);
 
 			while (useIndex == -1)
 				yield return null;
 
-			string itemName = bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x"));
+			string itemName = bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x", StringComparison.Ordinal));
 
 			if (equips.use_item(itemName, useIndex)) {
 				Dictionary<string, int> partyItems = SaveSystem.GetStringIntDict("items");
@@ -483,14 +327,14 @@ namespace Overworld {
 				if (count == 1)
 					partyItems.Remove(itemName);
 				else
-					partyItems[itemName] = partyItems[itemName] - 1;
+					partyItems[itemName] -= 1;
 				SaveSystem.SetStringIntDict("items", partyItems);
 
-				Setup();
+				CommonWrapper.Setup();
 			}
 
 			useOn.SetActive(false);
-			usedrop.SetActive(false);
+			useDrop.SetActive(false);
 
 			Bag();
 
@@ -498,7 +342,7 @@ namespace Overworld {
 		}
 
 		void use_on_party() {
-			usedrop.SetActive(false);
+			useDrop.SetActive(false);
 
 			string itemName = bagItems[item_select_index].text.Substring(0, bagItems[item_select_index].text.IndexOf(" x"));
 
@@ -508,12 +352,12 @@ namespace Overworld {
 				if (count == 1)
 					partyItems.Remove(itemName);
 				else
-					partyItems[itemName] = partyItems[itemName] - 1;
+					partyItems[itemName] -= 1;
 				SaveSystem.SetStringIntDict("items", partyItems);
 			}
 
 			useOn.SetActive(false);
-			usedrop.SetActive(false);
+			useDrop.SetActive(false);
 
 			Bag();
 		}
@@ -523,7 +367,7 @@ namespace Overworld {
 		}
 
 		IEnumerator give_to_player() {
-			givedrop.SetActive(false);
+			giveDrop.SetActive(false);
 
 			while (giveIndex == -1)
 				yield return null;
@@ -543,7 +387,7 @@ namespace Overworld {
 					if (count == 1)
 						partyItems.Remove(itemName);
 					else
-						partyItems[itemName] = partyItems[itemName] - 1;
+						partyItems[itemName] -= 1;
 
 					SaveSystem.SetStringIntDict("items", partyItems);
 
@@ -558,7 +402,7 @@ namespace Overworld {
 					if (count1 == 1)
 						partyItems1.Remove(itemName);
 					else
-						partyItems1[itemName] = partyItems1[itemName] - 1;
+						partyItems1[itemName] -= 1;
 
 					SaveSystem.SetStringIntDict("items", partyItems1);
 
@@ -566,7 +410,7 @@ namespace Overworld {
 			}
 
 			give.SetActive(false);
-			givedrop.SetActive(false);
+			giveDrop.SetActive(false);
 
 			Bag();
 
@@ -574,7 +418,7 @@ namespace Overworld {
 		}
 
 		public void status_weapon() {
-			equipparty.SetActive(false);
+			equipParty.SetActive(false);
 			statusBagCategory.text = "WEAPONS";
 
 			foreach (Text t in statusBagItems) {
@@ -596,7 +440,7 @@ namespace Overworld {
 		}
 
 		public void status_armor() {
-			equipparty.SetActive(false);
+			equipParty.SetActive(false);
 			statusBagCategory.text = "ARMOR";
 
 			foreach (Text t in statusBagItems)
@@ -619,73 +463,73 @@ namespace Overworld {
 
 		public void select_status_item_n(int n) {
 			item_select_status_index = n;
-			string name = statusBagItems[n].text;
-			if (name == "")
+			string statusItem = statusBagItems[n].text;
+			if (statusItem == "")
 				return;
-			equipparty.SetActive(true);
+			equipParty.SetActive(true);
 		}
 
 		public void Equip() {
-			string name = statusBagItems[item_select_status_index].text;
-			string category = equips.item_category(name);
+			string itemName = statusBagItems[item_select_status_index].text;
+			string category = equips.item_category(itemName);
 
-			if (name.Contains("E- ")) {
-				category = equips.item_category(name.Substring(3));
+			if (itemName.Contains("E- ")) {
+				category = equips.item_category(itemName.Substring(3));
 				switch (category) {
 					case "armor":
-						string armorType = equips.get_armor(name).Category;
+						string armorType = equips.get_armor(itemName).Category;
 
 						SaveSystem.SetString(status_player_n + armorType, "");
 
-						statusBagItems[item_select_status_index].text = name.Substring(3);
+						statusBagItems[item_select_status_index].text = itemName.Substring(3);
 
 						break;
 					case "weapon":
 						SaveSystem.SetString(status_player_n + "weapon", "");
-						statusBagItems[item_select_status_index].text = name.Substring(3);
+						statusBagItems[item_select_status_index].text = itemName.Substring(3);
 						break;
 				}
 			}
 			else {
 				switch (category) {
 					case "armor":
-						string armorType = equips.get_armor(name).Category;
+						string armorType = equips.get_armor(itemName).Category;
 
 						string playerClass = SaveSystem.GetString(status_player_n + "class");
 
-						if (equips.can_equip_armor(equips.get_armor(name), playerClass)) {
+						if (equips.can_equip_armor(equips.get_armor(itemName), playerClass)) {
 
 							if (SaveSystem.GetString(status_player_n + armorType) != "") {
 								string alreadyEquipped = SaveSystem.GetString(status_player_n + armorType);
 								foreach (Text t in statusBagItems) {
-									if (t.text == "E- " + alreadyEquipped) {
-										t.text = t.text.Substring(3, t.text.Length - 3);
-										break;
-									}
+									if (t.text != "E- " + alreadyEquipped)
+										continue;
+									t.text = t.text.Substring(3, t.text.Length - 3);
+									break;
 								}
 							}
 
 							switch (armorType) {
 								case "armor":
-									SaveSystem.SetString(status_player_n + "armor", name);
+									SaveSystem.SetString(status_player_n + "armor", itemName);
 									break;
 								case "shield":
-									SaveSystem.SetString(status_player_n + "shield", name);
+									SaveSystem.SetString(status_player_n + "shield", itemName);
 									break;
 								case "helmet":
-									SaveSystem.SetString(status_player_n + "helmet", name);
+									SaveSystem.SetString(status_player_n + "helmet", itemName);
 									break;
 								case "glove":
-									SaveSystem.SetString(status_player_n + "glove", name);
+									SaveSystem.SetString(status_player_n + "glove", itemName);
 									break;
 							}
 
-							statusBagItems[item_select_status_index].text = "E- " + name;
+							statusBagItems[item_select_status_index].text = "E- " + itemName;
 						}
 						break;
 					case "weapon":
 						string playerClass1 = SaveSystem.GetString(status_player_n + "class");
-						if (equips.can_equip_weapon(equips.get_weapon(name), playerClass1)) {
+						if (equips.can_equip_weapon(equips.get_weapon(itemName), playerClass1)) {
 							if (SaveSystem.GetString(status_player_n + "weapon") != "") {
 								string alreadyEquipped = SaveSystem.GetString(status_player_n + "weapon");
 								foreach (Text t in statusBagItems) {
@@ -702,55 +546,55 @@ namespace Overworld {
 				}
 			}
 
-			equipparty.SetActive(false);
+			equipParty.SetActive(false);
 		}
 
 		public void send_to_party() {
-			string name = statusBagItems[item_select_status_index].text;
-			if (name == "")
+			string partyItem = statusBagItems[item_select_status_index].text;
+			if (partyItem == "")
 				return;
-			if (name.Contains("E- "))
-				name = name.Substring(3);
-			string category = equips.item_category(name);
+			if (partyItem.Contains("E- "))
+				partyItem = partyItem.Substring(3);
+			string category = equips.item_category(partyItem);
 
 			//Unequip
 			switch (category) {
 				case "weapon":
-					if (name == SaveSystem.GetString(status_player_n + "weapon"))
+					if (partyItem == SaveSystem.GetString(status_player_n + "weapon"))
 						SaveSystem.SetString(status_player_n + "weapon", "");
 					break;
 				case "armor":
-					if (name == SaveSystem.GetString(status_player_n + "armor"))
+					if (partyItem == SaveSystem.GetString(status_player_n + "armor"))
 						SaveSystem.SetString(status_player_n + "armor", "");
-					if (name == SaveSystem.GetString(status_player_n + "helmet"))
+					if (partyItem == SaveSystem.GetString(status_player_n + "helmet"))
 						SaveSystem.SetString(status_player_n + "helmet", "");
-					if (name == SaveSystem.GetString(status_player_n + "shield"))
+					if (partyItem == SaveSystem.GetString(status_player_n + "shield"))
 						SaveSystem.SetString(status_player_n + "shield", "");
-					if (name == SaveSystem.GetString(status_player_n + "glove"))
+					if (partyItem == SaveSystem.GetString(status_player_n + "glove"))
 						SaveSystem.SetString(status_player_n + "weapon", "");
 					break;
 			}
 
 			Dictionary<string, int> items = SaveSystem.GetStringIntDict("items");
-			if (items.ContainsKey(name))
-				items[name] = items[name] + 1;
+			if (items.ContainsKey(partyItem))
+				items[partyItem] += 1;
 			else
-				items.Add(name, 1);
+				items.Add(partyItem, 1);
 
 			SaveSystem.SetStringIntDict("items", items);
 
-			equipparty.SetActive(false);
+			equipParty.SetActive(false);
 
 			switch (category) {
 				case "armor":
 					List<string> armor = SaveSystem.GetStringList(status_player_n + "armor_inventory");
-					armor.Remove(name);
+					armor.Remove(partyItem);
 					SaveSystem.SetStringList(status_player_n + "armor_inventory", armor);
 					status_armor();
 					break;
 				case "weapon":
 					List<string> weapons = SaveSystem.GetStringList(status_player_n + "weapons_inventory");
-					weapons.Remove(name);
+					weapons.Remove(partyItem);
 					SaveSystem.SetStringList(status_player_n + "weapons_inventory", weapons);
 					status_weapon();
 					break;
@@ -760,8 +604,8 @@ namespace Overworld {
 		}
 
 		public void status_off() {
-			if (equipparty.activeSelf)
-				equipparty.SetActive(false);
+			if (equipParty.activeSelf)
+				equipParty.SetActive(false);
 			if (statusBag.activeSelf)
 				statusBag.SetActive(false);
 			else {
@@ -769,7 +613,7 @@ namespace Overworld {
 				bagObj.SetActive(false);
 				bagBtn.SetActive(true);
 				give.SetActive(false);
-				givedrop.SetActive(false);
+				giveDrop.SetActive(false);
 				statusContainer.SetActive(false);
 			}
 		}
@@ -777,8 +621,8 @@ namespace Overworld {
 		public void Off() {
 			if (give.activeSelf)
 				give.SetActive(false);
-			else if (givedrop.activeSelf)
-				givedrop.SetActive(false);
+			else if (giveDrop.activeSelf)
+				giveDrop.SetActive(false);
 			else if (bagObj.activeSelf) {
 				bagObj.SetActive(false);
 				bagBtn.SetActive(true);
@@ -790,7 +634,7 @@ namespace Overworld {
 				musicContainer.SetActive(false);
 				overworldSceneContainer.SetActive(true);
 				bagObj.SetActive(false);
-				givedrop.SetActive(false);
+				giveDrop.SetActive(false);
 			}
 		}
 
@@ -808,32 +652,30 @@ namespace Overworld {
 		}
 
 		public void Quit() {
-			areyousuretext.text = "Do you want to quit? Any unsaved progress will be lost.";
-			areyousure.SetActive(true);
+			areYouSureText.text = "Do you want to quit? Any unsaved progress will be lost.";
+			areYouSure.SetActive(true);
 			StartCoroutine(quit_coroutine());
 		}
 
 		IEnumerator quit_coroutine() {
-			while (!areyousure_yes && !areyousure_no)
+			while (!areYouSureYes && !areYouSureNo)
 				yield return null;
 
-			if (areyousure_yes)
+			if (areYouSureYes)
 				actually_quit_application();
 			else
-				areyousure.SetActive(false);
+				areYouSure.SetActive(false);
 
-			areyousure_yes = false;
-			areyousure_no = false;
+			areYouSureYes = false;
+			areYouSureNo = false;
 
 			yield return null;
 		}
 
-		void actually_quit_application() {
-#if UNITY_EDITOR
+		static void actually_quit_application() {
+		#if UNITY_EDITOR
 			EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+		#endif
 		}
 	}
 }
