@@ -1,24 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 
 namespace Utils.SaveGame.Scripts.SaveSystem {
-	public static class SaveSystem {
-	
-		private static string _file;
-		private static bool _loaded;
-		private static DataState _data;
+
+	[Serializable]
+	public abstract class SaveSystem {
+
+		static string _file;
+		static bool _loaded;
+		static DataState _data;
 
 		public static void Initialize(string fileName) // initialization (used once, after the application starts)
 		{
-			if(!_loaded)
-			{
-				_file = fileName;
-				if(File.Exists(GetPath())) Load(); else _data = new DataState();
-				_loaded = true;
-			}
+			if (_loaded)
+				return;
+			_file = fileName;
+			if(File.Exists(GetPath())) Load(); else _data = new DataState();
+			_loaded = true;
 		}
 
 		static string GetPath()
@@ -35,14 +37,10 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 		static void ReplaceItem(string name, string item)
 		{
 			bool j = false;
-			for(int i = 0; i < _data.items.Count; i++)
-			{
-				if(string.Compare(name, _data.items[i].Key) == 0)
-				{
-					_data.items[i].Value = Crypt(item);
-					j = true;
-					break;
-				}
+			foreach (SaveData t in _data.items.Where(t => string.CompareOrdinal(name, t.Key) == 0)) {
+				t.Value = Crypt(item);
+				j = true;
+				break;
 			}
 
 			if(!j) _data.AddItem(new SaveData(name, Crypt(item)));
@@ -50,17 +48,7 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 
 		public static bool HasKey(string name) // check for a key
 		{
-			if(string.IsNullOrEmpty(name)) return false;
-
-			foreach(SaveData k in _data.items)
-			{
-				if(string.Compare(name, k.Key) == 0)
-				{
-					return true;
-				}
-			}
-
-			return false;
+			return !string.IsNullOrEmpty(name) && _data.items.Any(k => string.CompareOrdinal(name, k.Key) == 0);
 		}
 
 		public static void SetStringIntDict(string name, Dictionary<string, int> dict)
@@ -75,14 +63,10 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 			SetString(name, string.Join(",", strings.ToArray()));
 		}
 
-		public static void SetIntList(string name, List<int> ints)
+		public static void SetIntList(string name, IEnumerable<int> ints)
 		{
 			if (string.IsNullOrEmpty(name)) return;
-
-			List<string> strings = new List<string>();
-			foreach (int i in ints)
-				strings.Add("" + i);
-
+			List<string> strings = ints.Select(i => "" + i).ToList();
 			SetStringList(name, strings);
 		}
 
@@ -107,15 +91,13 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 		public static void SetBool(string name, bool val) // set the key and value
 		{
 			if(string.IsNullOrEmpty(name)) return;
-			string tmp = string.Empty;
-			if(val) tmp = "1"; else tmp = "0";
-			ReplaceItem(name, tmp);
+			ReplaceItem(name, val ? "1" : "0");
 		}
 
 		public static void SetFloat(string name, float val)
 		{
 			if(string.IsNullOrEmpty(name)) return;
-			ReplaceItem(name, val.ToString());
+			ReplaceItem(name, val.ToString(CultureInfo.InvariantCulture));
 		}
 
 		public static void SetInt(string name, int val)
@@ -154,27 +136,20 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 
 			foreach(string str in strings)
 			{
-				string key = str.Substring(0, str.IndexOf("="));
-				string preValue = str.Substring(str.IndexOf("=") + 1, str.Length - str.IndexOf("=") - 1);
-				int value = Int32.Parse(preValue);
+				string key = str[..str.IndexOf("=", StringComparison.Ordinal)];
+				string preValue = str.Substring(str.IndexOf("=", StringComparison.Ordinal) + 1, str.Length - str.IndexOf("=", StringComparison.Ordinal) - 1);
+				int value = int.Parse(preValue);
 				output.Add(key, value);
 			}
-
 			return output;
 		}
 
 		public static List<int> GetIntList(string name)
 		{
 			if (string.IsNullOrEmpty(name)) return new List<int>();
-
 			string s = GetString(name);
 			string[] strings = s.Split(',');
-
-			List<int> output = new List<int>();
-			foreach (string str in strings)
-				output.Add(Int32.Parse(str));
-
-			return output;
+			return strings.Select(int.Parse).ToList();
 		}
 
 		public static List<string> GetStringList(string name)
@@ -186,218 +161,154 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 			return new List<string>(strings);
 		}
 
-		public static Vector3 GetVector3(string name)
-		{
-			if(string.IsNullOrEmpty(name)) return Vector3.zero;
-			return IVector3(name, Vector3.zero);
+		public static Vector3 GetVector3(string name) {
+			return string.IsNullOrEmpty(name) ? UnityEngine.Vector3.zero : Vector3(name, UnityEngine.Vector3.zero);
 		}
 
-		public static Vector3 GetVector3(string name, Vector3 defaultValue)
-		{
-			if(string.IsNullOrEmpty(name)) return defaultValue;
-			return IVector3(name, defaultValue);
+		public static Vector3 GetVector3(string name, Vector3 defaultValue) {
+			return string.IsNullOrEmpty(name) ? defaultValue : Vector3(name, defaultValue);
 		}
 
-		static Vector3 IVector3(string name, Vector3 defaultValue)
+		static Vector3 Vector3(string name, Vector3 defaultValue)
 		{
-			Vector3 vector = Vector3.zero;
+			Vector3 vector = UnityEngine.Vector3.zero;
 
-			for(int i = 0; i < _data.items.Count; i++)
-			{
-				if(string.Compare(name, _data.items[i].Key) == 0)
+			foreach (string[] t in from t1 in _data.items where string.CompareOrdinal(name, t1.Key) == 0 select Crypt(t1.Value).Split(new char[]{'|'})) {
+				if(t.Length == 3)
 				{
-					string[] t = Crypt(_data.items[i].Value).Split(new char[]{'|'});
-					if(t.Length == 3)
-					{
-						vector.x = FloatParse(t[0]);
-						vector.y = FloatParse(t[1]);
-						vector.z = FloatParse(t[2]);
-						return vector;
-					}
-					break;
+					vector.x = FloatParse(t[0]);
+					vector.y = FloatParse(t[1]);
+					vector.z = FloatParse(t[2]);
+					return vector;
 				}
+				break;
 			}
 
 			return defaultValue;
 		}
 
-		public static Vector2 GetVector2(string name)
-		{
-			if(string.IsNullOrEmpty(name)) return Vector2.zero;
-			return IVector2(name, Vector2.zero);
+		public static Vector2 GetVector2(string name) {
+			return string.IsNullOrEmpty(name) ? UnityEngine.Vector2.zero : Vector2(name, UnityEngine.Vector2.zero);
 		}
 
-		public static Vector2 GetVector2(string name, Vector2 defaultValue)
-		{
-			if(string.IsNullOrEmpty(name)) return defaultValue;
-			return IVector2(name, defaultValue);
+		public static Vector2 GetVector2(string name, Vector2 defaultValue) {
+			return string.IsNullOrEmpty(name) ? defaultValue : Vector2(name, defaultValue);
 		}
 
-		static Vector2 IVector2(string name, Vector2 defaultValue)
+		static Vector2 Vector2(string name, Vector2 defaultValue)
 		{
-			Vector2 vector = Vector2.zero;
+			Vector2 vector = UnityEngine.Vector2.zero;
 
-			for(int i = 0; i < _data.items.Count; i++)
-			{
-				if(string.Compare(name, _data.items[i].Key) == 0)
+			foreach (string[] t in from t1 in _data.items where string.CompareOrdinal(name, t1.Key) == 0 select Crypt(t1.Value).Split(new char[]{'|'})) {
+				if(t.Length == 2)
 				{
-					string[] t = Crypt(_data.items[i].Value).Split(new char[]{'|'});
-					if(t.Length == 2)
-					{
-						vector.x = FloatParse(t[0]);
-						vector.y = FloatParse(t[1]);
-						return vector;
-					}
-					break;
+					vector.x = FloatParse(t[0]);
+					vector.y = FloatParse(t[1]);
+					return vector;
 				}
+				break;
 			}
 
 			return defaultValue;
 		}
 
-		public static Color GetColor(string name)
-		{
-			if(string.IsNullOrEmpty(name)) return Color.white;
-			return IColor(name, Color.white);
+		public static Color GetColor(string name) {
+			return string.IsNullOrEmpty(name) ? UnityEngine.Color.white : Color(name, UnityEngine.Color.white);
 		}
 
-		public static Color GetColor(string name, Color defaultValue)
-		{
-			if(string.IsNullOrEmpty(name)) return defaultValue;
-			return IColor(name, defaultValue);
+		public static Color GetColor(string name, Color defaultValue) {
+			return string.IsNullOrEmpty(name) ? defaultValue : Color(name, defaultValue);
 		}
 
-		static Color IColor(string name, Color defaultValue)
+		static Color Color(string name, Color defaultValue)
 		{
-			Color color = Color.clear;
-
-			for(int i = 0; i < _data.items.Count; i++)
-			{
-				if(string.Compare(name, _data.items[i].Key) == 0)
+			Color color = UnityEngine.Color.clear;
+			foreach (string[] t in from t1 in _data.items where string.CompareOrdinal(name, t1.Key) == 0 select Crypt(t1.Value).Split(new char[]{'|'})) {
+				if(t.Length == 4)
 				{
-					string[] t = Crypt(_data.items[i].Value).Split(new char[]{'|'});
-					if(t.Length == 4)
-					{
-						color.r = FloatParse(t[0]);
-						color.g = FloatParse(t[1]);
-						color.b = FloatParse(t[2]);
-						color.a = FloatParse(t[3]);
-						return color;
-					}
-					break;
+					color.r = FloatParse(t[0]);
+					color.g = FloatParse(t[1]);
+					color.b = FloatParse(t[2]);
+					color.a = FloatParse(t[3]);
+					return color;
 				}
+				break;
 			}
-
 			return defaultValue;
 		}
 
 		public static bool GetBool(string name) // get value by key
 		{
-			if(string.IsNullOrEmpty(name)) return false;
-			return IBool(name, false);
+			return !string.IsNullOrEmpty(name) && Bool(name, false);
 		}
 
-		public static bool GetBool(string name, bool defaultValue) // with the default setting
+		public bool GetBool(string name, bool defaultValue) // with the default setting
 		{
-			if(string.IsNullOrEmpty(name)) return defaultValue;
-			return IBool(name, defaultValue);
+			return string.IsNullOrEmpty(name) ? defaultValue : Bool(name, defaultValue);
 		}
 
-		static bool IBool(string name, bool defaultValue)
-		{
-			for(int i = 0; i < _data.items.Count; i++)
-			{
-				if(string.Compare(name, _data.items[i].Key) == 0)
-				{
-					if(string.Compare(Crypt(_data.items[i].Value), "1") == 0) return true; else return false;
-				}
+		static bool Bool(string name, bool defaultValue) {
+			foreach (SaveData t in _data.items.Where(t => string.CompareOrdinal(name, t.Key) == 0)) {
+				return string.CompareOrdinal(Crypt(t.Value), "1") == 0;
 			}
-
 			return defaultValue;
 		}
 
 		public static float GetFloat(string name)
 		{
 			if(string.IsNullOrEmpty(name)) return 0;
-			return IFloat(name, 0);
+			return Float(name, 0);
 		}
 
 		public static float GetFloat(string name, float defaultValue)
 		{
 			if(string.IsNullOrEmpty(name)) return defaultValue;
-			return IFloat(name, defaultValue);
+			return Float(name, defaultValue);
 		}
 
-		static float IFloat(string name, float defaultValue)
-		{
-			for(int i = 0; i < _data.items.Count; i++)
-			{
-				if(string.Compare(name, _data.items[i].Key) == 0)
-				{
-					return FloatParse(Crypt(_data.items[i].Value));
-				}
+		static float Float(string name, float defaultValue) {
+			foreach (SaveData t in _data.items.Where(t => string.CompareOrdinal(name, t.Key) == 0)) {
+				return FloatParse(Crypt(t.Value));
 			}
 
 			return defaultValue;
 		}
 
-		public static int GetInt(string name)
-		{
-			if(string.IsNullOrEmpty(name)) return 0;
-			return IInt(name, 0);
+		public static int GetInt(string name) {
+			return string.IsNullOrEmpty(name) ? 0 : Int(name, 0);
 		}
 
-		public static int GetInt(string name, int defaultValue)
-		{
-			if(string.IsNullOrEmpty(name)) return defaultValue;
-			return IInt(name, defaultValue);
+		public static int GetInt(string name, int defaultValue) {
+			return string.IsNullOrEmpty(name) ? defaultValue : Int(name, defaultValue);
 		}
 
-		static int IInt(string name, int defaultValue)
+		static int Int(string name, int defaultValue)
 		{
-			if (_data != null)
-			{
-				for (int i = 0; i < _data.items.Count; i++)
-				{
-					if (string.Compare(name, _data.items[i].Key) == 0)
-					{
-						return INTParse(Crypt(_data.items[i].Value));
-					}
-				}
+			if (_data == null)
+				return defaultValue;
+			foreach (SaveData t in _data.items.Where(t => string.CompareOrdinal(name, t.Key) == 0)) {
+				return INTParse(Crypt(t.Value));
 			}
-
 			return defaultValue;
 		}
 
-		public static string GetString(string name)
-		{
-			if(string.IsNullOrEmpty(name)) return string.Empty;
-			return IString(name, string.Empty);
+		public static string GetString(string name) {
+			return string.IsNullOrEmpty(name) ? string.Empty : String(name, string.Empty);
 		}
 
-		public static string GetString(string name, string defaultValue)
-		{
-			if(string.IsNullOrEmpty(name)) return defaultValue;
-			return IString(name, defaultValue);
+		public static string GetString(string name, string defaultValue) {
+			return string.IsNullOrEmpty(name) ? defaultValue : String(name, defaultValue);
 		}
 
-		static string IString(string name, string defaultValue)
-		{
-			for(int i = 0; i < _data.items.Count; i++)
-			{
-				if(string.Compare(name, _data.items[i].Key) == 0)
-				{
-					return Crypt(_data.items[i].Value);
-				}
+		static string String(string name, string defaultValue) {
+			foreach (SaveData t in _data.items.Where(t => string.CompareOrdinal(name, t.Key) == 0)) {
+				return Crypt(t.Value);
 			}
-
 			return defaultValue;
 		}
 
-		static int INTParse(string val)
-		{
-			if(int.TryParse(val, out int value)) return value;
-			return 0;
+		static int INTParse(string val) {
+			return int.TryParse(val, out int value) ? value : 0;
 		}
 
 		static float FloatParse(string val)
@@ -406,11 +317,8 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 			return 0;
 		}
 
-		static string Crypt(string text)
-		{
-			string result = string.Empty;
-			foreach(char j in text) result += (char)((int)j ^ 42);
-			return result;
+		static string Crypt(string text) {
+			return text.Aggregate(string.Empty, (current, j) => current + (char)((int)j ^ 42));
 		}
 	}
 }

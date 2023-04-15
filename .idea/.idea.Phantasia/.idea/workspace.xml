@@ -4,43 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(update): code">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons/Common.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Commons/Common.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/CommonWrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenu/CommonWrapper.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/DataSave.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/DataSave.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Music.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Music.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/MockSaveSystem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/MockSaveSystem.cs.meta" afterDir="false" />
+    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(rider): refactor with partials">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Boss.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Boss.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/BridgeTrigger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/BridgeTrigger.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller/CameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/CameraController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller/CameraController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Chest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Chest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/GlobalControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/GlobalControl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/LockedDoor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/LockedDoor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/MapHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/MapHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenuHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers/PauseMenuHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PauseMenuHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Handlers/PauseMenuHandler.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/PlayerController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Controller/PlayerController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/RandomEncounterHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/RandomEncounterHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/ShopWarp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/ShopWarp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/TitleScreenHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/EditTests.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/EditTests.asmdef" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/MockSaveSystem.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/MockSaveSystem.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Tests/EditTests/NewTestScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/EditTests/NewTestScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/BattleTransitions/ScreenTransition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/BattleTransitions/ScreenTransition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Builder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Builder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Settings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Settings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/SettingsWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/SettingsWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Storage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/MultiBuild/Editor/Storage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystemData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystemData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystemSetup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystemSetup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/TestSaveGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/TestSaveGame.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/Screen Wipe/Scripts/ScreenTransitionImageEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/Screen Wipe/Scripts/ScreenTransitionImageEffect.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,26 +53,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propDebugger&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "ReSpellerSettingsId",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\Stephanie\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\Stephanie\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\Stephanie\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\Stephanie\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Stephanie\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\Stephanie\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2021.3.22f1\Editor\Unity.exe" />
@@ -141,7 +120,7 @@
       <option name="presentableId" value="Default" />
       <updated>1681488820604</updated>
       <workItem from="1681488822366" duration="20326000" />
-      <workItem from="1681509874697" duration="10763000" />
+      <workItem from="1681509874697" duration="14041000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -150,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681512381744</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat(rider): refactor with partials">
+      <created>1681521120215</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1681521120215</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,7 +148,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="feat(update): code" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(update): code" />
+    <MESSAGE value="feat(rider): refactor with partials" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(rider): refactor with partials" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

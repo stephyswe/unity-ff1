@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
+using static UnityEditor.BuildTarget;
 
 namespace Utils.MultiBuild.Editor {
 
@@ -12,69 +14,67 @@ namespace Utils.MultiBuild.Editor {
         /// <summary>
         /// Build with default saved options
         /// </summary>
+        [Obsolete("Obsolete")]
+        // ReSharper disable once UnusedMember.Global
         public static bool Build() {
-            var settings = Storage.LoadSettings();
+            Settings settings = Storage.LoadSettings();
             if (settings == null) {
                 throw new InvalidOperationException("No saved settings found, cannot build");
             }
             return Build(settings, null);
         }
 
-        /// <summary>
-        /// Build using command line arguments, i.e. via the -executeMethod argument to Unity.
-        /// Unlike Build() this does not load any saved settings. Always uses the product name.
-        /// Arguments must all be after the executeMethod call:
-        ///  Unity -quit -batchmode -executeMethod MultiBuild.Builder.BuildCommandLine <outputFolder> <is_dev> <targetName> [targetName...]
-        /// Products are created in <outputFolder>/targetName/
-        /// targetName must match the enum MultiBuild.Target
-        /// No other arguments must be after that
+        // ReSharper disable once CommentTypo
+        // ReSharper disable once InvalidXmlDocComment
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Obsolete")]
+        // ReSharper disable once UnusedMember.Global
         public static void BuildCommandLine() {
-            // We get all the args, including UNity.exe, -quit -batchmode etc
+            // ReSharper disable once CommentTypo
+            // We get all the args, including Unity.exe, -quit -batchmode etc
             // read everything after our execute call
-            var args = System.Environment.GetCommandLineArgs();
+            string[] args = Environment.GetCommandLineArgs();
             // 0 = looking for args
             // 1 = expecting output folder
             // 2 = expecting dev boolean
             // 3 = expecting target
             int stage = 0;
-            Settings settings = new Settings();
+            Settings settings = ScriptableObject.CreateInstance<Settings>();
             settings.Reset();
 
-            string usage = "\nUsage:\n  Unity <args> -executeMethod MultiBuild.Builder.BuildCommandLine <outputFolder> <is_dev> <targetName> [targetName...]\n";
+            const string usage = "\nUsage:\n  Unity <args> -executeMethod MultiBuild.Builder.BuildCommandLine <outputFolder> <is_dev> <targetName> [targetName...]\n";
 
-            for (int i = 0; i < args.Length; ++i) {
+            foreach (string t in args) {
                 switch (stage) {
-                case 0:
-                    // Skipping over all args until we see ours
-                    if (args[i].Equals("MultiBuild.Builder.BuildCommandLine")) {
+                    case 0:
+                        // Skipping over all args until we see ours
+                        if (t.Equals("MultiBuild.Builder.BuildCommandLine")) {
+                            stage++;
+                        }
+                        break;
+                    case 1:
+                        // next arg is output
+                        settings.outputFolder = t;
                         stage++;
-                    }
-                    break;
-                case 1:
-                    // next arg is output
-                    settings.outputFolder = args[i];
-                    stage++;
-                    break;
-                case 2:
-                    // next arg is dev flag
-                    try {
-                        settings.developmentBuild = Boolean.Parse(args[i]);
-                        stage++;
-                    } catch (FormatException) {
-                        throw new ArgumentException("Development build argument was not a valid boolean" + usage);
-                    }
-                    break;
-                default:
-                case 3:
-                    // all subsequent args should be targets
-                    try {
-                        settings.targets.Add((Target)Enum.Parse(typeof(Target), args[i]));
-                    } catch (ArgumentException) {
-                        throw new ArgumentException(string.Format("Invalid target '{0}'", args[i]));
-                    }
-                    break;
+                        break;
+                    case 2:
+                        // next arg is dev flag
+                        try {
+                            settings.developmentBuild = bool.Parse(t);
+                            stage++;
+                        } catch (FormatException) {
+                            throw new ArgumentException("Development build argument was not a valid boolean" + usage);
+                        }
+                        break;
+                    default:
+                        // all subsequent args should be targets
+                        try {
+                            settings.targets.Add((Target)Enum.Parse(typeof(Target), t));
+                        } catch (ArgumentException) {
+                            throw new ArgumentException(string.Format("Invalid target '{0}'", t));
+                        }
+                        break;
                 }
             }
             if (stage != 3 || settings.targets.Count == 0) {
@@ -95,17 +95,18 @@ namespace Utils.MultiBuild.Editor {
         /// is false for the pre-call and true for the post-call. Return true to
         /// continue or false to abort.</param>
         /// <returns>True if the process completed fully or false if was cancelled by callback</returns>
-        public static bool Build(Settings settings, System.Func<BuildPlayerOptions, float, bool, bool> callback) {
+        [Obsolete("Obsolete")]
+        public static bool Build(Settings settings, Func<BuildPlayerOptions, float, bool, bool> callback) {
 
-            var buildSteps = SelectedBuildOptions(settings);
+            List<BuildPlayerOptions> buildSteps = SelectedBuildOptions(settings);
             int i = 1;
-            foreach (var opts in buildSteps) {
+            foreach (BuildPlayerOptions opts in buildSteps) {
                 if (callback != null &&
-                    !callback(opts, (float)(i / (float)buildSteps.Count), false)) {
-                        return false; // cancelled
+                    !callback(opts, i / (float)buildSteps.Count, false)) {
+                    return false; // cancelled
                 }
 #if UNITY_2018_1_OR_NEWER
-                var report = BuildPipeline.BuildPlayer(opts);
+                BuildReport report = BuildPipeline.BuildPlayer(opts);
                 string err = report.summary.result == BuildResult.Succeeded ? string.Empty : "See log";
 #elif UNITY_5_5_OR_NEWER
                 var err = BuildPipeline.BuildPlayer(opts);
@@ -121,133 +122,153 @@ namespace Utils.MultiBuild.Editor {
                 }
                 ++i;
                 if (callback != null &&
-                    !callback(opts, (float)(i / (float)buildSteps.Count), true)) {
-                        return false; // cancelled
+                    !callback(opts, i / (float)buildSteps.Count, true)) {
+                    return false; // cancelled
                 }
             }
             return true;
         }
 
+        [Obsolete("Obsolete")]
         public static BuildTargetGroup GroupForTarget(BuildTarget t) {
             // Can't believe Unity doesn't have a method for this already
             switch (t) {
-            case BuildTarget.StandaloneLinux:
-            case BuildTarget.StandaloneLinux64:
-            case BuildTarget.StandaloneLinuxUniversal:
-            case BuildTarget.StandaloneOSX:
-            case BuildTarget.StandaloneWindows:
-            case BuildTarget.StandaloneWindows64:
+            case StandaloneLinux:
+            case StandaloneLinux64:
+            case StandaloneLinuxUniversal:
+            case StandaloneOSX:
+            case StandaloneWindows:
+            case StandaloneWindows64:
                 return BuildTargetGroup.Standalone;
-            case BuildTarget.iOS:
+            case iOS:
                 return BuildTargetGroup.iOS;
-            case BuildTarget.Android:
+            case Android:
                 return BuildTargetGroup.Android;
-            case BuildTarget.WebGL:
+            case WebGL:
                 return BuildTargetGroup.WebGL;
-            case BuildTarget.WSAPlayer:
+            case WSAPlayer:
                 return BuildTargetGroup.WSA;
-            case BuildTarget.Tizen:
+            case Tizen:
                 return BuildTargetGroup.Tizen;
-            case BuildTarget.PS4:
+            case PS4:
                 return BuildTargetGroup.PS4;
-            case BuildTarget.XboxOne:
+            case XboxOne:
                 return BuildTargetGroup.XboxOne;
-            case BuildTarget.WiiU:
+            case WiiU:
                 return BuildTargetGroup.WiiU;
-            case BuildTarget.tvOS:
+            case tvOS:
                 return BuildTargetGroup.tvOS;
 #if UNITY_5_5_OR_NEWER
-            case BuildTarget.N3DS:
+            case N3DS:
                 return BuildTargetGroup.N3DS;
 #else
             case BuildTarget.Nintendo3DS:
                 return BuildTargetGroup.Nintendo3DS;
 #endif
 #if UNITY_5_6_OR_NEWER
-            case BuildTarget.Switch:
+            case Switch:
                 return BuildTargetGroup.Switch;
 #endif
                 // TODO more platforms?
+            case StandaloneOSXUniversal:
+            case StandaloneOSXIntel:
+            case WebPlayer:
+            case WebPlayerStreamed:
+            case PS3:
+            case XBOX360:
+            case WP8Player:
+            case StandaloneOSXIntel64:
+            case BlackBerry:
+            case PSP2:
+            case PSM:
+            case SamsungTV:
+            case Lumin:
+            case Stadia:
+            case CloudRendering:
+            case GameCoreScarlett:
+            case GameCoreXboxOne:
+            case PS5:
+            case EmbeddedLinux:
+            case BuildTarget.iPhone:
+            case NoTarget:
             default:
                 return BuildTargetGroup.Unknown;
             }
         }
 
+        [Obsolete("Obsolete")]
         static BuildTarget UnityTarget(Target t) {
             switch (t) {
             case Target.Win32:
-                return BuildTarget.StandaloneWindows;
+                return StandaloneWindows;
             case Target.Win64:
-                return BuildTarget.StandaloneWindows64;
+                return StandaloneWindows64;
             case Target.Mac:
             case Target.Mac32:
-                return BuildTarget.StandaloneOSX;
+                return StandaloneOSX;
             case Target.MacUniversal:
-                return BuildTarget.StandaloneOSX;
+                return StandaloneOSX;
             case Target.Linux32:
-                return BuildTarget.StandaloneLinux;
+                return StandaloneLinux;
             case Target.Linux64:
-                return BuildTarget.StandaloneLinux64;
+                return StandaloneLinux64;
             case Target.IOS:
-                return BuildTarget.iOS;
+                return iOS;
             case Target.Android:
-                return BuildTarget.Android;
+                return Android;
             case Target.WebGL:
-                return BuildTarget.WebGL;
+                return WebGL;
             case Target.WinStore:
-                return BuildTarget.WSAPlayer;
+                return WSAPlayer;
             case Target.Tizen:
-                return BuildTarget.Tizen;
+                return Tizen;
             case Target.PS4:
-                return BuildTarget.PS4;
+                return PS4;
             case Target.XboxOne:
-                return BuildTarget.XboxOne;
+                return XboxOne;
             case Target.WiiU:
-                return BuildTarget.WiiU;
-            case Target.TVOS:
-                return BuildTarget.tvOS;
+                return WiiU;
+            case Target.Tvos:
+                return tvOS;
 #if UNITY_5_5_OR_NEWER
             case Target.Nintendo3Ds:
-                return BuildTarget.N3DS;
+                return N3DS;
 #else
             case Target.Nintendo3DS:
                 return BuildTarget.Nintendo3DS;
 #endif
 #if UNITY_5_6_OR_NEWER
             case Target.Switch:
-                return BuildTarget.Switch;
+                return Switch;
 #endif
                 // TODO more platforms?
+            case Target.SamsungTV:
             default:
                 throw new NotImplementedException("Target not supported");
             }
         }
 
-        static public List<BuildPlayerOptions> SelectedBuildOptions(Settings settings) {
-            var ret = new List<BuildPlayerOptions>();
-            foreach (var target in settings.targets) {
-                ret.Add(BuildOpts(settings, target));
-            }
-            return ret;
+        [Obsolete("Obsolete")]
+        static List<BuildPlayerOptions> SelectedBuildOptions(Settings settings) {
+            return settings.targets.Select(target => BuildOpts(settings, target)).ToList();
         }
 
-        static public BuildPlayerOptions BuildOpts(Settings settings, Target target) {
-            BuildPlayerOptions o = new BuildPlayerOptions();
-            // Build all the scenes selected in build settings
-            o.scenes = EditorBuildSettings.scenes
-                .Where(x => x.enabled)
-                .Select(x => x.path)
-                .ToArray();
+        [Obsolete("Obsolete")]
+        static BuildPlayerOptions BuildOpts(Settings settings, Target target) {
+            BuildPlayerOptions o = new BuildPlayerOptions {
+                // Build all the scenes selected in build settings
+                scenes = EditorBuildSettings.scenes
+                    .Where(x => x.enabled)
+                    .Select(x => x.path)
+                    .ToArray()
+            };
             string subfolder = target.ToString();
             o.locationPathName = Path.Combine(settings.outputFolder, subfolder);
             // location needs to include the output name too
-            if (settings.useProductName)
-                o.locationPathName = Path.Combine(o.locationPathName, PlayerSettings.productName);
-            else
-                o.locationPathName = Path.Combine(o.locationPathName, settings.overrideName);
+            o.locationPathName = Path.Combine(o.locationPathName, settings.useProductName ? PlayerSettings.productName : settings.overrideName);
             // Need to append exe in Windows, isn't added by default
             // Weirdly .app is added automatically for Mac
-            if (target == Target.Win32 || target == Target.Win64)
+            if (target is Target.Win32 or Target.Win64)
                 o.locationPathName += ".exe";
 
             o.target = UnityTarget(target);

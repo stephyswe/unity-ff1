@@ -6,14 +6,14 @@ namespace Utils.MultiBuild.Editor {
 
     public static class Storage {
 
-        static string _settingsFilePath = "Assets/MultiBuild/MultiBuildSettings.asset";
+        const string SettingsFilePath = "Assets/MultiBuild/MultiBuildSettings.asset";
 
         /// <summary>
         /// Try to load saved settings
         /// </summary>
         /// <returns>Settings instance if present, or null if not</returns>
         public static Settings LoadSettings() {
-            return AssetDatabase.LoadAssetAtPath(_settingsFilePath, typeof(Settings)) as Settings;
+            return AssetDatabase.LoadAssetAtPath(SettingsFilePath, typeof(Settings)) as Settings;
         }
 
         /// <summary>
@@ -25,28 +25,29 @@ namespace Utils.MultiBuild.Editor {
             // try to load first
             Settings s = LoadSettings();
 
-            if (s == null) {
-                // Create new
-                s = ScriptableObject.CreateInstance<Settings>();
-                s.Reset();
-                // Should not save during play, probably won't happen but check
-                if (EditorApplication.isPlayingOrWillChangePlaymode) {
-                    EditorApplication.delayCall += () => CreateNewSettingsAsset(s);
-                } else {
-                    CreateNewSettingsAsset(s);
-                }
+            // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
+            if (s != null)
+                return s;
+            // Create new
+            s = ScriptableObject.CreateInstance<Settings>();
+            s.Reset();
+            // Should not save during play, probably won't happen but check
+            if (EditorApplication.isPlayingOrWillChangePlaymode) {
+                EditorApplication.delayCall += () => CreateNewSettingsAsset(s);
+            } else {
+                CreateNewSettingsAsset(s);
             }
             return s;
         }
 
 
-        private static void CreateNewSettingsAsset(Settings s) {
-            string f = _settingsFilePath;
-            string dir = Path.GetDirectoryName(f);
-            if(!Directory.Exists(dir)){
-                Directory.CreateDirectory(dir);
+        static void CreateNewSettingsAsset(Object s) {
+            string dir = Path.GetDirectoryName(SettingsFilePath);
+            if(!Directory.Exists(dir)) {
+                if (dir != null)
+                    Directory.CreateDirectory(dir);
             }
-            AssetDatabase.CreateAsset(s, f);
+            AssetDatabase.CreateAsset(s, SettingsFilePath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 

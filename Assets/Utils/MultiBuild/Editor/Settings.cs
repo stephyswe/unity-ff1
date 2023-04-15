@@ -25,7 +25,7 @@ namespace Utils.MultiBuild.Editor {
         SamsungTV = 14,
         Nintendo3Ds = 15,
         WiiU = 16,
-        TVOS = 17,
+        Tvos = 17,
 #if UNITY_5_6_OR_NEWER
         Switch = 18,
 #endif
@@ -40,7 +40,7 @@ namespace Utils.MultiBuild.Editor {
         public List<Target> targets;
 
         public void Reset() {
-            outputFolder = Directory.GetParent(Application.dataPath).FullName;
+            outputFolder = Directory.GetParent(Application.dataPath)?.FullName;
             useProductName = true;
             overrideName = string.Empty;
             developmentBuild = false;

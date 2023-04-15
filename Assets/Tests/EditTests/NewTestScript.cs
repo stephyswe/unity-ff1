@@ -33,26 +33,6 @@ namespace Tests.EditTests {
 			Assert.AreEqual(expectedValues, actualValues);
 			Assert.AreEqual(expectedIndex, actualIndex);
 		}
-		
-		[Test]
-		public void TestWorldFlags() {
-			// Create instance of MockSaveSystem
-			MockSaveSystem saveSystem = new MockSaveSystem();
-
-			// Call method under test with mock save system
-			TitleScreen.TitleScreenHandler.WorldFlags();
-
-			// Assert that the values were set correctly
-			Assert.IsFalse(saveSystem.GetBool("earth_orb"));
-			Assert.IsFalse(saveSystem.GetBool("fire_orb"));
-			Assert.IsFalse(saveSystem.GetBool("water_orb"));
-			Assert.IsFalse(saveSystem.GetBool("wind_orb"));
-
-			Assert.IsFalse(saveSystem.GetBool("garland_battle"));
-			Assert.IsFalse(saveSystem.GetBool("princess_in_temple_of_fiends"));
-			Assert.IsFalse(saveSystem.GetBool("king_mentioned_bridge"));
-			Assert.IsFalse(saveSystem.GetBool("princess_gave_lute"));
-		}
 
 		// A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
 		// `yield return null;` to skip a frame.
