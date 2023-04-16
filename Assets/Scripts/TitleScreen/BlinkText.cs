@@ -13,8 +13,7 @@ namespace TitleScreen {
 
 		// Update is called once per frame
 		void Update() {
-			counter += Time.deltaTime;
-			if (counter < 0.2f)
+			if (!((counter += Time.deltaTime) > 0.2f))
 				return;
 			text.enabled = !text.enabled;
 			counter = 0;

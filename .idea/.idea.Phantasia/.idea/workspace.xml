@@ -6,12 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(tests): title screen, save data">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/BlinkText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/BlinkText.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Tests/InputControl/Mouse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/InputControl/Mouse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/Config.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/Config.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/PlayTests.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/PlayTests.asmdef" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/TitleScreenTests.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/TitleScreenTests.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/Config.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/Config.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/TitleScreenTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/TitleScreenTests.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +22,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/88e4733ac7bc4ae1b496735e6b83bbd346ac00/ce/c2d080cb/NullReferenceException.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/88e4733ac7bc4ae1b496735e6b83bbd346ac00/fd/71a9f463/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/7e/b8ac9ba3/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/93/28009175/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../_complete/PhantasiaComplete/Assets/Scripts/Battling/CursorController.cs" root0="SKIP_HIGHLIGHTING" />
@@ -90,10 +90,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="15880">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="15880" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -134,7 +134,7 @@
       <workItem from="1681633733756" duration="8932000" />
       <workItem from="1681644804663" duration="2499000" />
       <workItem from="1681647983093" duration="113000" />
-      <workItem from="1681648107251" duration="2266000" />
+      <workItem from="1681648107251" duration="8463000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -225,6 +225,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Tests/PlayTests/TitleScreenTests.cs</url>
+          <line>80</line>
+          <properties documentPath="D:\dev\unity\_games\Phantasia\Assets\Tests\PlayTests\TitleScreenTests.cs" initialLine="80" containingFunctionPresentation="Method 'Test_TitleScreen_03_Settings'">
+            <startOffsets>
+              <option value="2543" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2577" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

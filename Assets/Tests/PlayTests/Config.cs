@@ -19,6 +19,12 @@ namespace Tests.PlayTests {
 			Assert.IsTrue(gameObj != null, "should find the "+objName+" object in the scene");
 			return gameObj;
 		}
+		
+		public static GameObject FindNotObject(string objName) {
+			GameObject gameObj = GameObject.Find(objName);
+			Assert.IsTrue(gameObj == null, "should not find the "+objName+" object in the scene");
+			return gameObj;
+		}
 
 		public static void LoadScene(string sceneName = null) {
 			string path = "Assets/Scenes/" + sceneName + ".unity";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -46,15 +47,17 @@ namespace Tests.InputControl {
 		}
 
 		// ReSharper disable once UnusedMethodReturnValue.Global
-		public static IEnumerable<WaitForSeconds> MultipleClicks(IEnumerable<int[]> positions)
+		public static IEnumerator MultipleClicks(IEnumerable<int[]> positions)
 		{
-			Point[] points = positions.Select(pos => new Point(pos[0], pos[1])).ToArray();
-			foreach (Point point in points)
+			foreach (int[] pos in positions)
 			{
-				LeftMouseClick(point.X, point.Y);
-				yield return new WaitForSeconds(1);
+				int xPos = pos[0];
+				int yPos = pos[1];
+				LeftMouseClick(xPos, yPos);
+				yield return new WaitForSeconds(0);
 			}
 		}
+
 
 		static (int x, int y) GetBothPos(GameObject obj) {
 			Vector3 position = obj.transform.localPosition;
