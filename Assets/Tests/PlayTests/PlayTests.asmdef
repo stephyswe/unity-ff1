@@ -2,17 +2,18 @@
     "name": "PlayTests",
     "rootNamespace": "",
     "references": [
-        "GUID:0e7e71e3bc4082842a0f0672b7dfc794",
         "GUID:27619889b8ba8c24980f49ee34dbb44a",
-        "GUID:0acc523941302664db1f4e527237feb3"
+        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:0e7e71e3bc4082842a0f0672b7dfc794",
+        "GUID:89a03a0928ea6614581879884dcbd8cc"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll",
-        "Newtonsoft.Json.dll"
+        "Newtonsoft.Json.dll",
+        "nunit.framework.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
