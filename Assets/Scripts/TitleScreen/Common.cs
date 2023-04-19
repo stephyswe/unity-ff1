@@ -3,6 +3,21 @@ using UnityEngine;
 
 namespace TitleScreen {
 	public partial class TitleScreenHandler {
+		public static void ContainerToggle(GameObject container, GameObject title) {
+			if (container == null || title == null) {
+				Debug.LogError("Container and title GameObjects cannot be null.");
+				return;
+			}	
+			if (!container.activeSelf) {
+				title.SetActive(false);
+				container.SetActive(true);
+			}
+			else {
+				title.SetActive(true);
+				container.SetActive(false);
+			}
+		}
+		
 		public static (float[] values, int characterIndex) GetCharacterValues(string pClass) {
 			float[] values = null;
 			int characterIndex = 0;

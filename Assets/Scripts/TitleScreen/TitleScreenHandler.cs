@@ -78,14 +78,7 @@ namespace TitleScreen {
 
 		// New game & back
 		public void new_game() {
-			if (!charSelect.activeSelf) {
-				title.SetActive(false);
-				charSelect.SetActive(true);
-			}
-			else {
-				title.SetActive(true);
-				charSelect.SetActive(false);
-			}
+			ContainerToggle(charSelect, title);
 		}
 
 		// Continue
@@ -95,16 +88,9 @@ namespace TitleScreen {
 		
 		// setting & back
 		public void Settings() {
-			if (!settingsContainer.activeSelf) {
-				title.SetActive(false);
-				settingsContainer.SetActive(true);
-			}
-			else {
-				title.SetActive(true);
-				settingsContainer.SetActive(false);
-			}
+			ContainerToggle(settingsContainer, title);
 		}
-		
+
 		// Quit
 		public void Exit() {
         #if UNITY_EDITOR
