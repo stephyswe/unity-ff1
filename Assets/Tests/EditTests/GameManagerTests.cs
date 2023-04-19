@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tests.EditTests {
 
-	public class TitleHandlerTests {
+	public class GameManagerTests {
 		[Test]
 		// Test cases for GetCharacterValues
 		[TestCase("fighter", new[] {20, 5, 1, 10, 5, 35, 0.1f, .15f, 0}, 3)]
@@ -16,7 +16,7 @@ namespace Tests.EditTests {
 		[TestCase("invalid", null, 0)]
 		public void _01_GetCharacterValues(string pClass, float[] expectedValues, int expectedIndex) {
 			// Act
-			(float[] actualValues, int actualIndex) = TitleScreenHandler.GetCharacterValues(pClass);
+			(float[] actualValues, int actualIndex) = GameManager.GetCharacterValues(pClass);
 
 			// Assert
 			Assert.AreEqual(expectedValues, actualValues);
@@ -26,17 +26,17 @@ namespace Tests.EditTests {
 		[Test]
 		public void _02_ContainerToggle() {
 			// Load the scene
-			Config.LoadEditScene("Title Screen");
+			Config.LoadEditScene("Menu");
 
 			// Instantiate the objects in the scene
 			GameObject container = new GameObject();
 			GameObject title = new GameObject();
 
 			// Add the script to one of the objects
-			container.AddComponent<TitleScreenHandler>();
+			container.AddComponent<GameManager>();
 
 			// Call the method on the script
-			TitleScreenHandler.ContainerToggle(container, title);
+			GameManager.ContainerToggle(container, title);
 
 			// Assert the expected behavior
 			Assert.IsTrue(title.activeSelf);

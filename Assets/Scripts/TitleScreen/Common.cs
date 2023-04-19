@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace TitleScreen {
-	public partial class TitleScreenHandler {
+	public partial class GameManager {
 		public static void ContainerToggle(GameObject container, GameObject title) {
 			if (container == null || title == null) {
 				Debug.LogError("Container and title GameObjects cannot be null.");

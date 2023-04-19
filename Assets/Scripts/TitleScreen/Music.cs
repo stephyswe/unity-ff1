@@ -4,7 +4,7 @@ using UnityEngine;
 using Utils.SaveGame.Scripts.SaveSystem;
 
 namespace TitleScreen {
-	public partial class TitleScreenHandler {
+	public partial class GameManager {
 		void SetMusicVolumes(bool classicMusic, bool remasterMusic) {
 			Dictionary<MusicTrack, float> volumes = new Dictionary<MusicTrack, float>() {
 				{MusicTrack.Classic, classicMusic ? 1f : 0f},

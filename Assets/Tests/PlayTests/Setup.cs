@@ -7,7 +7,7 @@ namespace Tests.PlayTests {
 	{
 		public static void Setup_01(out string testFilePath, out string sceneName, out string findObj, out string randomKey, out int[][] positions) {
 			testFilePath = "./Assets/Tests/Files/const-party.json";
-			sceneName = "Title Screen";
+			sceneName = "Menu";
 			findObj = "Title";
 			randomKey = "reh_seed";
 			positions = new[] {

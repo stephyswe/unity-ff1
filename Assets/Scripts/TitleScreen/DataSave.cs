@@ -4,7 +4,7 @@ using UnityEngine;
 using Utils.SaveGame.Scripts.SaveSystem;
 
 namespace TitleScreen {
-	public partial class TitleScreenHandler {
+	public partial class GameManager {
 		void init_save_file() {
 			// Random encounter handler
 			RandomEncounterHandler reh = gameObject.AddComponent<RandomEncounterHandler>();

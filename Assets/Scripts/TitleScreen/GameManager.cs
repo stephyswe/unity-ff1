@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using Utils.SaveGame.Scripts.SaveSystem;
 
 namespace TitleScreen {
-	public partial class TitleScreenHandler : MonoBehaviour {
+	public partial class GameManager : MonoBehaviour {
 
 		[FormerlySerializedAs("loading_circle")]
 		public LoadingCircle loadingCircle;
@@ -34,6 +34,20 @@ namespace TitleScreen {
 		[FormerlySerializedAs("bss_text")] public Text bssText;
 
 		public string[] names;
+		
+		
+		// Values and methods for testing
+		public static bool startEnabled = true;
+		public static bool updateEnabled = true;
+
+		public static void InitializeTestingEnvironment(bool start, bool update)
+		{
+			
+			startEnabled = start;
+			updateEnabled = update;
+		}
+		
+		public static GameManager instance;
 
 		void Start() {
 			pre_setup();
