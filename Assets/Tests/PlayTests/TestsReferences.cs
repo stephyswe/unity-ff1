@@ -11,6 +11,7 @@ public class TestsReferences : MonoBehaviour
 	public GameObject eventPrefab;
 	public GameObject cameraPrefab;
 	public GameObject savePrefab;
+	public GameObject musicPrefab;
 	public GameObject gameManagerPrefab;
 	#endregion
 }

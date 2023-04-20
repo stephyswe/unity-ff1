@@ -53,5 +53,7 @@ MonoBehaviour:
     type: 3}
   savePrefab: {fileID: 4161287330741385569, guid: d2b509cf98033094db31eab7c42b9b1a,
     type: 3}
+  musicPrefab: {fileID: 8600208841394896789, guid: aef4acf4b514b374b9d434b8e1ec2df7,
+    type: 3}
   gameManagerPrefab: {fileID: 8373452275577101951, guid: 5e78d060b1130664c8555a122301e40f,
     type: 3}

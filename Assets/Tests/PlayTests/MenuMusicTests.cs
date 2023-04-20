@@ -2,7 +2,6 @@
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using TitleScreen;
 using UnityEngine.SceneManagement;
 
@@ -11,8 +10,8 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
-public class CIMTests {
-	GameObject cimPrefab;
+public class MenuMusicTests {
+	GameObject musicPrefab;
 	LoadSceneParameters loadSceneParameters;
 
 #if UNITY_EDITOR
@@ -30,41 +29,33 @@ public class CIMTests {
 #if UNITY_EDITOR
 		menuScenePath = AssetDatabase.GetAssetPath(menuScene);
 #endif
-		cimPrefab = ((GameObject)Resources.Load("TestsReferences", typeof(GameObject))).GetComponent<TestsReferences>().cimPrefab;
+		musicPrefab = ((GameObject)Resources.Load("TestsReferences", typeof(GameObject))).GetComponent<TestsReferences>().musicPrefab;
 	}
 
 	[Test]
 	public void _01_PrefabExists() {
-		Assert.NotNull(cimPrefab);
+		Assert.NotNull(musicPrefab);
 	}
 
 	[Test]
-	[SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
 	public void _02_PrefabHasRequiredComponents() {
-		CustomInputManager cimComponent = cimPrefab.GetComponent<CustomInputManager>();
-
 		// Get the components
-		Transform transform = cimComponent.GetComponent<Transform>();
-		CustomInputManager cim = cimComponent.GetComponent<CustomInputManager>();
+		Transform transform = musicPrefab.GetComponent<Transform>();
 		
 		// General
-		Assert.IsTrue(cimPrefab.name == "CIM", "The name is incorrect");
-		Assert.IsTrue(cimPrefab.CompareTag("Untagged"), "Is not tagged as Untagged");
+		Assert.IsTrue(musicPrefab.name == "MenuMusic", "The name is incorrect");
+		Assert.IsTrue(musicPrefab.CompareTag("Untagged"), "Is not tagged as Untagged");
 		
 		// Transform
 		Assert.IsTrue(transform.position == Vector3.zero, "The position is incorrect");
 		Assert.IsTrue(transform.rotation == Quaternion.identity, "The rotation is incorrect");
 		Assert.IsTrue(transform.localScale == Vector3.one, "The scale is incorrect");
-		
-		// CustomInputManager
-		// ...
 	}
 	
 	[Test]
 	public void _02_B_PrefabHasRequiredComponent() {
-		Assert.IsNotNull(cimPrefab.GetComponent<Transform>(), "The Transform component is missing");
-		Assert.IsNotNull(cimPrefab.GetComponent<CustomInputManager>(), "The CustomInputManager component is missing");
-		Assert.IsTrue(cimPrefab.GetComponents<Component>().Length == 2, "There are more than two components on the cim prefab");
+		Assert.IsNotNull(musicPrefab.GetComponent<Transform>(), "The Transform component is missing");
+		Assert.IsTrue(musicPrefab.GetComponents<Component>().Length == 1, "There are more than one component on the music prefab");
 	}
 
 	[UnityTest]
@@ -72,8 +63,13 @@ public class CIMTests {
 #if UNITY_EDITOR
 		EditorSceneManager.LoadSceneInPlayMode(menuScenePath, loadSceneParameters);
 		yield return null;
+		
+		var musicHandler = Object.FindObjectOfType<MusicHandler>();
+		Assert.IsNotNull(musicHandler, "No instance of MenuMusic was found in the scene");
+		Assert.AreEqual("MenuMusic", musicHandler.name, "The MenuMusic object has an incorrect name");
 
-		Assert.IsTrue(Object.FindObjectOfType<CustomInputManager>().name == "CIM", "The CIM is not in the scene");
+		//TODO: Cannot find Object without specific Component. Find a way to do this.
+		Assert.IsTrue(Object.FindObjectOfType<MusicHandler>().name == "MenuMusic", "The Music is not in the scene");
 #else
         yield return null;
 
