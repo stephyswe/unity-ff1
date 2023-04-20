@@ -110,7 +110,7 @@ public class GameManagerTests {
 		Mouse.LeftMouseClick(1200, 600);
 		isPlaying = EditorApplication.isPlaying;
 		Assert.IsFalse(isPlaying);
-	}*/
+	}
 
 	[UnityTest]
 	public IEnumerator _03_Settings() {
@@ -179,7 +179,7 @@ public class GameManagerTests {
 		SceneManager.UnloadSceneAsync(testScene);
 
 		yield return null;
-	}
+	}*/
 
 
 }

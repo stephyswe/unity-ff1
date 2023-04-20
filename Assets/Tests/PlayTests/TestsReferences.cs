@@ -7,6 +7,8 @@ public class TestsReferences : MonoBehaviour
 	#endregion
 
 	#region CORE
+	public GameObject eventSystemPrefab;
+	public GameObject cameraPrefab;
 	public GameObject gameManagerPrefab;
 	#endregion
 }

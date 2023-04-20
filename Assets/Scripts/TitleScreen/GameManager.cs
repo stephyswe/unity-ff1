@@ -37,17 +37,38 @@ namespace TitleScreen {
 		
 		
 		// Values and methods for testing
+		public static bool effectsEnabled = true;
 		public static bool startEnabled = true;
 		public static bool updateEnabled = true;
+		public static bool asteroidsEnabled = true;
 
-		public static void InitializeTestingEnvironment(bool start, bool update)
-		{
-			
+		public static void InitializeTestingEnvironment(bool start, bool update, bool effects, bool asteroids, bool paused) {
+			effectsEnabled = effects;
 			startEnabled = start;
 			updateEnabled = update;
+			asteroidsEnabled = asteroids;
+			IsPaused = paused;
 		}
 		
 		public static GameManager instance;
+		private static bool isPaused;
+		
+		public static bool IsPaused {
+			get { return isPaused; }
+			set {
+				Time.timeScale = value ? 0.0f : 1.0f;
+				isPaused = value;
+			}
+		}
+		
+		void OnEnable() {
+			if (instance == null)
+				instance = this;
+			else if (instance != this)
+				Destroy(gameObject);
+
+			Time.timeScale = 1.0f;
+		}
 
 		void Start() {
 			pre_setup();
