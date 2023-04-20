@@ -12,8 +12,8 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
-public class EventSystemTests {
-	GameObject eventSystemPrefab;
+public class EventTests {
+	GameObject eventPrefab;
 	LoadSceneParameters loadSceneParameters;
 
 #if UNITY_EDITOR
@@ -31,18 +31,18 @@ public class EventSystemTests {
 #if UNITY_EDITOR
 		menuScenePath = AssetDatabase.GetAssetPath(menuScene);
 #endif
-		eventSystemPrefab = ((GameObject)Resources.Load("TestsReferences", typeof(GameObject))).GetComponent<TestsReferences>().eventSystemPrefab;
+		eventPrefab = ((GameObject)Resources.Load("TestsReferences", typeof(GameObject))).GetComponent<TestsReferences>().eventPrefab;
 	}
 
 	[Test]
-	public void _01_EventSystemPrefabExists() {
-		Assert.NotNull(eventSystemPrefab);
+	public void _01_EventPrefabExists() {
+		Assert.NotNull(eventPrefab);
 	}
 
 	[Test]
 	[SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
-	public void _02_EventSystemPrefabHasRequiredComponents() {
-		EventSystem eventComponent = eventSystemPrefab.GetComponent<EventSystem>();
+	public void _02_EventPrefabHasRequiredComponents() {
+		EventSystem eventComponent = eventPrefab.GetComponent<EventSystem>();
 
 		// Get the components
 		EventSystem es = eventComponent.GetComponent<EventSystem>();
@@ -50,10 +50,10 @@ public class EventSystemTests {
 		StandaloneInputModule sim = eventComponent.GetComponent<StandaloneInputModule>();
 		
 		// Unknown
-		Assert.IsTrue(eventComponent.currentInputModule == null, "The EventSystem currentInputModule is incorrect");     
+		Assert.IsTrue(eventComponent.currentInputModule == null, "The currentInputModule is incorrect");     
 
 		// Check the name, tag, and clear flag of the Camera component
-		Assert.IsTrue(eventComponent.name == "EventSystem", "The name is incorrect");
+		Assert.IsTrue(eventComponent.name == "Event", "The name is incorrect");
 		Assert.IsTrue(eventComponent.CompareTag("Untagged"), "The EventSystem is not tagged as Untagged");
 		
 		// Transform
@@ -69,7 +69,7 @@ public class EventSystemTests {
 		Assert.IsTrue(es.GetComponents<Component>().Length == 3, "There are more than three components on the camera prefab");
 
 		// StandaloneInputModule
-		Assert.IsTrue(eventComponent.currentInputModule == null, "The EventSystem currentInputModule is incorrect");
+		Assert.IsTrue(eventComponent.currentInputModule == null, "The currentInputModule is incorrect");
 		Assert.IsTrue(sim.horizontalAxis == "Horizontal", "The horizontalAxis is incorrect");
 		Assert.IsTrue(sim.verticalAxis == "Vertical", "The verticalAxis is incorrect");
 		Assert.IsTrue(sim.submitButton == "Submit", "The submitButton is incorrect");
@@ -81,22 +81,22 @@ public class EventSystemTests {
 	}
 	
 	[Test]
-	public void _02_B_EventSystemPrefabHasRequiredComponent() {
-		Assert.IsNotNull(eventSystemPrefab.GetComponent<Transform>(), "The Transform component is missing");
-		Assert.IsNotNull(eventSystemPrefab.GetComponent<EventSystem>(), "The EventSystem component is missing");
-		Assert.IsNotNull(eventSystemPrefab.GetComponent<StandaloneInputModule>(), "The StandaloneInputModule component is missing");
+	public void _02_B_EventPrefabHasRequiredComponent() {
+		Assert.IsNotNull(eventPrefab.GetComponent<Transform>(), "The Transform component is missing");
+		Assert.IsNotNull(eventPrefab.GetComponent<EventSystem>(), "The EventSystem component is missing");
+		Assert.IsNotNull(eventPrefab.GetComponent<StandaloneInputModule>(), "The StandaloneInputModule component is missing");
 
 		// Check that the camera prefab only has three components (the three required components)
-		Assert.IsTrue(eventSystemPrefab.GetComponents<Component>().Length == 3, "There are more than three components on the camera prefab");
+		Assert.IsTrue(eventPrefab.GetComponents<Component>().Length == 3, "There are more than three components on the camera prefab");
 	}
 
 	[UnityTest]
-	public IEnumerator _03_EventSystemExistsInScene() {
+	public IEnumerator _03_EventExistsInScene() {
 #if UNITY_EDITOR
 		EditorSceneManager.LoadSceneInPlayMode(menuScenePath, loadSceneParameters);
 		yield return null;
 
-		Assert.IsTrue(Object.FindObjectOfType<EventSystem>().name == "EventSystem", "The EventSystem is not in the scene");
+		Assert.IsTrue(Object.FindObjectOfType<EventSystem>().name == "Event", "The EventSystem is not in the scene");
 #else
         yield return null;
 

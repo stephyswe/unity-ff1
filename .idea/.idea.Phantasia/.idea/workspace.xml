@@ -5,29 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Camera.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Camera.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/EventSystem.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/EventSystem.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/GameManager.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/GameManager.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/CameraTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/CameraTests.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventSystemTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventSystemTests.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ProjectSettings/BurstAotSettings_WebGL.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Event.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Event.prefab.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameManager.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GameManager.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TestsReferences.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TestsReferences.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/EventSystem.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/EventSystem.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/GameManagerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/GameManagerTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventSystemTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventSystemTests.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventTests.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/TestsReferences.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/TestsReferences.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,7 +155,7 @@
       <workItem from="1681884633327" duration="380000" />
       <workItem from="1681885030887" duration="960000" />
       <workItem from="1681907950163" duration="2141000" />
-      <workItem from="1681977474793" duration="15044000" />
+      <workItem from="1681977474793" duration="15559000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -213,7 +199,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681648194903</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat(tests): event system">
+      <created>1681999139236</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1681999139236</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,7 +224,8 @@
     <MESSAGE value="feat(refactor): title screen" />
     <MESSAGE value="feat(title): save" />
     <MESSAGE value="feat(tests): title screen, save data" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(tests): title screen, save data" />
+    <MESSAGE value="feat(tests): event system" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(tests): event system" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
