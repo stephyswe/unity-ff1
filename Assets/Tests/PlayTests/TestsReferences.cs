@@ -10,6 +10,7 @@ public class TestsReferences : MonoBehaviour
 	public GameObject cimPrefab;
 	public GameObject eventPrefab;
 	public GameObject cameraPrefab;
+	public GameObject savePrefab;
 	public GameObject gameManagerPrefab;
 	#endregion
 }
