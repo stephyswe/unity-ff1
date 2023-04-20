@@ -51,7 +51,7 @@ MonoBehaviour:
     type: 3}
   cameraPrefab: {fileID: 7475974031846878031, guid: 165add0d81d4aab4d9b7b1c6d6eb532a,
     type: 3}
-  savePrefab: {fileID: 4549037096377407204, guid: 94acb7545a8187c438495737acc4bcf1,
+  savePrefab: {fileID: 4161287330741385569, guid: d2b509cf98033094db31eab7c42b9b1a,
     type: 3}
   gameManagerPrefab: {fileID: 8373452275577101951, guid: 5e78d060b1130664c8555a122301e40f,
     type: 3}

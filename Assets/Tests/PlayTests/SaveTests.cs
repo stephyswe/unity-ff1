@@ -47,7 +47,7 @@ public class SaveTests {
 		Transform transform = savePrefab.GetComponent<Transform>();
 
 		// General
-		Assert.IsTrue(savePrefab.name == "Save System Setup", "The name is incorrect");
+		Assert.IsTrue(savePrefab.name == "Save", "The name is incorrect");
 		Assert.IsTrue(savePrefab.CompareTag("Untagged"), "Is not tagged as Untagged");
 		
 		// Transform
@@ -73,7 +73,7 @@ public class SaveTests {
 		EditorSceneManager.LoadSceneInPlayMode(menuScenePath, loadSceneParameters);
 		yield return null;
 
-		Assert.IsTrue(Object.FindObjectOfType<SaveSystemSetup>().name == "Save System Setup", "The Save is not in the scene");
+		Assert.IsTrue(Object.FindObjectOfType<SaveSystemSetup>().name == "Save", "The Save is not in the scene");
 #else
         yield return null;
 
