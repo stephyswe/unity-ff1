@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuScene: {fileID: 102900000, guid: bd9e63d528ddb431c9e41f9e4980edfe, type: 3}
+  cimPrefab: {fileID: 2412852778012613357, guid: d1e410479b18a4a2da3309321449a03e,
+    type: 3}
   eventPrefab: {fileID: 7235900129163570463, guid: 343261107d8bfd14d828b66544774098,
     type: 3}
   cameraPrefab: {fileID: 7475974031846878031, guid: 165add0d81d4aab4d9b7b1c6d6eb532a,
