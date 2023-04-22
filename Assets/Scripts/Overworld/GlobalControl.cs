@@ -38,23 +38,23 @@ namespace Overworld {
 
 		// Update is called once per frame
 		void Update() {
-			if (bossvictory) {
-				SaveSystem.SetBool(boss.flag, boss.flagval);
+			if (!bossvictory)
+				return;
+			SaveSystem.SetBool(boss.flag, boss.flagval);
 
-				Destroy(boss.gameObject);
+			Destroy(boss.gameObject);
 
-				player.canMove = true;
-				player.multiplier = 2f;
+			player.canMove = true;
+			player.multiplier = 2f;
 
-				player.pauseMenuContainer.SetActive(true);
+			player.pauseMenuContainer.SetActive(true);
 
-				player.mapHandler.save_position();
-				player.reh.battling = false;
-				bossmode = false;
-				bossvictory = false;
+			player.mapHandler.save_position();
+			player.reh.battling = false;
+			bossmode = false;
+			bossvictory = false;
 
-				overworldSceneContainer.SetActive(true);
-			}
+			overworldSceneContainer.SetActive(true);
 		}
 	}
 }

@@ -4,52 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(tests):fix">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Camera.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Camera.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Event.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Event.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/GameManager.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/GameManager.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/MenuMusic.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/MenuMusic.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Save.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Save.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Title.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Title.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Title.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Title/Canvas.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Title/Canvas/Classic.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Title/Canvas/Classic.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Title/Canvas/Remaster.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Menu/Title/Canvas/Remaster.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/Pause Menu Handler.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/Pause Menu Handler.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/Random Encounter Handler.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/Random Encounter Handler.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/SceneContainer.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/SceneContainer.prefab.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Camera.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Camera.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Event.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Event.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/GameManager.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/GameManager.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/MenuMusic.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/MenuMusic.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Save.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Save.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title/Canvas/Classic.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title/Canvas/Classic.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title/Canvas/Remaster.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title/Canvas/Remaster.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Overworld.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Overworld.unity" afterDir="false" />
+    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(unity): overworld prefabs">
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/Scene-Corneria.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/Scene-Corneria.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Corneria.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Corneria.unity.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,12 +25,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/7e/b8ac9ba3/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/93/28009175/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../_complete/PhantasiaComplete/Assets/Scripts/Battling/CursorController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Prefabs/CIM.prefab" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Menu.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Menu.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Menu.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Tests/PlayTests/MenuMusicTests.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Tests/PlayTests/MenuMusicTests.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Prefabs/Complete/Overworld/SceneContainer.prefab" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayTests/Setup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayTests/TestsReferences.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/TestLaunchers/PlaymodeLauncher.cs" root0="SKIP_HIGHLIGHTING" />
@@ -200,7 +155,7 @@
       <workItem from="1681977474793" duration="15559000" />
       <workItem from="1681999503608" duration="6351000" />
       <workItem from="1682181992165" duration="68000" />
-      <workItem from="1682182073905" duration="1605000" />
+      <workItem from="1682182073905" duration="2512000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -293,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682183051089</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="feat(unity): overworld prefabs">
+      <created>1682187283109</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1682187283109</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +280,8 @@
     <MESSAGE value="feat(tests): rename save system setup to save" />
     <MESSAGE value="feat(tests): Music handler, not complete&#10;* missing to find generic object in scnene" />
     <MESSAGE value="feat(tests):fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(tests):fix" />
+    <MESSAGE value="feat(unity): overworld prefabs" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(unity): overworld prefabs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
