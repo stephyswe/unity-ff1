@@ -19,8 +19,9 @@ namespace Overworld {
 		public GameObject get_monster_party() {
 			int index = Random.Range(0, 99);
 
-			List<float> bounds = new List<float>();
-			bounds.Add(0f);
+			List<float> bounds = new List<float> {
+				0f
+			};
 
 			float highest = 0f;
 

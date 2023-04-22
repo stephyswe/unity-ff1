@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!82 &202689925 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5326049533794614198, guid: d894ab1db7d934146bbc956251f072a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5326049534078774663}
+  m_PrefabAsset: {fileID: 0}
 --- !u!850595691 &687677725
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -296,6 +302,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 471723780094135561}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1376140130 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5326049535560082383, guid: d894ab1db7d934146bbc956251f072a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5326049534078774663}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1629556976 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5326049535015768318, guid: d894ab1db7d934146bbc956251f072a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5326049534078774663}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1785968565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -441,6 +459,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 471723780637646903, guid: dcb7de993470d0c4d8cd074bef48185c,
+        type: 3}
+      propertyPath: m_InputActionsPerSecond
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcb7de993470d0c4d8cd074bef48185c, type: 3}
 --- !u!1001 &5326049534078774663
@@ -475,6 +498,21 @@ PrefabInstance:
       propertyPath: st
       value: 
       objectReference: {fileID: 1112803466}
+    - target: {fileID: 5326049533913820943, guid: d894ab1db7d934146bbc956251f072a6,
+        type: 3}
+      propertyPath: gba
+      value: 
+      objectReference: {fileID: 1629556976}
+    - target: {fileID: 5326049533913820943, guid: d894ab1db7d934146bbc956251f072a6,
+        type: 3}
+      propertyPath: classic
+      value: 
+      objectReference: {fileID: 202689925}
+    - target: {fileID: 5326049533913820943, guid: d894ab1db7d934146bbc956251f072a6,
+        type: 3}
+      propertyPath: remaster
+      value: 
+      objectReference: {fileID: 1376140130}
     - target: {fileID: 5326049534013607814, guid: d894ab1db7d934146bbc956251f072a6,
         type: 3}
       propertyPath: st
@@ -485,6 +523,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 9146661887380845640}
+    - target: {fileID: 5326049534405185069, guid: d894ab1db7d934146bbc956251f072a6,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5326049534938450634, guid: d894ab1db7d934146bbc956251f072a6,
         type: 3}
       propertyPath: m_RootOrder
@@ -545,7 +588,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneContainer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5326049533913820942, guid: d894ab1db7d934146bbc956251f072a6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d894ab1db7d934146bbc956251f072a6, type: 3}
 --- !u!1001 &6174429524862285302
 PrefabInstance:

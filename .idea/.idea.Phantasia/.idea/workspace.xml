@@ -4,12 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(unity): overworld prefabs">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/Scene-Corneria.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Complete/Overworld/Scene-Corneria.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Corneria.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Corneria.unity.meta" afterDir="false" />
+    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Interlude.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC/Npc.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC/Npc.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC/NpcHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC/NpcHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Overworld.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Overworld/OverworldGrid.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Overworld/OverworldGrid.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Overworld/OverworldUpdate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Overworld/OverworldUpdate.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Overworld.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Overworld.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/BridgeTitleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interlude/BridgeTitleHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/BridgeTitleHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interlude/BridgeTitleHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/BridgeTrigger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interlude/BridgeTrigger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/BridgeTrigger.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interlude/BridgeTrigger.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map/Map.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map/Map.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/MapHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map/MapHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/MapHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Map/MapHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPCHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPCHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/OverworldGrid.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/OverworldGrid.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/OverworldUpdate.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/OverworldUpdate.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/ShopWarp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Towns/ShopWarp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/ShopWarp.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Towns/ShopWarp.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/SpriteController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC/SpriteController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/SpriteController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/NPC/SpriteController.cs.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,10 +129,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="18816">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="18816" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -155,7 +184,8 @@
       <workItem from="1681977474793" duration="15559000" />
       <workItem from="1681999503608" duration="6351000" />
       <workItem from="1682181992165" duration="68000" />
-      <workItem from="1682182073905" duration="2512000" />
+      <workItem from="1682182073905" duration="2599000" />
+      <workItem from="1682188973082" duration="4491000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -255,7 +285,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682187283109</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="feat(scenes): add scene corneria">
+      <created>1682188907324</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1682188907324</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,7 +318,8 @@
     <MESSAGE value="feat(tests): Music handler, not complete&#10;* missing to find generic object in scnene" />
     <MESSAGE value="feat(tests):fix" />
     <MESSAGE value="feat(unity): overworld prefabs" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(unity): overworld prefabs" />
+    <MESSAGE value="feat(scenes): add scene corneria" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(scenes): add scene corneria" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -302,14 +340,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Overworld/Towns/Shop.cs</url>
           <line>301</line>
-          <properties documentPath="D:\dev\unity\_games\Phantasia\Assets\Scripts\Overworld\Shop.cs" initialLine="299" containingFunctionPresentation="Method 'exit_shop'">
-            <startOffsets>
-              <option value="8837" />
-            </startOffsets>
-            <endOffsets>
-              <option value="8875" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\dev\unity\_games\Phantasia\Assets\Scripts\Overworld\Shop.cs" initialLine="299" containingFunctionPresentation="Method 'exit_shop'" />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>

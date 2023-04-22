@@ -55,7 +55,7 @@ namespace Overworld {
 
 			frames_since_last_increment += 1;
 
-			if (activeCharacter != characters[characterIndex])
+			if (characters != null && activeCharacter != characters[characterIndex])
 				activeCharacter = characters[characterIndex];
 		}
 

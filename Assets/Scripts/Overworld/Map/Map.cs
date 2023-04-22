@@ -27,9 +27,14 @@ namespace Overworld {
 		PlayerController p;
 
 		void Awake() {
+			// Get the player controller
 			p = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>();
+
+			// If the map is active, play the music
 			if (suppressMapJustChanged)
 				p.mapJustChanged = false;
+
+			// Get the music handler
 			a_s = GetComponentInChildren<MusicHandler>();
 		}
 
@@ -38,6 +43,7 @@ namespace Overworld {
 
 		// Update is called once per frame
 		void Update() {
+			// If the map is active, play the music
 			AudioSource active = a_s.get_active();
 			if (!active.isPlaying && playMusic) {
 				active.enabled = true;
@@ -45,6 +51,7 @@ namespace Overworld {
 				active.Play();
 			}
 
+			// If the map is not active, stop the music
 			if (suppressMapJustChanged)
 				p.mapJustChanged = false;
 		}

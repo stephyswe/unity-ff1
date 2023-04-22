@@ -24,24 +24,29 @@ namespace Overworld {
 
 		// Start is called before the first frame update
 		void Start() {
+			// Get the player position
 			overworldX = SaveSystem.GetFloat("overworldX");
 			overworldY = SaveSystem.GetFloat("overworldY");
 
+			// Get the submap position
 			submapX = SaveSystem.GetFloat("submapX");
 			submapY = SaveSystem.GetFloat("submapY");
 
+			// Get the active map
 			if (SaveSystem.GetBool("in_submap")) {
 				Map[] maps = grids.GetComponentsInChildren<Map>(true);
 				foreach (Map m in maps) {
-					if (m.gameObject.name == SaveSystem.GetString("submap_name")) {
-						activeMap = m.gameObject;
-						break;
-					}
+					if (m.gameObject.name != SaveSystem.GetString("submap_name"))
+						continue;
+					activeMap = m.gameObject;
+					break;
 				}
 
 				player.movePoint.position = new Vector3(submapX, submapY, 0f);
 				player.gameObject.transform.position = new Vector3(submapX, submapY, 0f);
 			}
+
+			// set player position on activate map
 			else {
 				player.movePoint.position = new Vector3(overworldX, overworldY, 0f);
 				player.gameObject.transform.position = new Vector3(overworldX, overworldY, 0f);
@@ -57,6 +62,9 @@ namespace Overworld {
 
 		// Update is called once per frame
 		void Update() {
+			UpdateMap();
+		}
+		void UpdateMap() {
 			if (activeMap.name == "Overworld") {
 				overworldX = player.transform.position.x;
 				overworldY = player.transform.position.y;
@@ -64,31 +72,13 @@ namespace Overworld {
 					activeMap.GetComponent<Map>().playMusic = true;
 			}
 			else {
-				submapX = player.transform.position.x;
-				submapY = player.transform.position.y;
+				Vector3 position = player.transform.position;
+				submapX = position.x;
+				submapY = position.y;
 			}
 		}
 
-		public void save_position() {
-			SaveSystem.SetFloat("overworldX", overworldX);
-			SaveSystem.SetFloat("overworldY", overworldY);
-			SaveSystem.SetFloat("submapX", submapX);
-			SaveSystem.SetFloat("submapY", submapY);
 
-			if (activeMap.name == "Overworld") {
-				SaveSystem.SetBool("in_submap", false);
-				SaveSystem.SetBool("inside_of_room", false);
-			}
-			else {
-				SaveSystem.SetBool("in_submap", true);
-				SaveSystem.SetString("submap_name", activeMap.name);
-
-				RoomHandler rh = activeMap.GetComponentInChildren<RoomHandler>();
-
-				if (rh)
-					SaveSystem.SetBool("inside_of_room", rh.rooms.activeSelf);
-			}
-		}
 
 		public void save_inn() {
 			SaveSystem.SetFloat("overworldX", overworldX);
@@ -105,10 +95,10 @@ namespace Overworld {
 					m.playMusic = false;
 					continue;
 				}
-				if (m.gameObject.GetInstanceID() != map.GetInstanceID()) {
-					m.playMusic = false;
-					m.gameObject.SetActive(false);
-				}
+				if (m.gameObject.GetInstanceID() == map.GetInstanceID())
+					continue;
+				m.playMusic = false;
+				m.gameObject.SetActive(false);
 			}
 
 			activeMap = map;
@@ -172,6 +162,29 @@ namespace Overworld {
 			player.canMove = true;
 
 			doneChanging = true;
+		}
+		
+		public void save_position() {
+			SaveSystem.SetFloat("overworldX", overworldX);
+			SaveSystem.SetFloat("overworldY", overworldY);
+			SaveSystem.SetFloat("submapX", submapX);
+			SaveSystem.SetFloat("submapY", submapY);
+
+			if (activeMap.name == "Overworld") {
+				SaveSystem.SetBool("in_submap", false);
+				SaveSystem.SetBool("inside_of_room", false);
+			}
+			
+			// assign the submap name and room
+			else {
+				SaveSystem.SetBool("in_submap", true);
+				SaveSystem.SetString("submap_name", activeMap.name);
+
+				RoomHandler rh = activeMap.GetComponentInChildren<RoomHandler>();
+
+				if (rh)
+					SaveSystem.SetBool("inside_of_room", rh.rooms.activeSelf);
+			}
 		}
 
 		GameObject get_map(string mapName) {
