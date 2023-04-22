@@ -54,12 +54,14 @@ public class SaveTests {
 		Assert.IsTrue(transform.position == Vector3.zero, "The position is incorrect");
 		Assert.IsTrue(transform.rotation == Quaternion.identity, "The rotation is incorrect");
 		Assert.IsTrue(transform.localScale == Vector3.one, "The scale is incorrect");
-		
-		// SaveSystemSetup
-		//Assert.IsTrue(save.. == "save.json", "The save path is incorrect");
-		// ...
 	}
-	
+
+	[Test]
+	public void _02_PrefabHasRequiredVariables() {
+		SaveSystemSetup save = savePrefab.GetComponent<SaveSystemSetup>();
+		Assert.IsTrue(save.GetComponent<SaveSystemSetup>().FileName == "party.json", "The file name is incorrect");
+	}
+
 	[Test]
 	public void _02_B_PrefabHasRequiredComponent() {
 		Assert.IsNotNull(savePrefab.GetComponent<Transform>(), "The Transform component is missing");

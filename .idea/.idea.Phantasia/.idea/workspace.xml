@@ -5,15 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Event.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Event.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title/Canvas/Classic.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title/Canvas/Classic.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title/Canvas/Remaster.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/Title/Canvas/Remaster.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Effects.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Towns.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/EventSystem.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/EventSystem.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Menu/MenuMusic.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Menu/MenuMusic.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventSystemTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventSystemTests.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/EventTests.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/TestsReferences.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/TestsReferences.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/FadeOut.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Effects/FadeOut.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/FadeOut.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Effects/FadeOut.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Shop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Towns/Shop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Shop.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Towns/Shop.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/Common.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/DataSave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TitleScreen/DataSave.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/MenuMusicTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/MenuMusicTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayTests/SaveTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayTests/SaveTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystemSetup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystemSetup.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +38,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/7e/b8ac9ba3/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/93/28009175/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../_complete/PhantasiaComplete/Assets/Scripts/Battling/CursorController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Prefabs/CIM.prefab" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Menu.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Menu.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Menu.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Tests/PlayTests/MenuMusicTests.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Tests/PlayTests/MenuMusicTests.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayTests/Setup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayTests/TestsReferences.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/TestLaunchers/PlaymodeLauncher.cs" root0="SKIP_HIGHLIGHTING" />
@@ -54,28 +69,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.4984472",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.4984472&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Stephanie\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Stephanie\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\Stephanie\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Stephanie\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Stephanie\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Stephanie\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2021.3.22f1\Editor\Unity.exe" />
@@ -156,6 +171,9 @@
       <workItem from="1681885030887" duration="960000" />
       <workItem from="1681907950163" duration="2141000" />
       <workItem from="1681977474793" duration="15559000" />
+      <workItem from="1681999503608" duration="6351000" />
+      <workItem from="1682181992165" duration="68000" />
+      <workItem from="1682182073905" duration="729000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -206,7 +224,42 @@
       <option name="project" value="LOCAL" />
       <updated>1681999139236</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat(tests): rename eventsystem to event">
+      <created>1681999607322</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1681999607322</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat(tests): cim testing">
+      <created>1682000221303</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1682000221303</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat(tests): save testing">
+      <created>1682001244448</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1682001244448</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat(tests): rename save system setup to save">
+      <created>1682001463583</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682001463583</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat(tests): Music handler, not complete&#10;* missing to find generic object in scnene">
+      <created>1682003317620</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682003317620</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,7 +278,12 @@
     <MESSAGE value="feat(title): save" />
     <MESSAGE value="feat(tests): title screen, save data" />
     <MESSAGE value="feat(tests): event system" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(tests): event system" />
+    <MESSAGE value="feat(tests): rename eventsystem to event" />
+    <MESSAGE value="feat(tests): cim testing" />
+    <MESSAGE value="feat(tests): save testing" />
+    <MESSAGE value="feat(tests): rename save system setup to save" />
+    <MESSAGE value="feat(tests): Music handler, not complete&#10;* missing to find generic object in scnene" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(tests): Music handler, not complete&#10;* missing to find generic object in scnene" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -244,7 +302,7 @@
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Overworld/Shop.cs</url>
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Overworld/Towns/Shop.cs</url>
           <line>301</line>
           <properties documentPath="D:\dev\unity\_games\Phantasia\Assets\Scripts\Overworld\Shop.cs" initialLine="299" containingFunctionPresentation="Method 'exit_shop'">
             <startOffsets>

@@ -52,6 +52,7 @@ namespace TitleScreen {
 
 			SaveSystem.SetString(player + "weapon", "");
 
+			
 			SaveSystem.SetInt(player + "exp", 0);
 			SaveSystem.SetBool(player + "poison", false);
 			SaveSystem.SetBool(player + "stone", false);

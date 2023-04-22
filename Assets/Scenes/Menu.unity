@@ -4492,6 +4492,12 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 7475974032488142045}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &732685281 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 9006110620087143738, guid: aef4acf4b514b374b9d434b8e1ec2df7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8600208841675653897}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &737493615 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5406762931988794023, guid: 8ff93cfe3028d6648af808b61e4be901,
@@ -7557,12 +7563,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385833021}
   m_CullTransparentMesh: 0
---- !u!82 &1405815277 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8600208843005971172, guid: aef4acf4b514b374b9d434b8e1ec2df7,
-    type: 3}
-  m_PrefabInstance: {fileID: 8600208841675653897}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1451324828
 GameObject:
   m_ObjectHideFlags: 0
@@ -11385,7 +11385,7 @@ PrefabInstance:
         type: 3}
       propertyPath: classic
       value: 
-      objectReference: {fileID: 1405815277}
+      objectReference: {fileID: 732685281}
     - target: {fileID: 8373452275577101950, guid: 5e78d060b1130664c8555a122301e40f,
         type: 3}
       propertyPath: remaster

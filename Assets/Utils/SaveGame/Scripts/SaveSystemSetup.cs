@@ -5,6 +5,8 @@ namespace Utils.SaveGame.Scripts {
 
 		[SerializeField] private string fileName = "Profile.json"; // file to save with the specified resolution
 		[SerializeField] private bool dontDestroyOnLoad; // the object will move from one scene to another (you only need to add it once)
+		
+		public string FileName { get { return fileName; } }
 
 		void Awake()
 		{
