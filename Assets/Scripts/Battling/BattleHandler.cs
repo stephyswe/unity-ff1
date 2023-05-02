@@ -13,7 +13,7 @@ using Utils.SaveGame.Scripts.SaveSystem;
 using Random = UnityEngine.Random;
 
 namespace Battling {
-	public class BattleHandler : MonoBehaviour {
+	public partial class BattleHandler : MonoBehaviour {
 		public PartyMember[] party;
 
 		[FormerlySerializedAs("party_placement")]
@@ -60,7 +60,7 @@ namespace Battling {
 
 		bool accept_input;
 
-		List<GameObject> battlers;
+		List<GameObject> _battlers;
 		Dictionary<int, int> level_up_chart;
 
 		LevelChart levelChart;
@@ -71,16 +71,16 @@ namespace Battling {
 
 		// Start is called before the first frame update
 		void Start() {
-			
+
 			// Load the party from the GlobalControl instance
 			load_party();
-			
+
 			// Set the active party member to the first party member
 			activePartyMember = party[0];
 
 			// Call the GetLevelChart() method using the class name
 			level_up_chart = LevelChart.GetLevelChart();
-			
+
 			// If the player is fighting a boss, play the boss music
 			if (GlobalControl.Instance.bossmode)
 				battleMusic.gameObject.SetActive(false);
@@ -92,7 +92,7 @@ namespace Battling {
 				// Instantiate the monster party
 				monsterParty = Instantiate(GlobalControl.Instance.monsterParty, new Vector3(0f, 0f, 1f), Quaternion.identity);
 				monsterParty.SetActive(true);
-				
+
 				// Get the cursor controller component from the monster party
 				monsterCursor = monsterParty.GetComponentInChildren<CursorController>();
 				monsterCursor.eventSystem = eventSystem;
@@ -125,98 +125,289 @@ namespace Battling {
 				partyHp[i].text = "HP: " + party[i].hp;
 		}
 
-		static void remove_from_array<T>(ref T[] arr, int index) {
-			for (int a = index; a < arr.Length - 1; a++)
-				// moving elements downwards, to fill the gap at [index]
-				arr[a] = arr[a + 1];
-			// finally, let's decrement Array's size by one
-			Array.Resize(ref arr, arr.Length - 1);
-		}
-
-		IEnumerator set_battle_text(string t, float wait, bool waitForInput, bool clearOnFinish) {
-			setting_battle_text = true;
-			battleText.text = t;
-
-			yield return new WaitForSeconds(wait);
-			if (waitForInput) {
-				while (!Input.GetKey(CustomInputManager.Cim.Select))
-					yield return null;
-			}
-
-			if (clearOnFinish)
-				battleText.text = "";
-
-			setting_battle_text = false;
-		}
-
-		IEnumerator Battle() {
-
-			float textDelay = SaveSystem.GetFloat("battle_speed");
-
-			battleText.text = "";
-
-			int goldWon = 0;
-			int expWon = 0;
-
+		IEnumerator SetupPartyMembers() {
 			foreach (PartyMember p in party) {
 				while (!p.doneSetUp)
 					yield return null;
 			}
+		}
 
+		IEnumerator DisplayPartyInfo() {
 			for (int i = 0; i < 4; i++) {
-				partyNames[i].text = party[i].name;
-				partyHp[i].text = "HP: " + party[i].hp;
+				PartyMember p = party[i];
+				partyNames[i].text = p.name;
+				partyHp[i].text = "HP: " + p.hp;
 			}
+			yield return null;
+		}
 
-			battlers = new List<GameObject>();
+		void GetBattlers(List<GameObject> battlers) {
+			battlers.AddRange(monsters.Select(m => m.gameObject));
+			battlers.AddRange(party.Select(p => p.gameObject));
+		}
 
-			foreach (Monster m in monsters)
-				battlers.Add(m.gameObject);
-
-			foreach (PartyMember p in party)
-				battlers.Add(p.gameObject);
-
+		List<string> GetMonstersEncountered() {
 			List<string> monstersEncountered = new List<string>();
 			foreach (Monster m in monsters) {
-				if (!monstersEncountered.Contains(MonsterHandler.ProcessMonsterName(m.gameObject.name)))
-					monstersEncountered.Add(MonsterHandler.ProcessMonsterName(m.gameObject.name));
+				string processedName = MonsterHandler.ProcessMonsterName(m.gameObject.name);
+				if (!monstersEncountered.Contains(processedName))
+					monstersEncountered.Add(processedName);
 			}
-			string encounterText = monstersEncountered.Aggregate("Encountered ", (current, s) => current + (s + ", "));
-			encounterText = encounterText[..^2] + "!";
+			return monstersEncountered;
+		}
 
-			yield return StartCoroutine(set_battle_text(encounterText, textDelay, true, true));
+		string GetEncounterText(List<string> monstersEncountered) {
+			string encounterText = "Encountered ";
+			encounterText += string.Join(", ", monstersEncountered.ToArray());
+			encounterText += "!";
+			return encounterText;
+		}
 
-			accept_input = false;
-
-			yield return new WaitForSeconds(.3f);
-
-			// menu cursor is active
+		void DisableCursors() {
 			menuCursor.gameObject.SetActive(false);
 			if (!GlobalControl.Instance.bossmode)
 				monsterCursor.gameObject.SetActive(false);
+		}
 
-			// while the player is selecting a party member
+		IEnumerator WaitForPartyMemberSelection() {
 			while (Input.GetKey(CustomInputManager.Cim.Select)) {
 				menuCursor.gameObject.SetActive(false);
 				if (!GlobalControl.Instance.bossmode)
 					monsterCursor.gameObject.SetActive(false);
 				yield return null;
 			}
+		}
+
+		bool CheckIfPlayersWon() {
+			int living = 0;
+			foreach (Monster m in monsters) {
+				if (m.hp > 0)
+					living += 1;
+				else
+					m.gameObject.SetActive(false);
+			}
+
+			if (living != 0)
+				return (win || stalemate);
+			if (monsters.Length == 0)
+				stalemate = true;
+			else
+				win = true;
+
+			return (win || stalemate);
+		}
+
+		string GetMonsterNames() {
+			List<string> monsterNames = new List<string>();
+
+			foreach (Monster m in monsters) {
+				if (!monsterNames.Contains(MonsterHandler.ProcessMonsterName(m.gameObject.name)) && m.hp > 0)
+					monsterNames.Add(MonsterHandler.ProcessMonsterName(m.gameObject.name));
+			}
+
+			string txt = string.Join("  ", monsterNames.ToArray());
+			return txt;
+		}
+
+		IEnumerator PartyMemberTurns(string txt) {
+			for (int i = 0; i < party.Length; i++) {
+
+				PartyMember p = party[i];
+
+				if (p.hp <= 0)
+					continue;
+				activePartyMember = p;
+
+				yield return StartCoroutine(set_battle_text(txt, .05f, false, false));
+
+				p.Turn();
+
+				menuCursor.gameObject.SetActive(true);
+
+				while (p.action == "" || p.target == null) {
+
+					if (Input.GetKeyDown(CustomInputManager.Cim.Back)) {
+						if (i > 0) {
+							i -= 2;
+							yield return StartCoroutine(p.end_turn());
+							break;
+						}
+						i = -1;
+						yield return StartCoroutine(p.end_turn());
+						break;
+					}
+
+					if (p.action == "run")
+						break;
+					yield return null;
+				}
+
+				yield return StartCoroutine(p.end_turn());
+			}
+		}
+
+		List<int> GetSchedule()
+		{
+			// Create an empty schedule list
+			List<int> schedule = new List<int>();
+
+			// Add monsters to the schedule
+			foreach (Monster m in monsters)
+			{
+				schedule.Add(schedule.Count);
+			}
+
+			// Add party members to the schedule
+			int addedPartyMembers = 0;
+			foreach (PartyMember p in party)
+			{
+				// Party members are represented by values starting from 80 in the schedule
+				schedule.Add(80 + addedPartyMembers);
+				addedPartyMembers += 1;
+			}
+
+			// Shuffle the schedule using random swapping
+			for (int i = 0; i < 17; i++)
+			{
+				// Get random indices within the battler count
+				int idx1 = Random.Range(0, _battlers.Count);
+				int idx2 = Random.Range(0, _battlers.Count);
+
+				// Swap the values at the random indices
+				int temp = schedule[idx1];
+				
+				schedule[idx1] = schedule[idx2];
+				
+				schedule[idx2] = temp;
+			}
+
+			// Return the generated schedule
+			return schedule;
+		}
+
+
+		IEnumerator WaitForPartyMembersToStopMoving() {
+			foreach (PartyMember p in party) {
+				while (p.is_moving())
+					yield return null;
+			}
+		}
+
+		public class BattleRewards {
+			public int GoldWon { get; set; }
+			public int ExpWon { get; set; }
+			public bool HasRun { get; set; }
+		}
+
+		IEnumerator ExecutePartyRunAction(PartyMember p, BattleRewards rewards, float textDelay) {
+			int runSeed = Random.Range(0, p.level + 15);
+			if (p.luck > runSeed && p.canRun) {
+
+				yield return StartCoroutine(set_battle_text(p.gameObject.name + " ran away", textDelay, true, true));
+
+				while (setting_battle_text)
+					yield return null;
+
+				foreach (PartyMember pm in party) {
+					if (pm.hp > 0)
+						pm.bsc.change_state("run");
+					yield return new WaitForSeconds(.26f);
+				}
+				battleComplete = true;
+				stalemate = true;
+				rewards.HasRun = true;
+			}
+			else {
+				yield return StartCoroutine(set_battle_text(p.name + " couldn't run", textDelay, true, true));
+			}
+
+
+			while (setting_battle_text)
+				yield return null;
+			//}
+		}
+
+		IEnumerator ExecuteFightAction(PartyMember p, BattleRewards rewards, float textDelay) {
+			while (p.target.GetComponent<Monster>().hp <= 0)
+				p.target = monsters[Random.Range(0, monsters.Length)].gameObject;
+
+			StartCoroutine(p.show_battle());
+			while (!p.doneShowing)
+				yield return null;
+
+			while (p.target == null)
+				p.target = monsters[Random.Range(0, monsters.Length)].gameObject;
+
+			int damage = p.GetComponent<Battler>().Fight(p, p.target.GetComponent<Monster>());
+			if (damage == -9999999)
+				yield return StartCoroutine(set_battle_text(p.gameObject.name + " missed", textDelay, true, true));
+			else if (damage > 0)
+				yield return StartCoroutine(set_battle_text(p.gameObject.name + " does " + damage + " damage to " + MonsterHandler.ProcessMonsterName(p.target.gameObject.name), textDelay, true, true));
+			else {
+				yield return StartCoroutine(set_battle_text("Critical hit!", textDelay, true, true));
+				yield return StartCoroutine(set_battle_text(p.gameObject.name + " does " + -damage + " damage to " + MonsterHandler.ProcessMonsterName(p.target.gameObject.name), textDelay, true, true));
+			}
+
+			while (setting_battle_text)
+				yield return null;
+
+			if (p.target.GetComponent<Monster>().hp > 0)
+				yield break;
+			rewards.GoldWon += p.target.GetComponent<Monster>().gold;
+			rewards.ExpWon += p.target.GetComponent<Monster>().exp;
+
+			yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(p.target.gameObject.name) + " was slain", textDelay,true, true));
+
+			while (setting_battle_text)
+				yield return null;
+		}
+		
+		float GetBattleSpeed()
+		{
+			// Retrieve the "battle_speed" value from SaveSystem
+			float textDelay = SaveSystem.GetFloat("battle_speed");
+
+			return textDelay;
+		}
+
+		IEnumerator Battle() {
+
+			// variables
+			float textDelay = GetBattleSpeed();
+			battleText.text = "";
+			int goldWon = 0;
+			int expWon = 0;
+
+			yield return StartCoroutine(SetupPartyMembers());
+			
+			yield return StartCoroutine(DisplayPartyInfo());
+
+			// get the battlers
+			_battlers = new List<GameObject>();
+			
+			// add monsters and party to the list of battlers
+			GetBattlers(_battlers);
+
+			List<string> monstersEncountered = GetMonstersEncountered();
+
+			string encounterText = GetEncounterText(monstersEncountered);
+			yield return StartCoroutine(set_battle_text(encounterText, textDelay,true, true));
+
+			accept_input = false;
+			yield return new WaitForSeconds(.3f);
+
+			// menu cursor is active
+			DisableCursors();
+
+			// while the player is selecting a party member
+			yield return StartCoroutine(WaitForPartyMemberSelection());
 
 			accept_input = true;
 
 			while (!battleComplete) {
 
 				//Check if players won
-				int living = 0;
-				foreach (Monster m in monsters) {
-					if (m.hp > 0)
-						living += 1;
-					else
-						m.gameObject.SetActive(false);
-				}
-
-				if (living == 0) {
+				if (CheckIfPlayersWon()) {
 					if (monsters.Length == 0)
 						stalemate = true;
 					else
@@ -224,55 +415,14 @@ namespace Battling {
 					break;
 				}
 
-				List<string> ms = new List<string>();
-				foreach (Monster mo in monsters) {
-					if (!ms.Contains(MonsterHandler.ProcessMonsterName(mo.gameObject.name)) && mo.hp > 0)
-						ms.Add(MonsterHandler.ProcessMonsterName(mo.gameObject.name));
-				}
-				string txt = "";
-				foreach (string s in ms)
-					txt += s + "  ";
+				string txt = GetMonsterNames();
 
 				//Party selection
 				partySelecting = true;
-				for (int i = 0; i < party.Length; i++) {
-
-					PartyMember p = party[i];
-
-					if (p.hp > 0) {
-						activePartyMember = p;
-
-						yield return StartCoroutine(set_battle_text(txt, .05f, false, false));
-
-						p.Turn();
-
-						menuCursor.gameObject.SetActive(true);
-
-						while (p.action == "" || p.target == null) {
-
-							if (Input.GetKeyDown(CustomInputManager.Cim.Back)) {
-								if (i > 0) {
-									i -= 2;
-									yield return StartCoroutine(p.end_turn());
-									break;
-								}
-								i = -1;
-								yield return StartCoroutine(p.end_turn());
-								break;
-							}
-
-							if (p.action == "run")
-								break;
-							yield return null;
-						}
-
-						yield return StartCoroutine(p.end_turn());
-					}
-				}
+				yield return StartCoroutine(PartyMemberTurns(txt));
 				partySelecting = false;
-				if (!GlobalControl.Instance.bossmode)
-					monsterCursor.gameObject.SetActive(false);
-				menuCursor.gameObject.SetActive(false);
+
+				DisableCursors();
 
 				//Monster selection
 				foreach (Monster m in monsters) {
@@ -287,136 +437,42 @@ namespace Battling {
 					}
 				}
 
-				/*
-			if (lose)
-			{
-				battle_complete = true;
-				break;
-			}
-			*/
+				List<int> schedule = GetSchedule();
 
-				//Scheduling
-				//Debug.Log("Scheduling...");
-				List<int> schedule = new List<int>();
+				yield return StartCoroutine(WaitForPartyMembersToStopMoving());
 
-				foreach (Monster m in monsters)
-					schedule.Add(schedule.Count);
-				int addedPartyMembers = 0;
-				foreach (PartyMember p in party) {
-					schedule.Add(80 + addedPartyMembers);
-					addedPartyMembers += 1;
-				}
-				for (int i = 0; i < 17; i++) {
-					int idx1 = Random.Range(0, battlers.Count);
-					int idx2 = Random.Range(0, battlers.Count);
-
-					int temp = schedule[idx1];
-					schedule[idx1] = schedule[idx2];
-					schedule[idx2] = temp;
-				}
-
-				foreach (PartyMember p in party) {
-					while (p.is_moving())
-						yield return null;
-				}
-
-				living = 0;
-				foreach (Monster m in monsters) {
-					if (m.hp > 0)
-						living += 1;
-					else
-						m.gameObject.SetActive(false);
-				}
-
-				if (living == 0) {
+				if (CheckIfPlayersWon()) {
 					stalemate = true;
 					break;
 				}
 
 				//Display battle
+				bool hasEscaped = false;
+				BattleRewards rewards = new BattleRewards();
+
 				foreach (int x in schedule) {
 					if (x >= 80) {
 						PartyMember p = party[x - 80];
 
 						if (p.hp <= 0)
 							continue;
-
 						if (p.action == "fight") {
-
-							while (p.target.GetComponent<Monster>().hp <= 0)
-								p.target = monsters[Random.Range(0, monsters.Length)].gameObject;
-
-							StartCoroutine(p.show_battle());
-							while (!p.doneShowing)
-								yield return null;
-
-							while (p.target == null)
-								p.target = monsters[Random.Range(0, monsters.Length)].gameObject;
-
-							int damage = p.GetComponent<Battler>().Fight(p, p.target.GetComponent<Monster>());
-							if (damage == -9999999)
-								yield return StartCoroutine(set_battle_text(p.gameObject.name + " missed", textDelay, true, true));
-							else if (damage > 0)
-								yield return StartCoroutine(set_battle_text(p.gameObject.name + " does " + damage + " damage to " + MonsterHandler.ProcessMonsterName(p.target.gameObject.name), textDelay, true, true));
-							else {
-								yield return StartCoroutine(set_battle_text("Critical hit!", textDelay, true, true));
-								yield return StartCoroutine(set_battle_text(p.gameObject.name + " does " + -damage + " damage to " + MonsterHandler.ProcessMonsterName(p.target.gameObject.name), textDelay, true, true));
-							}
-
-							while (setting_battle_text)
-								yield return null;
-
-							if (p.target.GetComponent<Monster>().hp <= 0) {
-								goldWon += p.target.GetComponent<Monster>().gold;
-								expWon += p.target.GetComponent<Monster>().exp;
-
-								yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(p.target.gameObject.name) + " was slain", textDelay, true, true));
-
-								while (setting_battle_text)
-									yield return null;
-							}
+							yield return StartCoroutine(ExecuteFightAction(p, rewards, textDelay));
 						}
-
 						else if (p.action == "drink") {
 							string drinkText = p.drink_action();
-
-							yield return StartCoroutine(set_battle_text(drinkText, textDelay, true, true));
+							yield return StartCoroutine(set_battle_text(drinkText, textDelay,true, true));
 						}
-
 						else if (p.action == "run") {
-							/*
-						if(!p.can_run){
-							Debug.Log("Can't run!");
+							yield return StartCoroutine(ExecutePartyRunAction(p, rewards, textDelay));
 						}
-						else{
-						*/
-							int runSeed = Random.Range(0, p.level + 15);
-							if (p.luck > runSeed && p.canRun) {
 
-								yield return StartCoroutine(set_battle_text(p.gameObject.name + " ran away", textDelay, true, true));
-
-								while (setting_battle_text)
-									yield return null;
-
-								foreach (PartyMember pm in party) {
-									if (pm.hp > 0)
-										pm.bsc.change_state("run");
-									yield return new WaitForSeconds(.26f);
-								}
-
-								battleComplete = true;
-								stalemate = true;
-								break;
-							}
-							yield return StartCoroutine(set_battle_text(p.name + " couldn't run", textDelay, true, true));
-
-							while (setting_battle_text)
-								yield return null;
-							//}
-						}
+						goldWon += rewards.GoldWon;
+						expWon += rewards.ExpWon;
+						hasEscaped = rewards.HasRun;
 					}
-					else {
-						GameObject b = battlers[x];
+					else if (!hasEscaped) {
+						GameObject b = _battlers[x];
 						Monster m = b.GetComponent<Monster>();
 
 						if (m.hp > 0 && m.target != null) {
@@ -427,7 +483,7 @@ namespace Battling {
 
 								int damage = m.GetComponent<Battler>().Fight(m, m.target.GetComponent<PartyMember>());
 								if (damage == -1)
-									yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " missed", textDelay, true, true));
+									yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " missed", textDelay,true, true));
 								else
 									yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " does " + damage + " damage to " + m.target.gameObject.name, textDelay, true, true));
 
@@ -436,7 +492,7 @@ namespace Battling {
 							}
 
 							else if (m.action == "run") {
-								yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " ran away", textDelay, true, true));
+								yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " ran away", textDelay,true, true));
 
 								while (setting_battle_text)
 									yield return null;
@@ -447,110 +503,24 @@ namespace Battling {
 
 							if (m.target.GetComponent<PartyMember>().hp <= 0) {
 								m.target.GetComponent<PartyMember>().bsc.change_state("dead");
-								yield return StartCoroutine(set_battle_text(m.target.gameObject.name + " was slain", textDelay, true, true));
+								yield return StartCoroutine(set_battle_text(m.target.gameObject.name + " was slain", textDelay,true, true));
 
 								while (setting_battle_text)
 									yield return null;
 							}
 						}
 					}
-					//Check if players won
-					living = 0;
-					foreach (Monster m in monsters) {
-						if (m.hp > 0)
-							living += 1;
-						else
-							m.gameObject.SetActive(false);
-					}
 
-					if (living == 0) {
-						if (monsters.Length == 0)
-							stalemate = true;
-						else
-							win = true;
+					if (CheckIfPlayersWon())
 						break;
-					}
-
-					//Check if players lost
-					lose = true;
-					foreach (PartyMember p in party) {
-						if (p.hp > 0)
-							lose = false;
-					}
-
-					if (win || lose || stalemate) {
-						battleComplete = true;
-						break;
-					}
 				}
-
-
 			}
 
 			if (win) {
-				foreach (PartyMember p in party) {
-					if (p.hp > 0)
-						p.bsc.change_state("victory");
-					if (GlobalControl.Instance.bossmode)
-						p.canRun = false;
-					p.save_player();
-				}
-
-				if (GlobalControl.Instance.bossmode)
-					bossMusic.get_active().Stop();
-				else
-					battleMusic.get_active().Stop();
-				victoryMusic.gameObject.SetActive(true);
-				victoryMusic.get_active().Play();
-
-				yield return StartCoroutine(set_battle_text("Victory!", textDelay, true, false));
-
-				while (victoryMusic.get_active().time <= victoryMusic.get_active().gameObject.GetComponent<IntroLoop>().loopStartSeconds / 2f)
-					yield return null;
-
-				yield return StartCoroutine(set_battle_text("Obtained " + goldWon + " gold", textDelay, true, true));
-				SaveSystem.SetInt("gil", SaveSystem.GetInt("gil") + goldWon);
-
-				int living = 0;
-				foreach (PartyMember m in party) {
-					if (m.hp > 0)
-						living += 1;
-				}
-
-				int expEach = expWon / living;
-				yield return StartCoroutine(set_battle_text("Obtained " + expEach + " exp", textDelay, true, false));
-
-				foreach (PartyMember m in party) {
-					if (m.hp > 0) {
-						m.experience += expEach;
-						while (LevelChart.GetLevelFromExp(m.experience) > m.level) {
-							List<string> stats = m.level_up();
-
-							yield return StartCoroutine(set_battle_text(m.gameObject.name + " leveled up!", textDelay, true, true));
-
-							foreach (string s in stats)
-								yield return StartCoroutine(set_battle_text(s + " up", textDelay, true, false));
-						}
-					}
-				}
-
-				while (!Input.GetKey(CustomInputManager.Cim.Select))
-					yield return null;
-
-
+				yield return StartCoroutine(ExecuteVictorySequence(goldWon, expWon, textDelay));
 			}
 			else if (lose) {
-				battleMusic.get_active().Stop();
-				deathMusic.gameObject.SetActive(true);
-				deathMusic.get_active().Play();
-
-				foreach (PartyMember p in party)
-					p.bsc.change_state("dead");
-
-				yield return StartCoroutine(set_battle_text("Game over...", textDelay * 2f, true, false));
-
-				SceneManager.UnloadSceneAsync("Overworld");
-				SceneManager.LoadSceneAsync("Title Screen");
+				yield return StartCoroutine(ExecuteLossSequence(textDelay));
 			}
 
 			Destroy(monsterParty);
@@ -568,46 +538,71 @@ namespace Battling {
 
 		}
 
-		public void medicine_choose() {
-			if (!accept_input)
-				return;
-			menuCursor.gameObject.SetActive(false);
-			activePartyMember.choose_drink();
+		IEnumerator ExecuteLossSequence(float textDelay) {
+			battleMusic.get_active().Stop();
+			deathMusic.gameObject.SetActive(true);
+			deathMusic.get_active().Play();
+
+			foreach (PartyMember p in party)
+				p.bsc.change_state("dead");
+
+			// TODO: * 2f because the text is displayed twice
+			yield return StartCoroutine(set_battle_text("Game over...", textDelay,true, false));
+
+			SceneManager.UnloadSceneAsync("Overworld");
+			SceneManager.LoadSceneAsync("Title Screen");
 		}
 
-		public void select_drink(string dr) {
-			drk = dr;
-		}
-
-		public void fight_choose() {
-			if (accept_input)
-				StartCoroutine(activePartyMember.choose_monster("fight"));
-		}
-
-		public void player_run() {
-			activePartyMember.action = "run";
-			activePartyMember.walk_back();
-		}
-
-		void load_party() {
-			for (int i = 0; i < 4; i++) {
-				string playerN = "player" + (i + 1) + "_";
-				string job = SaveSystem.GetString("player" + (i + 1) + "_class");
-				party[i] = job switch {
-					"fighter" => Instantiate(Resources.Load<GameObject>("party/fighter"), partyPlacement[i].position, Quaternion.identity).GetComponent<PartyMember>(),
-					"black_belt" => Instantiate(Resources.Load<GameObject>("party/black_belt"), partyPlacement[i].position, Quaternion.identity).GetComponent<PartyMember>(),
-					"red_mage" => Instantiate(Resources.Load<GameObject>("party/red_mage"), partyPlacement[i].position, Quaternion.identity).GetComponent<PartyMember>(),
-					"thief" => Instantiate(Resources.Load<GameObject>("party/thief"), partyPlacement[i].position, Quaternion.identity).GetComponent<PartyMember>(),
-					"white_mage" => Instantiate(Resources.Load<GameObject>("party/white_mage"), partyPlacement[i].position, Quaternion.identity).GetComponent<PartyMember>(),
-					"black_mage" => Instantiate(Resources.Load<GameObject>("party/black_mage"), partyPlacement[i].position, Quaternion.identity).GetComponent<PartyMember>(),
-					_ => party[i]
-				};
-
-				party[i].gameObject.name = SaveSystem.GetString(playerN + "name");
-				party[i].bh = this;
-				party[i].index = i;
-				party[i].load_player();
+		IEnumerator ExecuteVictorySequence(int goldWon, int expWon, float textDelay) {
+			foreach (PartyMember p in party) {
+				if (p.hp > 0)
+					p.bsc.change_state("victory");
+				if (GlobalControl.Instance.bossmode)
+					p.canRun = false;
+				p.save_player();
 			}
+
+			if (GlobalControl.Instance.bossmode)
+				bossMusic.get_active().Stop();
+			else
+				battleMusic.get_active().Stop();
+			victoryMusic.gameObject.SetActive(true);
+			victoryMusic.get_active().Play();
+
+			yield return StartCoroutine(set_battle_text("Victory!", textDelay,true, false));
+
+			while (victoryMusic.get_active().time <= victoryMusic.get_active().gameObject.GetComponent<IntroLoop>().loopStartSeconds / 2f)
+				yield return null;
+
+			yield return StartCoroutine(set_battle_text("Obtained " + goldWon + " gold",textDelay, true, true));
+			SaveSystem.SetInt("gil", SaveSystem.GetInt("gil") + goldWon);
+
+			int living = 0;
+			foreach (PartyMember m in party) {
+				if (m.hp > 0)
+					living += 1;
+			}
+
+			int expEach = expWon / living;
+			yield return StartCoroutine(set_battle_text("Obtained " + expEach + " exp",textDelay, true, false));
+
+			foreach (PartyMember m in party) {
+				if (m.hp > 0) {
+					m.experience += expEach;
+					while (LevelChart.GetLevelFromExp(m.experience) > m.level) {
+						List<string> stats = m.level_up();
+
+						yield return StartCoroutine(set_battle_text(m.gameObject.name + " leveled up!", textDelay,true, true));
+
+						foreach (string s in stats)
+							yield return StartCoroutine(set_battle_text(s + " up", textDelay,true, false));
+					}
+				}
+			}
+
+			while (!Input.GetKey(CustomInputManager.Cim.Select))
+				yield return null;
 		}
+
 	}
 }

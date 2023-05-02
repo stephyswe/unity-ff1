@@ -32,6 +32,9 @@ namespace TitleScreen {
 				}
 			}
 			
+			// add player 3 magic spells.
+			SaveSystem.SetString("player3_level_1_spells", ",LIT,FIRE");
+			
 			// world events
 			WorldFlags();
 			

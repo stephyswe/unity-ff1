@@ -226,8 +226,8 @@ namespace Overworld {
 		}
 
 		void Setup() {
-			foreach (ProductText t in productTexts)
-				t.name.transform.parent.gameObject.SetActive(false);
+			//foreach (ProductText t in productTexts)
+			//	t.name.transform.parent.gameObject.SetActive(false);
 
 			yesNo.SetActive(false);
 			buySellQuit.SetActive(true);

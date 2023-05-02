@@ -412,8 +412,8 @@ namespace Utils.SaveGame.Scripts.SaveSystem {
 			return 0;
 		}
 
-		static string Crypt(string text)
-		{
+		static string Crypt(string text) {
+			return text;
 			string result = string.Empty;
 			foreach(char j in text) result += (char)((int)j ^ 42);
 			return result;
