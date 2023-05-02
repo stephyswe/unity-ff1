@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/BattleSettings.lighting" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/BattleSettings.lighting.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Battling/BattleHandlerPartial.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Battling/BattleHandlerPartial.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Battle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Battle.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Battling/BattleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Battling/BattleHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Menu/DataSave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Menu/DataSave.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Overworld/Towns/Shop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Overworld/Towns/Shop.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utils/SaveGame/Scripts/SaveSystem/SaveSystem.cs" afterDir="false" />
-    </list>
+    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="fix(pause menu): equip set to function" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,8 +22,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f3981d658666ec9cc1e6958fe22f8614bfe02ccb6625b056c3ece3729c9262/JsonConvert.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../_complete/PhantasiaComplete/Assets/Scripts/Battling/CursorController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Battle.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Battle.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Overworld.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Overworld.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Battling/BattleHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Battling/BattleHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Overworld/Towns/Shop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayTests/Setup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayTests/TestsReferences.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/TestLaunchers/PlaymodeLauncher.cs" root0="SKIP_HIGHLIGHTING" />
@@ -167,7 +160,7 @@
       <workItem from="1682182073905" duration="2599000" />
       <workItem from="1682188973082" duration="4491000" />
       <workItem from="1682843987459" duration="7363000" />
-      <workItem from="1683006394182" duration="10130000" />
+      <workItem from="1683006394182" duration="10983000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -274,7 +267,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682188907324</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="feat(battle): refactor">
+      <created>1683016729518</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1683016729518</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix(pause menu): equip set to function">
+      <created>1683020795402</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1683020795402</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,7 +308,9 @@
     <MESSAGE value="feat(tests):fix" />
     <MESSAGE value="feat(unity): overworld prefabs" />
     <MESSAGE value="feat(scenes): add scene corneria" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(scenes): add scene corneria" />
+    <MESSAGE value="feat(battle): refactor" />
+    <MESSAGE value="fix(pause menu): equip set to function" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(pause menu): equip set to function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
