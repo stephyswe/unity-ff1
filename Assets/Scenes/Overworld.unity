@@ -459,6 +459,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 471723779815746256, guid: dcb7de993470d0c4d8cd074bef48185c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Equip
+      objectReference: {fileID: 0}
+    - target: {fileID: 471723779815746256, guid: dcb7de993470d0c4d8cd074bef48185c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Overworld.PauseMenu.PauseMenuHandler, Scripts
+      objectReference: {fileID: 0}
     - target: {fileID: 471723780637646903, guid: dcb7de993470d0c4d8cd074bef48185c,
         type: 3}
       propertyPath: m_InputActionsPerSecond
