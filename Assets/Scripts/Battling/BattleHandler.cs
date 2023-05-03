@@ -108,7 +108,7 @@ namespace Battling {
 
 			while (!win && !lose) {
 				// Party selection - skip to make faster win / lose.
-				// yield return StartCoroutine(ProcessPartyMemberTurns());
+				yield return StartCoroutine(ProcessPartyMemberTurns());
 
 				DisableCursors();
 
@@ -158,6 +158,7 @@ namespace Battling {
 							yield return StartCoroutine(ExecuteRunActionMonster(m, x));
 						}
 					}
+					DeactivateDeadMonsters();
 					UpdatePartyHp();
 					if (!CheckWinOrLose())
 						continue;
@@ -183,7 +184,15 @@ namespace Battling {
 
 			if (win && GlobalControl.Instance.bossmode)
 				GlobalControl.Instance.bossvictory = true;
-			//SceneManager.UnloadSceneAsync("Battle");
+			SceneManager.UnloadSceneAsync("Battle");
+		}
+
+		void DeactivateDeadMonsters() {
+			foreach (Monster m in _monsters) {
+				if (m.hp <= 0) {
+					m.gameObject.SetActive(false);
+				}
+			}
 		}
 
 		bool CheckWinOrLose() {

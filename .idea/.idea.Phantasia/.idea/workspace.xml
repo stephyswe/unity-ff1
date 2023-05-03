@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="">
+    <list default="true" id="be2abfcd-35bf-479f-9f25-5ebe0a3d3cf7" name="Changes" comment="feat(battle): refactor battlehandler ALOT">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phantasia/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Battling/BattleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Battling/BattleHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Battling/BattleHandlerPartial.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Battling/BattleHandlerPartial.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Battling/Monster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Battling/Monster.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Battling/PartyMember.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Battling/PartyMember.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,14 +26,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba783288ca164d3099898a8819fcec1c159e00/ae/73b37a41/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f3981d658666ec9cc1e6958fe22f8614bfe02ccb6625b056c3ece3729c9262/JsonConvert.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../_complete/PhantasiaComplete/Assets/Scripts/Battling/CursorController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Battle.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Battle.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Overworld.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Overworld.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scenes/Overworld.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Battling/BattleHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Battling/BattleHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/dev/unity/_games/Phantasia/Assets/Scripts/Overworld/Towns/Shop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayTests/Setup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayTests/TestsReferences.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.33/UnityEditor.TestRunner/TestLaunchers/PlaymodeLauncher.cs" root0="SKIP_HIGHLIGHTING" />
@@ -169,7 +160,7 @@
       <workItem from="1682188973082" duration="4491000" />
       <workItem from="1682843987459" duration="7363000" />
       <workItem from="1683006394182" duration="25659000" />
-      <workItem from="1683089917914" duration="5346000" />
+      <workItem from="1683089917914" duration="6445000" />
     </task>
     <task id="LOCAL-00001" summary="feat(update): code">
       <created>1681512381744</created>
@@ -297,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683020848566</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="feat(battle): refactor battlehandler ALOT">
+      <created>1683095325784</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1683095325784</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,7 +325,8 @@
     <MESSAGE value="feat(battle): refactor" />
     <MESSAGE value="fix(pause menu): equip set to function" />
     <MESSAGE value="fix(pause menu): equip" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(pause menu): equip" />
+    <MESSAGE value="feat(battle): refactor battlehandler ALOT" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(battle): refactor battlehandler ALOT" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

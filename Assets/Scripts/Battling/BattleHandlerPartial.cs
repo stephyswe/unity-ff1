@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -304,9 +303,7 @@ namespace Battling {
 
 				// Swap the values at the random indices
 				int temp = schedule[idx1];
-
 				schedule[idx1] = schedule[idx2];
-
 				schedule[idx2] = temp;
 			}
 
