@@ -16,7 +16,8 @@ namespace Battling {
 		{
 			string txt = GetMonsterNames();
 			partySelecting = true;
-			yield return StartCoroutine(PartyMemberTurns(txt));
+			yield return StartCoroutine(setBattleTextDontWait(txt));
+			yield return StartCoroutine(PartyMemberTurns());
 			partySelecting = false;
 		}
 		
@@ -62,11 +63,11 @@ namespace Battling {
 						player.gameObject.name = SaveSystem.GetString(playerN + "name");
 						player.bh = this;
 						player.index = i;
-						player.load_player();
+						player.loadPlayer();
 						party[i] = player;
 					}
 					else {
-						throw new Exception("Player prefab not found for job: " + job);
+						throw new Exception("LoadParty - Player prefab not found for job: " + job);
 					}
 				} catch (Exception e) {
 					Debug.LogError("Error loading party member " + (i + 1) + ": " + e.Message);
@@ -98,24 +99,11 @@ namespace Battling {
 			Array.Resize(ref arr, arr.Length - 1);
 		}
 
-		IEnumerator set_battle_text(string t, float wait, bool waitForInput, bool clearOnFinish) {
-			battleText.text = t;
-
-			yield return new WaitForSeconds(wait);
-			if (waitForInput) {
-				while (!Input.GetKey(CustomInputManager.Cim.Select))
-					yield return null;
-			}
-
-			if (clearOnFinish)
-				battleText.text = "";
-		}
-
 		void enableBattleText(string t) {
 			battleText.text = t;
 		}
 
-		static IEnumerator waitForInput() {
+		static IEnumerator WaitForInput() {
 			while (!Input.GetKey(CustomInputManager.Cim.Select))
 				yield return null;
 		}
@@ -123,20 +111,25 @@ namespace Battling {
 		IEnumerator setBattleText(string t) {
 			enableBattleText(t);
 			yield return new WaitForSeconds(_battleSpeed);
-			yield return StartCoroutine(waitForInput());
+			yield return StartCoroutine(WaitForInput());
 		}
 
 		IEnumerator setBattleTextClear(string t) {
 			enableBattleText(t);
 			yield return new WaitForSeconds(_battleSpeed);
-			yield return StartCoroutine(waitForInput());
+			yield return StartCoroutine(WaitForInput());
 			battleText.text = "";
+		}
+		
+		IEnumerator setBattleTextDontWait(string t) {
+			enableBattleText(t);
+			yield return new WaitForSeconds(_battleSpeed);
 		}
 
 		IEnumerator setBattleTextGameOver(string t) {
 			enableBattleText(t);
 			yield return new WaitForSeconds(_battleSpeed * 2f);
-			yield return StartCoroutine(waitForInput());
+			yield return StartCoroutine(WaitForInput());
 		}
 
 		public void medicine_choose() {
@@ -212,19 +205,22 @@ namespace Battling {
 			}
 		}
 
-		string GetMonsterNames() {
-			List<string> monsterNames = new List<string>();
+		string GetMonsterNames()
+		{
+			HashSet<string> uniqueMonsterNames = new HashSet<string>();
 
 			foreach (Monster m in _monsters) {
-				if (!monsterNames.Contains(MonsterHandler.ProcessMonsterName(m.gameObject.name)) && m.hp > 0)
-					monsterNames.Add(MonsterHandler.ProcessMonsterName(m.gameObject.name));
+				if (m.hp <= 0)
+					continue;
+				string processedName = MonsterHandler.ProcessMonsterName(m.gameObject.name);
+				uniqueMonsterNames.Add(processedName);
 			}
 
-			string txt = string.Join("  ", monsterNames.ToArray());
-			return txt;
+			string joinedNames = string.Join("  ", uniqueMonsterNames);
+			return joinedNames;
 		}
 
-		IEnumerator PartyMemberTurns(string txt) {
+		IEnumerator PartyMemberTurns() {
 			for (int i = 0; i < party.Length; i++) {
 
 				PartyMember p = party[i];
@@ -233,8 +229,6 @@ namespace Battling {
 					continue;
 				activePartyMember = p;
 				
-				Debug.Log("What is this?: " + txt);
-				// yield return StartCoroutine(set_battle_text(txt, .05f, false, false));
 
 				p.Turn();
 
@@ -262,20 +256,12 @@ namespace Battling {
 			}
 		}
 
-		IEnumerator SetupPartyMembers() {
-			foreach (PartyMember p in party) {
-				while (!p.doneSetUp)
-					yield return null;
-			}
-		}
-
-		IEnumerator DisplayPartyInfo() {
+		void ShowPartyNameAndHp() {
 			for (int i = 0; i < 4; i++) {
 				PartyMember p = party[i];
 				partyNames[i].text = p.name;
 				partyHp[i].text = "HP: " + p.hp;
 			}
-			yield return null;
 		}
 
 		List<int> GetSchedule() {
@@ -329,7 +315,7 @@ namespace Battling {
 			int runSeed = Random.Range(0, p.level + 15);
 			if (p.luck > runSeed && p.canRun) {
 
-				yield return StartCoroutine(set_battle_text(p.gameObject.name + " ran away", textDelay, true, true));
+				yield return StartCoroutine(setBattleTextClear(p.gameObject.name + " ran away"));
 
 				foreach (PartyMember pm in party) {
 					if (pm.hp > 0)
@@ -340,7 +326,7 @@ namespace Battling {
 				rewards.HasRun = true;
 			}
 			else {
-				yield return StartCoroutine(set_battle_text(p.name + " couldn't run", textDelay, true, true));
+				yield return StartCoroutine(setBattleTextClear(p.name + " couldn't run"));
 			}
 		}
 
@@ -385,14 +371,14 @@ namespace Battling {
 
 			int damage = m.GetComponent<Battler>().Fight(m, m.target.GetComponent<PartyMember>());
 			if (damage == -1)
-				yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " missed", _battleSpeed, true, true));
+				yield return StartCoroutine(setBattleTextClear(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " missed"));
 			else {
-				yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " does " + damage + " damage to " + m.target.gameObject.name, _battleSpeed, true, true));
+				yield return StartCoroutine(setBattleTextClear(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " does " + damage + " damage to " + m.target.gameObject.name));
 			}
 		}
 
 		IEnumerator ExecuteRunActionMonster(Monster m, int x) {
-			yield return StartCoroutine(set_battle_text(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " ran away", _battleSpeed, true, true));
+			yield return StartCoroutine(setBattleTextClear(MonsterHandler.ProcessMonsterName(m.gameObject.name) + " ran away"));
 			Destroy(m.gameObject);
 			remove_from_array(ref _monsters, x);
 		}
@@ -406,7 +392,7 @@ namespace Battling {
 			return SaveSystem.GetFloat("battle_speed");
 		}
 
-		IEnumerator ExecuteEncounter() {
+		IEnumerator TextEncounter() {
 			IEnumerable<string> monstersEncountered = GetMonstersEncountered();
 			string encounterText = GetEncounterText(monstersEncountered);
 			yield return StartCoroutine(setBattleTextClear(encounterText));

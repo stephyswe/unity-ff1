@@ -75,31 +75,23 @@ namespace Battling {
 			StartCoroutine(Battle());
 		}
 
-		void Update() {
-			// UpdatePartyHp();
-		}
-
 		IEnumerator Battle() {
 
 			// set battleSpeed into reward
 			battleText.text = "";
 			int goldWon = 0;
 			int expWon = 0;
-
-			yield return StartCoroutine(SetupPartyMembers());
-			yield return StartCoroutine(DisplayPartyInfo());
+			
+			ShowPartyNameAndHp();
 
 			_battlers = new List<GameObject>();
 			GetBattlers(_battlers);
 
 			// execute the encounter
-			yield return StartCoroutine(ExecuteEncounter());
+			yield return StartCoroutine(TextEncounter());
 
 			_acceptInput = false;
 			yield return new WaitForSeconds(.3f);
-
-			// menu cursor is active
-			DisableCursors();
 
 			// while the player is selecting a party member
 			yield return StartCoroutine(WaitForPartyMemberSelection());
@@ -107,14 +99,9 @@ namespace Battling {
 			_acceptInput = true;
 
 			while (!win && !lose) {
-				// Party selection - skip to make faster win / lose.
 				yield return StartCoroutine(ProcessPartyMemberTurns());
 
-				DisableCursors();
-
 				List<int> schedule = GetSchedule();
-
-				yield return StartCoroutine(WaitForPartyMembersToStopMoving());
 
 				//Display battle
 				bool hasEscaped = false;
@@ -132,7 +119,7 @@ namespace Battling {
 						}
 						else if (p.action == "drink") {
 							string drinkText = p.drink_action();
-							yield return StartCoroutine(set_battle_text(drinkText, _battleSpeed, true, true));
+							yield return StartCoroutine(setBattleTextClear(drinkText));
 						}
 						else if (p.action == "run") {
 							yield return StartCoroutine(ExecutePartyRunAction(p, rewards, _battleSpeed));
@@ -158,6 +145,7 @@ namespace Battling {
 							yield return StartCoroutine(ExecuteRunActionMonster(m, x));
 						}
 					}
+					DeactivateDeadPartyMembers();
 					DeactivateDeadMonsters();
 					UpdatePartyHp();
 					if (!CheckWinOrLose())
@@ -185,6 +173,14 @@ namespace Battling {
 			if (win && GlobalControl.Instance.bossmode)
 				GlobalControl.Instance.bossvictory = true;
 			SceneManager.UnloadSceneAsync("Battle");
+		}
+
+		void DeactivateDeadPartyMembers() {
+			foreach (PartyMember p in party) {
+				if (p.hp <= 0 && p.bsc.get_state() != "dead") {
+					p.bsc.change_state("dead");
+				}
+			}
 		}
 
 		void DeactivateDeadMonsters() {

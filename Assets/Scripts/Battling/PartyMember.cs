@@ -71,32 +71,18 @@ namespace Battling {
 			weaponSprite.set_sprite(bh.mwsh.get_weapon(weapon));
 
 			doneSetUp = true;
-
 			doneShowing = true;
 		}
 
 		// Update is called once per frame
 		void Update() {
-			if (hp <= 0 && bsc.get_state() != "dead")
-				bsc.change_state("dead");
-
-			if (transform.position == movePoint && bsc.get_state() != "idle" && bsc.get_state() != "victory" && hp > 0)
-				bsc.change_state("idle");
+			/*if (transform.position == movePoint && bsc.get_state() != "idle" && bsc.get_state() != "victory" && hp > 0)
+				bsc.change_state("idle");*/
 
 			if (bh.partySelecting && GlobalControl.Instance.bossmode)
 				menu_cursor.gameObject.SetActive(true);
 
 			transform.position = Vector3.MoveTowards(transform.position, movePoint, 8 * Time.deltaTime);
-			/*
-		if (timer >= 0)
-		{
-			timer += Time.deltaTime;
-			if (transform.position == move_point)
-			{
-			    stopTimer();
-			}
-		}
-		*/
 		}
 
 		public List<string> level_up() {
@@ -311,7 +297,7 @@ namespace Battling {
 			SaveSystem.SetBool(playerN + "stone", conditions.Contains("stone"));
 		}
 
-		public void load_player() {
+		public void loadPlayer() {
 			string playerN = "player" + (index + 1) + "_";
 			strength = SaveSystem.GetInt(playerN + "strength");
 			agility = SaveSystem.GetInt(playerN + "agility");
@@ -466,7 +452,7 @@ namespace Battling {
 					if (items["Antidote"] == 1)
 						items.Remove("Antidote");
 					else
-						items["Antidote"] = items["Antidote"] - 1;
+						items["Antidote"] -= 1;
 					conditions.Remove("poison");
 					output = name + " recovered from poison";
 					break;
@@ -474,7 +460,7 @@ namespace Battling {
 					if (items["Gold Needle"] == 1)
 						items.Remove("Gold Needle");
 					else
-						items["Gold Needle"] = items["Gold Needle"] - 1;
+						items["Gold Needle"] -= 1;
 					conditions.Remove("stone");
 					output = name + " recovered from stone";
 					break;
@@ -559,24 +545,6 @@ namespace Battling {
 			movePoint = new Vector3(1.66f, position.y, position.z);
 
 			menu_cursor.gameObject.SetActive(true);
-		}
-
-		void StartTimer() {
-			if (times == null)
-				times = new List<float>();
-			timer = 0;
-		}
-
-		void StopTimer() {
-			Debug.Log(timer);
-			times.Add(timer);
-
-			float total = 0f;
-			foreach (float f in times)
-				total += f;
-			Debug.Log("Average: " + total / times.Count);
-
-			timer = -1f;
 		}
 	}
 }
