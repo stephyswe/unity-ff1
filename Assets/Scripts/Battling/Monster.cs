@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Battling {
 	public class Monster : Battler {
@@ -39,65 +41,48 @@ namespace Battling {
 		// Update is called once per frame
 		void Update() {}
 
-		void choose_player() {
+		void ChoosePlayerTarget() {
 			PartyMember[] party = bh.party;
-
-			PartyMember t = party[0];
-
-			int n = Random.Range(1, 8);
-			int originalN = n;
-
-			if (n >= 1 && n <= 4) {
-				t = party[0];
-				target = party[0].gameObject;
-			}
-			if (n == 5 || n == 6) {
-				t = party[1];
-				target = party[1].gameObject;
-			}
-			if (n == 7) {
-				t = party[2];
-				target = party[2].gameObject;
-			}
-			if (n == 8) {
-				t = party[3];
-				target = party[3].gameObject;
-			}
-
-			while (t.hp <= 0) {
-				n++;
-
-				if (n >= 1 && n <= 4) {
-					t = party[0];
-					target = party[0].gameObject;
-				}
-				if (n == 5 || n == 6) {
-					t = party[1];
-					target = party[1].gameObject;
-				}
-				if (n == 7) {
-					t = party[2];
-					target = party[2].gameObject;
-				}
-				if (n == 8) {
-					t = party[3];
-					target = party[3].gameObject;
-				}
-
-				if (n == originalN) {
-					target = null;
-					break;
-				}
-
-				if (n > 8)
-					n = 0;
-			}
+			GameObject targetObject = FindValidTargetOptimal(party);
+			target = targetObject;
 		}
 
-		public void Turn() {
-			List<string> actions = new List<string>();
+		// Find a valid target for monster
+		static GameObject FindValidTargetOptimal(IReadOnlyList<PartyMember> party) {
+			int randomIndex = Random.Range(0, 100);
+			int maxIndex = party.Count;
 
-			actions.Add("fight");
+			switch (randomIndex) {
+				// Determine the target based on the random index
+				case < 50 when party[0].hp > 0:
+					return party[0].gameObject;
+				case < 75 when party[1].hp > 0:
+					return party[1].gameObject;
+				case < 85 when party[2].hp > 0:
+					return party[2].gameObject;
+				default: {
+					if (party[3].hp > 0) {
+						return party[3].gameObject;
+					}
+					break;
+				}
+			}
+
+			// If no valid target is found, target the next available party member
+			for (int i = 0; i < maxIndex; i++) {
+				int index = (randomIndex + i) % maxIndex;
+				if (party[index].hp > 0) {
+					return party[index].gameObject;
+				}
+			}
+			throw new InvalidOperationException("FindValidTargetOptimal - No valid target found.");
+		}
+
+
+		public void Turn() {
+			List<string> actions = new List<string> {
+				"fight"
+			};
 
 			if (spells.Length > 0)
 				actions.Add("magic");
@@ -108,18 +93,21 @@ namespace Battling {
 			action = actions[Random.Range(0, actions.Count)];
 
 			PartyMember leader = bh.party[0];
-			for (int i = 0; i < bh.party.Length; i++) {
-				if (bh.party[i].hp > 0) {
-					leader = bh.party[i];
-					break;
-				}
+			foreach (PartyMember t in bh.party) {
+				if (t.hp <= 0)
+					continue;
+				leader = t;
+				break;
 			}
 
-			if (morale - 2 * leader.level + Random.Range(0, 50) < 80)
+			// calculate morale
+			float monsterMorale = morale - 2 * leader.level + Random.Range(0, 50);
+
+			if (monsterMorale < 80)
 				action = "run";
 
 			if (action == "fight")
-				choose_player();
+				ChoosePlayerTarget();
 		}
 	}
 }

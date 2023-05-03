@@ -103,7 +103,7 @@ namespace Battling {
 
 			level += 1;
 
-			int seed = 0;
+			int seed;
 
 			List<string> statsIncreased = new List<string>();
 
@@ -554,7 +554,9 @@ namespace Battling {
 
 			bsc.change_state("walk");
 
-			movePoint = new Vector3(1.66f, transform.position.y, transform.position.z);
+			Transform transform1 = transform;
+			Vector3 position = transform1.position;
+			movePoint = new Vector3(1.66f, position.y, position.z);
 
 			menu_cursor.gameObject.SetActive(true);
 		}
